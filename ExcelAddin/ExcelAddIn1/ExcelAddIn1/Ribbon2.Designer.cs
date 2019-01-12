@@ -37,24 +37,24 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ribbon2));
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
-            this.group2 = this.Factory.CreateRibbonGroup();
-            this.group3 = this.Factory.CreateRibbonGroup();
-            this.group4 = this.Factory.CreateRibbonGroup();
             this.btnNew = this.Factory.CreateRibbonButton();
+            this.menu3 = this.Factory.CreateRibbonMenu();
+            this.btnNewIndice = this.Factory.CreateRibbonButton();
+            this.btnDelIndice = this.Factory.CreateRibbonButton();
             this.menu2 = this.Factory.CreateRibbonMenu();
+            this.button11 = this.Factory.CreateRibbonButton();
+            this.button12 = this.Factory.CreateRibbonButton();
             this.button2 = this.Factory.CreateRibbonButton();
+            this.group2 = this.Factory.CreateRibbonGroup();
             this.button3 = this.Factory.CreateRibbonButton();
             this.button4 = this.Factory.CreateRibbonButton();
+            this.group3 = this.Factory.CreateRibbonGroup();
             this.button6 = this.Factory.CreateRibbonButton();
             this.button5 = this.Factory.CreateRibbonButton();
+            this.group4 = this.Factory.CreateRibbonGroup();
             this.button7 = this.Factory.CreateRibbonButton();
             this.button8 = this.Factory.CreateRibbonButton();
             this.button9 = this.Factory.CreateRibbonButton();
-            this.button11 = this.Factory.CreateRibbonButton();
-            this.button12 = this.Factory.CreateRibbonButton();
-            this.menu3 = this.Factory.CreateRibbonMenu();
-            this.button13 = this.Factory.CreateRibbonButton();
-            this.button14 = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -80,28 +80,6 @@
             this.group1.Label = "HOJA DE TRABAJO";
             this.group1.Name = "group1";
             // 
-            // group2
-            // 
-            this.group2.Items.Add(this.button3);
-            this.group2.Items.Add(this.button4);
-            this.group2.Label = "VERIFICACIONES";
-            this.group2.Name = "group2";
-            // 
-            // group3
-            // 
-            this.group3.Items.Add(this.button6);
-            this.group3.Items.Add(this.button5);
-            this.group3.Label = "HERRAMIENTAS SAT";
-            this.group3.Name = "group3";
-            // 
-            // group4
-            // 
-            this.group4.Items.Add(this.button7);
-            this.group4.Items.Add(this.button8);
-            this.group4.Items.Add(this.button9);
-            this.group4.Label = "ADMINISTRACIÓN";
-            this.group4.Name = "group4";
-            // 
             // btnNew
             // 
             this.btnNew.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -113,6 +91,32 @@
             this.btnNew.ShowImage = true;
             this.btnNew.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnNew_Click);
             // 
+            // menu3
+            // 
+            this.menu3.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.menu3.Image = ((System.Drawing.Image)(resources.GetObject("menu3.Image")));
+            this.menu3.Items.Add(this.btnNewIndice);
+            this.menu3.Items.Add(this.btnDelIndice);
+            this.menu3.Label = "Índice";
+            this.menu3.Name = "menu3";
+            this.menu3.ShowImage = true;
+            // 
+            // btnNewIndice
+            // 
+            this.btnNewIndice.Image = ((System.Drawing.Image)(resources.GetObject("btnNewIndice.Image")));
+            this.btnNewIndice.Label = "Agregar";
+            this.btnNewIndice.Name = "btnNewIndice";
+            this.btnNewIndice.ShowImage = true;
+            this.btnNewIndice.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnNewIndice_Click);
+            // 
+            // btnDelIndice
+            // 
+            this.btnDelIndice.Image = ((System.Drawing.Image)(resources.GetObject("btnDelIndice.Image")));
+            this.btnDelIndice.Label = "Eliminar";
+            this.btnDelIndice.Name = "btnDelIndice";
+            this.btnDelIndice.ShowImage = true;
+            this.btnDelIndice.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDelIndice_Click);
+            // 
             // menu2
             // 
             this.menu2.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -123,6 +127,20 @@
             this.menu2.Name = "menu2";
             this.menu2.ShowImage = true;
             // 
+            // button11
+            // 
+            this.button11.Image = ((System.Drawing.Image)(resources.GetObject("button11.Image")));
+            this.button11.Label = "Agregar";
+            this.button11.Name = "button11";
+            this.button11.ShowImage = true;
+            // 
+            // button12
+            // 
+            this.button12.Image = ((System.Drawing.Image)(resources.GetObject("button12.Image")));
+            this.button12.Label = "Eliminar";
+            this.button12.Name = "button12";
+            this.button12.ShowImage = true;
+            // 
             // button2
             // 
             this.button2.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -130,6 +148,13 @@
             this.button2.Label = "Imprimir";
             this.button2.Name = "button2";
             this.button2.ShowImage = true;
+            // 
+            // group2
+            // 
+            this.group2.Items.Add(this.button3);
+            this.group2.Items.Add(this.button4);
+            this.group2.Label = "VERIFICACIONES";
+            this.group2.Name = "group2";
             // 
             // button3
             // 
@@ -147,6 +172,13 @@
             this.button4.Name = "button4";
             this.button4.ShowImage = true;
             // 
+            // group3
+            // 
+            this.group3.Items.Add(this.button6);
+            this.group3.Items.Add(this.button5);
+            this.group3.Label = "HERRAMIENTAS SAT";
+            this.group3.Name = "group3";
+            // 
             // button6
             // 
             this.button6.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -162,6 +194,14 @@
             this.button5.Label = "Convertir";
             this.button5.Name = "button5";
             this.button5.ShowImage = true;
+            // 
+            // group4
+            // 
+            this.group4.Items.Add(this.button7);
+            this.group4.Items.Add(this.button8);
+            this.group4.Items.Add(this.button9);
+            this.group4.Label = "ADMINISTRACIÓN";
+            this.group4.Name = "group4";
             // 
             // button7
             // 
@@ -186,44 +226,6 @@
             this.button9.Label = "Comprobaciones";
             this.button9.Name = "button9";
             this.button9.ShowImage = true;
-            // 
-            // button11
-            // 
-            this.button11.Image = ((System.Drawing.Image)(resources.GetObject("button11.Image")));
-            this.button11.Label = "Agregar";
-            this.button11.Name = "button11";
-            this.button11.ShowImage = true;
-            // 
-            // button12
-            // 
-            this.button12.Image = ((System.Drawing.Image)(resources.GetObject("button12.Image")));
-            this.button12.Label = "Eliminar";
-            this.button12.Name = "button12";
-            this.button12.ShowImage = true;
-            // 
-            // menu3
-            // 
-            this.menu3.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.menu3.Image = ((System.Drawing.Image)(resources.GetObject("menu3.Image")));
-            this.menu3.Items.Add(this.button13);
-            this.menu3.Items.Add(this.button14);
-            this.menu3.Label = "Índice";
-            this.menu3.Name = "menu3";
-            this.menu3.ShowImage = true;
-            // 
-            // button13
-            // 
-            this.button13.Image = ((System.Drawing.Image)(resources.GetObject("button13.Image")));
-            this.button13.Label = "Agregar";
-            this.button13.Name = "button13";
-            this.button13.ShowImage = true;
-            // 
-            // button14
-            // 
-            this.button14.Image = ((System.Drawing.Image)(resources.GetObject("button14.Image")));
-            this.button14.Label = "Eliminar";
-            this.button14.Name = "button14";
-            this.button14.ShowImage = true;
             // 
             // Ribbon2
             // 
@@ -265,8 +267,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button11;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button12;
         internal Microsoft.Office.Tools.Ribbon.RibbonMenu menu3;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button13;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button14;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnNewIndice;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnDelIndice;
     }
 
     partial class ThisRibbonCollection
