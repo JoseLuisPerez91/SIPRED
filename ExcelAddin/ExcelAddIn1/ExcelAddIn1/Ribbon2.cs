@@ -37,44 +37,51 @@ namespace ExcelAddIn1
             Excel.Range currentCell = (Excel.Range)Globals.ThisAddIn.Application.ActiveCell;
             NroFilaPrincipal = currentCell.Row;
             NroColPrincipal = currentCell.Column;
-            objRange = (Excel.Range)ActiveWorksheet.Cells[NroFilaPrincipal, 1];
-            IndicePrevio = objRange.get_Value(Type.Missing).ToString();
-            objRange = (Excel.Range)ActiveWorksheet.Cells[NroFilaPrincipal, 2];
-            foreach (Excel.Name nm in wb.Names)
-                NombreRangos.Add(nm.Name.ToString());
-
-            if (!(NombreRangos.Contains("IA_" + IndicePrevio)))
-                objRangeGlobal = null;
-
-            string ConceptoPrevio = "";
-            if (objRangeGlobal == null)
-                ConceptoPrevio = objRange.get_Value(Type.Missing).ToString();
-
-
-            if (objRangeGlobal == null)
+            try
             {
+                objRange = (Excel.Range)ActiveWorksheet.Cells[NroFilaPrincipal, 1];
+                IndicePrevio = objRange.get_Value(Type.Missing).ToString();
+                objRange = (Excel.Range)ActiveWorksheet.Cells[NroFilaPrincipal, 2];
+                foreach (Excel.Name nm in wb.Names)
+                    NombreRangos.Add(nm.Name.ToString());
 
-                objRangeGlobal = objRange;
-            }
-            else
-            {
-                objRange = objRangeGlobal;
-                NroFilaPrincipal = objRange.Row;
-                ConceptoPrevio = objRange.get_Value(Type.Missing).ToString();
-            }
+                if (!(NombreRangos.Contains("IA_" + IndicePrevio)))
+                    objRangeGlobal = null;
 
-
-            if (ConceptoPrevio.Substring(0, 4).ToUpper() == "OTRO")
-            {
-               
-                frmNewIndices NewIndices = new frmNewIndices(NroFilaPrincipal);
-                
-                NewIndices.ShowDialog();
-            }
-            else
-                MessageBox.Show("No es posible agregar índices debajo del índice " + IndicePrevio);
+                string ConceptoPrevio = "";
+                if (objRangeGlobal == null)
+                    ConceptoPrevio = objRange.get_Value(Type.Missing).ToString();
 
 
+                if (objRangeGlobal == null)
+                {
+
+                    objRangeGlobal = objRange;
+                }
+                else
+                {
+                    objRange = objRangeGlobal;
+                    NroFilaPrincipal = objRange.Row;
+                    ConceptoPrevio = objRange.get_Value(Type.Missing).ToString();
+                }
+
+
+                if (ConceptoPrevio.Substring(0, 4).ToUpper() == "OTRO")
+                {
+
+                    frmNewIndices NewIndices = new frmNewIndices(NroFilaPrincipal);
+
+                    NewIndices.ShowDialog();
+                }
+                else
+                    MessageBox.Show("No es posible agregar índices debajo del índice " + IndicePrevio);
+
+            } catch
+              {
+
+                    //   MessageBox.Show("NULL VALUE");
+
+                }
         }
 
         public static void AddNamedRange(int row, int col, string myrango)
@@ -124,10 +131,7 @@ namespace ExcelAddIn1
 
                         objRange = (Excel.Range)sheet.Cells[cell.Row, cell.Column];
                         IndiceActivo = objRange.get_Value(Type.Missing).ToString();
-                        //if (!NombreRangos.Contains("IA_" + IndiceActivo)) 
-                        // IndiceBase = IndiceBase + ((NroFilaPrincipal+i) * 100);
-                        //Indicebase = "0" + Convert.ToString(IndiceBase);
-                        //  if (Indicebase!= IndiceActivo)
+                       
                         if (!NombreRangos.Contains("IA_" + IndiceActivo))
                         {
                             MessageBox.Show("No es posible eliminar un índice de formato guía");
@@ -146,7 +150,7 @@ namespace ExcelAddIn1
                     catch
                     {
 
-                        MessageBox.Show("NULL VALUE");
+                     //   MessageBox.Show("NULL VALUE");
 
                     }
 
@@ -191,11 +195,23 @@ namespace ExcelAddIn1
                       
                     
                 }
+
+                try
+                {
+                   Excel.Range range = objRangeI.SpecialCells(Excel.XlCellType.xlCellTypeFormulas, Excel.XlSpecialCellsValue.xlErrors);
+                    //select all the cells with error formula
+                    range.Clear();
+                  //  range.Select();
+                }
+                catch (Exception ex)
+                {
+                    
+                }
             }
             catch
             {
 
-                MessageBox.Show("NULL VALUE");
+                //MessageBox.Show("NULL VALUE");
 
             }
 

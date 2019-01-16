@@ -32,7 +32,6 @@
             this.txtCantIndices = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAccept = new System.Windows.Forms.Button();
-            this.txtRangePrinc = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -71,13 +70,6 @@
             this.btnAccept.UseVisualStyleBackColor = true;
             this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
             // 
-            // txtRangePrinc
-            // 
-            this.txtRangePrinc.Location = new System.Drawing.Point(20, 6);
-            this.txtRangePrinc.Name = "txtRangePrinc";
-            this.txtRangePrinc.Size = new System.Drawing.Size(100, 20);
-            this.txtRangePrinc.TabIndex = 8;
-            // 
             // frmNewIndices
             // 
             this.AcceptButton = this.btnAccept;
@@ -85,7 +77,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(312, 93);
-            this.Controls.Add(this.txtRangePrinc);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.txtCantIndices);
             this.Controls.Add(this.label1);
@@ -107,6 +98,5 @@
         private System.Windows.Forms.TextBox txtCantIndices;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnAccept;
-        private System.Windows.Forms.TextBox txtRangePrinc;
     }
 }

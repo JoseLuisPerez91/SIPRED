@@ -55,6 +55,7 @@ namespace ExcelAddIn1
             string[] targetRange = new string[CantReg];
             string[] targetRange1 = new string[CantReg];
             long indiceNvo = 0;
+
             currentCell = (Excel.Range)xlSht.Cells[NroRow, 1];
             IndicePrevio = currentCell.get_Value(Type.Missing).ToString();
             IndiceInicial = Convert.ToInt64(IndicePrevio);
@@ -165,9 +166,14 @@ namespace ExcelAddIn1
 
 
             Excel.Range cell = worksheet.Cells[row, col];
-           
-            NamedRange1 = worksheet.Controls.AddNamedRange(cell, myrango);
+            try
+            {
+                NamedRange1 = worksheet.Controls.AddNamedRange(cell, myrango);
+            }
+            catch
+            {
 
+            }
             //NamedRange1.Sort(
             //    NamedRange1.Columns[1, Type.Missing], Excel.XlSortOrder.xlAscending,
             //    NamedRange1.Columns[2, Type.Missing], Type.Missing, Excel.XlSortOrder.xlAscending,
