@@ -16,7 +16,7 @@ namespace ExcelAddIn1
         int NroFilaPrincipal = 0;
         int NroColPrincipal = 0;
         Excel.Range objRangeGlobal;
-
+       
         private void Ribbon2_Load(object sender, RibbonUIEventArgs e)
         {
 
@@ -37,7 +37,7 @@ namespace ExcelAddIn1
             Excel.Range currentCell = (Excel.Range)Globals.ThisAddIn.Application.ActiveCell;
             NroFilaPrincipal = currentCell.Row;
             NroColPrincipal = currentCell.Column;
-            objRange = (Excel.Range)ActiveWorksheet.Cells[NroFilaPrincipal, NroColPrincipal];
+            objRange = (Excel.Range)ActiveWorksheet.Cells[NroFilaPrincipal, 1];
             IndicePrevio = objRange.get_Value(Type.Missing).ToString();
             objRange = (Excel.Range)ActiveWorksheet.Cells[NroFilaPrincipal, 2];
             foreach (Excel.Name nm in wb.Names)
@@ -59,13 +59,16 @@ namespace ExcelAddIn1
             else
             {
                 objRange = objRangeGlobal;
+                NroFilaPrincipal = objRange.Row;
                 ConceptoPrevio = objRange.get_Value(Type.Missing).ToString();
             }
 
 
             if (ConceptoPrevio.Substring(0, 4).ToUpper() == "OTRO")
             {
-                frmNewIndices NewIndices = new frmNewIndices();
+               
+                frmNewIndices NewIndices = new frmNewIndices(NroFilaPrincipal);
+                
                 NewIndices.ShowDialog();
             }
             else
@@ -74,41 +77,131 @@ namespace ExcelAddIn1
 
         }
 
+        public static void AddNamedRange(int row, int col, string myrango)
+        {
+            Microsoft.Office.Tools.Excel.NamedRange NamedRange1;
+
+            Worksheet worksheet = Globals.Factory.GetVstoObject(
+                Globals.ThisAddIn.Application.ActiveWorkbook.ActiveSheet);
+
+
+            Excel.Range cell = worksheet.Cells[row, col];
+
+            NamedRange1 = worksheet.Controls.AddNamedRange(cell, myrango);
+
+
+
+        }
         private void btnDelIndice_Click(object sender, RibbonControlEventArgs e)
         {
-            Excel.Range currentCell = (Excel.Range)Globals.ThisAddIn.Application.ActiveCell;
-
-
-            int NroRow = currentCell.Row;
-            int NroColum = currentCell.Column;
-
-
 
             Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
-            Excel.Worksheet ws = wb.ActiveSheet as Excel.Worksheet;
             List<string> NombreRangos = new List<string>();
-
-
+            List<string> NombreRangosDEL = new List<string>();
             foreach (Excel.Name nm in wb.Names)
                 NombreRangos.Add(nm.Name.ToString());
 
+
+
             Worksheet sheet = Globals.Factory.GetVstoObject(
-               Globals.ThisAddIn.Application.ActiveWorkbook.Worksheets[1]);
-
-            Excel.Range objRange = (Excel.Range)ws.Cells[NroRow, NroColum];
-            string IndiceActivo = objRange.get_Value(Type.Missing).ToString();
-            int iNumeroFilas = ws.UsedRange.Rows.Count;
-            int iNumeroColumnas = ws.UsedRange.Columns.Count;
-            if (NombreRangos.Contains("IA_" + IndiceActivo))
+               Globals.ThisAddIn.Application.ActiveWorkbook.ActiveSheet);
+            Excel.Range objRange = null;
+            Excel.Range currentCell = (Excel.Range)Globals.ThisAddIn.Application.Selection;
+            string IndiceActivo = "";
+            bool Eliminar = false; ;
+            try
             {
-                objRange.EntireRow.Delete();
+                Excel.Range objRangeI = (Excel.Range)sheet.Cells[NroFilaPrincipal, 1];
+                long IndiceBase = Convert.ToInt64(objRangeI.get_Value(Type.Missing).ToString());
+                
+                int i = 0;
+                foreach (Excel.Range cell in currentCell.Cells)
+                {
 
-                sheet.Controls.Remove("IA_" + IndiceActivo);//remuevo el namesrange
+                    try
+                    {
 
-                //  MessageBox.Show("Indice eliminado satisfactoriamente");
+
+                        objRange = (Excel.Range)sheet.Cells[cell.Row, cell.Column];
+                        IndiceActivo = objRange.get_Value(Type.Missing).ToString();
+                        //if (!NombreRangos.Contains("IA_" + IndiceActivo)) 
+                        // IndiceBase = IndiceBase + ((NroFilaPrincipal+i) * 100);
+                        //Indicebase = "0" + Convert.ToString(IndiceBase);
+                        //  if (Indicebase!= IndiceActivo)
+                        if (!NombreRangos.Contains("IA_" + IndiceActivo))
+                        {
+                            MessageBox.Show("No es posible eliminar un índice de formato guía");
+                            Eliminar = false;
+                            break;
+                        }
+                        else
+                        {
+                            Eliminar = true;
+                            //  sheet.Controls.Remove();
+                            NombreRangosDEL.Add("IA_" + IndiceActivo);
+                        }
+                        // i = i + 1;
+                    }
+
+                    catch
+                    {
+
+                        MessageBox.Show("NULL VALUE");
+
+                    }
+
+                }
+
+                if (Eliminar)
+                {
+                    currentCell = (Excel.Range)Globals.ThisAddIn.Application.Selection;
+                    currentCell.EntireRow.Delete();
+                    foreach (string Nm in NombreRangosDEL)
+                        sheet.Controls.Remove(Nm);
+
+
+                }
+                i = 1;
+                objRangeI.Select();
+                objRange = (Excel.Range)sheet.Cells[NroFilaPrincipal+i, 1];
+                IndiceActivo = objRange.get_Value(Type.Missing).ToString();
+                long dif = 0;
+                bool tienedif = false;
+                while (NombreRangos.Contains("IA_"+IndiceActivo))
+                {
+                    dif = Convert.ToInt64(IndiceActivo) - IndiceBase;
+                    while (dif != 100)
+                    {
+                        sheet.Controls.Remove("IA_" + IndiceActivo);
+                        objRange.Value2 = "0" + Convert.ToString(Convert.ToInt64(IndiceActivo) - 100);
+                        IndiceActivo = objRange.Value2;
+                        dif = dif - 100;
+                        tienedif = true;
+                    }
+                  if (tienedif)
+                    AddNamedRange(objRange.Row, objRange.Column, "IA_"+objRange.Value2);
+
+                    
+                    IndiceBase = Convert.ToInt64(objRange.Value2);
+                      //  dif = Convert.ToInt64(IndiceActivo) - IndiceBase;
+                        i = i + 1;
+                        objRange = (Excel.Range)sheet.Cells[NroFilaPrincipal + i, 1];
+                    
+                          IndiceActivo = objRange.get_Value(Type.Missing).ToString();
+                      
+                    
+                }
             }
-            else
-                MessageBox.Show("No puede eliminar indice base");
+            catch
+            {
+
+                MessageBox.Show("NULL VALUE");
+
+            }
+
+
+
+            //REcalculo
         }
     }
 }

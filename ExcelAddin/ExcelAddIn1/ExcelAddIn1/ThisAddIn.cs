@@ -29,6 +29,7 @@ namespace ExcelAddIn1
             ((Excel.Range)xlSht.Cells[2, 1]).ColumnWidth = 20;
             ((Excel.Range)xlSht.Cells[3, 1]).ColumnWidth = 20;
             ((Excel.Range)xlSht.Cells[4, 1]).ColumnWidth = 20;
+            ((Excel.Range)xlSht.Cells[4, 1]).NumberFormat = "@";
             xlSht.Cells[1, 1] = "01080031000000";
             xlSht.Cells[1, 2] = "OTROS A FAVOR";
             xlSht.Cells[2, 1] = "01080032000000";
@@ -37,12 +38,47 @@ namespace ExcelAddIn1
             xlSht.Cells[3, 2] = "OTROS A CARGO";
             xlSht.Cells[4, 1] = "01080034000000";
             xlSht.Cells[4, 2] = "EFECTO DE REEXPRESION";
+           
+            RemoveCutCopyPasteMenuItems();//proteger
 
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
+            ResetCellMenu();
         }
+        private Office.CommandBar GetCellContextMenu()
+        {
+             return this.Application.CommandBars["Cell"];
+          
+        }
+        private void RemoveCutCopyPasteMenuItems()
+        {
+            Office.CommandBar contextMenu = GetCellContextMenu();
+
+            for (int i = contextMenu.Controls.Count; i > 0; i--)
+            {
+                Office.CommandBarControl control = contextMenu.Controls[i];
+
+                if ((control.Caption == "Cu&t") || (control.Caption == "Cor&tar") )control.Enabled=false; // Sample code: remove cut menu item 
+                else if ((control.Caption == "&Copy") || (control.Caption == "&Copiar")) control.Enabled = false; // Sample code: remove copy menu item 
+                else if ((control.accDescription.Contains("Paste"))  || (control.accDescription.Contains("Pegar"))
+                    || (control.accDescription.Contains("Pe&gado")) || (control.accDescription.Contains("Insertar"))
+                    || (control.accDescription.Contains("Eliminar"))
+                    || (control.accDescription.Contains("Borrar"))) control.Enabled = false; // Sample code: remove any paste menu items 
+
+            
+            }
+
+         
+        }
+
+       
+        private void ResetCellMenu()
+        {
+            GetCellContextMenu().Reset(); // reset the cell context menu back to the default 
+        }
+
         //protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
         //{
         //    return new Ribbon1();
