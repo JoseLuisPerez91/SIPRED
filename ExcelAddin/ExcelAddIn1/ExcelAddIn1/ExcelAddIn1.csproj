@@ -220,10 +220,12 @@
       <DependentUpon>Ribbon2.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
+    <None Include="bin.zip" />
     <None Include="bin\Debug\ExcelAddIn1.dll.config" />
     <None Include="bin\Debug\ExcelAddIn1.dll.manifest" />
     <None Include="bin\Debug\ExcelAddIn1.vsto" />
     <None Include="ExcelAddIn1_TemporaryKey.pfx" />
+    <None Include="jsons\TemplatesTypes.json" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -253,9 +255,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Ribbon1.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="jsons\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="bin\Debug\ExcelAddIn1.dll" />
     <Content Include="bin\Debug\ExcelAddIn1.pdb" />

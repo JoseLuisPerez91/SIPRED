@@ -29,11 +29,11 @@ namespace ExcelAddIn1 {
         }
 
         void FillTemplateType() {
-            oTipoPlantilla[] _TemplatesTypes = Assembler.LoadJson<oTipoPlantilla>(Environment.CurrentDirectory + "jsons\\TemplatesTypes.json");
-            cmbTipoPlantilla.Fill<oTipoPlantilla>(_TemplatesTypes, "Id", "FullName", new oTipoPlantilla() { IdTipoPlantilla = 0, Clave = "", Concepto = "Seleccione un Tipo de Plantilla" });
+            oTipoPlantilla[] _TemplatesTypes = Assembler.LoadJson<oTipoPlantilla>(Environment.CurrentDirectory + "\\jsons\\TemplatesTypes.json");
+            cmbTipoPlantilla.Fill<oTipoPlantilla>(_TemplatesTypes, "IdTipoPlantilla", "FullName", new oTipoPlantilla() { IdTipoPlantilla = 0, Clave = "", Concepto = "Seleccione un Tipo de Plantilla" });
         }
 
-        private void btnSearch_Click(object sender, EventArgs e) {
+        private void btnSeleccionar_Click(object sender, EventArgs e) { 
             DialogResult _Result = ofdTemplate.ShowDialog();
         }
 
@@ -42,8 +42,8 @@ namespace ExcelAddIn1 {
         }
 
         private void btnCancelar_Click(object sender, EventArgs e) {
-            cmbAnio.SelectedValue = "0";
-            cmbTipoPlantilla.SelectedValue = "0";
+            cmbAnio.SelectedIndex = 0;
+            cmbTipoPlantilla.SelectedIndex = 0;
             txtPlantilla.Text = "";
         }
 
@@ -63,7 +63,11 @@ namespace ExcelAddIn1 {
                 new SqlParameter("@pUsuario", "eduardo.perez")
             };
             Connection _Cnx = new Connection();
-            _Cnx.ExecuteSP("[dbo].[spLoadTemplate]", _Parameters);
+            KeyValuePair<bool, string> _result = _Cnx.ExecuteSP("[dbo].[spLoadTemplate]", _Parameters);
+            if (_result.Key) {
+                MessageBox.Show("Se guardo correctamente la plantilla", "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                btnCancelar_Click(btnCancelar, null);
+            }
         }
     }
 }
