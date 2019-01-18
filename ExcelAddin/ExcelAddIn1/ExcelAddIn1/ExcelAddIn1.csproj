@@ -185,8 +185,12 @@
   -->
   <ItemGroup>
     <Compile Include="Assemblers\Assembler.cs" />
+    <Compile Include="Base.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="DataAccess\Configuration.cs" />
     <Compile Include="DataAccess\Connection.cs" />
+    <Compile Include="DataAccess\Plantilla.cs" />
     <Compile Include="LoadTemplate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -200,6 +204,8 @@
       <DependentUpon>MyUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Objects\oAnio.cs" />
+    <Compile Include="Objects\oBase.cs" />
+    <Compile Include="Objects\oPlantilla.cs" />
     <Compile Include="Objects\oTipoPlantilla.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -255,7 +261,20 @@
   <ItemGroup>
     <EmbeddedResource Include="Ribbon1.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ExcelAddIn.Access\ExcelAddIn.Access.csproj">
+      <Project>{91d76ede-6120-4207-9bde-e4b6d119d7c9}</Project>
+      <Name>ExcelAddIn.Access</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExcelAddIn.Logic\ExcelAddIn.Logic.csproj">
+      <Project>{9ba1a592-46ca-43d4-b0da-d031b8f12bf2}</Project>
+      <Name>ExcelAddIn.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExcelAddIn.Objects\ExcelAddIn.Objects.csproj">
+      <Project>{0255e4cf-37e5-45cd-9eb9-4eb4a7159f7c}</Project>
+      <Name>ExcelAddIn.Objects</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\ExcelAddIn1.dll" />
     <Content Include="bin\Debug\ExcelAddIn1.pdb" />

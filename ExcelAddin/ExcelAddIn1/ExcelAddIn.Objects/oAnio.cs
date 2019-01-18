@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExcelAddIn1.Objects {
+namespace ExcelAddIn.Objects {
     public class oAnio {
         public oAnio() { }
 
-        public int Id { get; set; }
-        public string Concepto { get; set; }
+        public int Id { get; set; } = 0;
+        public string Concepto { get; set; } = "";
     }
 }

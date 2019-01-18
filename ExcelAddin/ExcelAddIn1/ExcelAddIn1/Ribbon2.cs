@@ -17,5 +17,10 @@ namespace ExcelAddIn1
         {
 
         }
+
+        private void button7_Click(object sender, RibbonControlEventArgs e) {
+            LoadTemplate _Template = new LoadTemplate();
+            _Template.Show();
+        }
     }
 }

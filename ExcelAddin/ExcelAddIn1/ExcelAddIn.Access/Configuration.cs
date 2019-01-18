@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 
-namespace ExcelAddIn1.DataAccess {
+namespace ExcelAddIn.Access {
     public static class Configuration {
         static string _getConfig(string _Key) => ConfigurationManager.AppSettings[_Key];
         static string _unEncrypt(string _Value) => Encoding.UTF8.GetString(Convert.FromBase64String(_Value));

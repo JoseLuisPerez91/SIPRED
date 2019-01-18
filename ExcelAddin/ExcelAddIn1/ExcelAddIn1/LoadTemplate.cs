@@ -10,36 +10,22 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
 using Newtonsoft.Json;
-using ExcelAddIn1.Objects;
-using ExcelAddIn1.Assemblers;
-using ExcelAddIn1.DataAccess;
+using ExcelAddIn.Objects;
+using ExcelAddIn.Logic;
 
 namespace ExcelAddIn1 {
-    public partial class LoadTemplate : Form {
+    public partial class LoadTemplate : Base {
         public LoadTemplate() {
             InitializeComponent();
-            FillTemplateType();
-            FillYears();
+            FillTemplateType(cmbTipoPlantilla);
+            FillYears(cmbAnio);
         }
 
-        void FillYears() {
-            DateTime _Now = DateTime.Now;
-            oAnio[] _Years = { new oAnio() { Id = _Now.Year - 1, Concepto = (_Now.Year - 1).ToString() }, new oAnio() { Id = _Now.Year, Concepto = _Now.Year.ToString() } };
-            cmbAnio.Fill<oAnio>(_Years, "Id", "Concepto", new oAnio() { Id = 0, Concepto = "Seleccione un Año" });
-        }
-
-        void FillTemplateType() {
-            oTipoPlantilla[] _TemplatesTypes = Assembler.LoadJson<oTipoPlantilla>(Environment.CurrentDirectory + "\\jsons\\TemplatesTypes.json");
-            cmbTipoPlantilla.Fill<oTipoPlantilla>(_TemplatesTypes, "IdTipoPlantilla", "FullName", new oTipoPlantilla() { IdTipoPlantilla = 0, Clave = "", Concepto = "Seleccione un Tipo de Plantilla" });
-        }
-
-        private void btnSeleccionar_Click(object sender, EventArgs e) { 
+        private void btnSeleccionar_Click(object sender, EventArgs e) {
             DialogResult _Result = ofdTemplate.ShowDialog();
         }
 
-        private void ofdTemplate_FileOk(object sender, CancelEventArgs e) {
-            txtPlantilla.Text = ofdTemplate.FileName;
-        }
+        private void ofdTemplate_FileOk(object sender, CancelEventArgs e) { txtPlantilla.Text = ofdTemplate.FileName; }
 
         private void btnCancelar_Click(object sender, EventArgs e) {
             cmbAnio.SelectedIndex = 0;
@@ -48,26 +34,17 @@ namespace ExcelAddIn1 {
         }
 
         private void btnCargar_Click(object sender, EventArgs e) {
-            string _Message = (cmbAnio.SelectedValue.ToString() == "0") ? "Debe seleccionar un año." : "";
-            _Message += (cmbTipoPlantilla.SelectedValue.ToString() == "0") ? ((_Message.Length > 0) ? "\r\n" : "") + "Debe seleccionar un tipo." : "";
-            if(_Message.Length > 0) {
-                MessageBox.Show(_Message, "Información Faltante", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
-            FileInfo _TemplateFile = new FileInfo(txtPlantilla.Text);
-            SqlParameter[] _Parameters = {
-                new SqlParameter("@pAnio", (int)cmbAnio.SelectedValue),
-                new SqlParameter("@pIdTipoPlantilla", (int)cmbTipoPlantilla.SelectedValue),
-                new SqlParameter("@pNombre", _TemplateFile.Name),
-                new SqlParameter("@pPlantilla", File.ReadAllBytes(txtPlantilla.Text)),
-                new SqlParameter("@pUsuario", "eduardo.perez")
+            oPlantilla _Template = new oPlantilla("eduardo.perez") {
+                Anio = (int)cmbAnio.SelectedValue,
+                IdTipoPlantilla = (int)cmbTipoPlantilla.SelectedValue,
+                Nombre = new FileInfo(txtPlantilla.Text).Name,
+                Plantilla = File.ReadAllBytes(txtPlantilla.Text)
             };
-            Connection _Cnx = new Connection();
-            KeyValuePair<bool, string> _result = _Cnx.ExecuteSP("[dbo].[spLoadTemplate]", _Parameters);
-            if (_result.Key) {
-                MessageBox.Show("Se guardo correctamente la plantilla", "Proceso Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                btnCancelar_Click(btnCancelar, null);
-            }
+            KeyValuePair<bool, string[]> _result = new lPlantilla(_Template).Add();
+            string _Messages = "";
+            foreach(string _Msg in _result.Value) _Messages += ((_Messages.Length > 0) ? "\r\n" : "") + _Msg;
+            MessageBox.Show(_Messages, (_result.Key) ? "Proceso Existoso" : "Información Faltante", MessageBoxButtons.OK, (_result.Key) ? MessageBoxIcon.Information : MessageBoxIcon.Exclamation);
+            if(_result.Key) btnCancelar_Click(btnCancelar, null);
         }
     }
 }

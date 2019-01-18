@@ -11,8 +11,7 @@ namespace ExcelAddIn1.Assemblers {
     public static class Assembler {
         public static void Fill<T>(this ComboBox _cmb, T[] _Source, string _ValueField, string _TextField, T _Initial) {
             List<T> _FinalSource = new List<T>();
-            if(_Initial != null)
-                _FinalSource.Add(_Initial);
+            if(_Initial != null) _FinalSource.Add(_Initial);
             _FinalSource.AddRange(_Source);
             _cmb.Items.Clear();
             _cmb.DisplayMember = _TextField;
@@ -20,9 +19,6 @@ namespace ExcelAddIn1.Assemblers {
             _cmb.DataSource = _FinalSource;
         }
 
-        public static T[] LoadJson<T>(string _Path) {
-            string _Content = File.ReadAllText(_Path);
-            return JsonConvert.DeserializeObject<T[]>(_Content);
-        }
+        public static T LoadJson<T>(string _Path) => JsonConvert.DeserializeObject<T>(File.ReadAllText(_Path));
     }
 }
