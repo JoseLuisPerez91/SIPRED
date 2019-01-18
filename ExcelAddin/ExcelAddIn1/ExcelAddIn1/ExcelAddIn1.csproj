@@ -124,7 +124,11 @@
   -->
   <ItemGroup>
     <Reference Include="Accessibility" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\..\SIPRED\GitHub\SIPRED-master 14ENE2019\SIPRED-master\ExcelAddin\ExcelAddIn1\ExcelAddIn1\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -215,6 +219,7 @@
     <EmbeddedResource Include="Ribbon2.resx">
       <DependentUpon>Ribbon2.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="App.config" />
     <None Include="ExcelAddIn1_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
