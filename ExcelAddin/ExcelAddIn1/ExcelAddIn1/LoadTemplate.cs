@@ -12,6 +12,7 @@ using System.IO;
 using Newtonsoft.Json;
 using ExcelAddIn.Objects;
 using ExcelAddIn.Logic;
+using ExcelAddIn1.Assemblers;
 
 namespace ExcelAddIn1 {
     public partial class LoadTemplate : Base {
@@ -34,15 +35,25 @@ namespace ExcelAddIn1 {
         }
 
         private void btnCargar_Click(object sender, EventArgs e) {
+            oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>(System.Environment.CurrentDirectory + "\\jsons\\Templates.json");
             oPlantilla _Template = new oPlantilla("eduardo.perez") {
                 Anio = (int)cmbAnio.SelectedValue,
                 IdTipoPlantilla = (int)cmbTipoPlantilla.SelectedValue,
                 Nombre = new FileInfo(txtPlantilla.Text).Name,
                 Plantilla = File.ReadAllBytes(txtPlantilla.Text)
             };
+            DialogResult _response = DialogResult.None;
+            if(_Templates.Where(o => o.IdTipoPlantilla == _Template.IdTipoPlantilla && o.Anio == _Template.Anio).Count() > 0) {
+                _response = MessageBox.Show($"¿Desea reemplazar la plantilla para {((oTipoPlantilla)cmbTipoPlantilla.SelectedItem).FullName} y {cmbAnio.SelectedValue.ToString()}?", "Plantilla Existente", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if(_response == DialogResult.No) {
+                    btnCancelar_Click(btnCancelar, null);
+                    return;
+                }
+            }
             KeyValuePair<bool, string[]> _result = new lPlantilla(_Template).Add();
             string _Messages = "";
             foreach(string _Msg in _result.Value) _Messages += ((_Messages.Length > 0) ? "\r\n" : "") + _Msg;
+            if(_result.Key && _response != DialogResult.Yes) _Messages = "La plantilla fue reemplazada con éxito";
             MessageBox.Show(_Messages, (_result.Key) ? "Proceso Existoso" : "Información Faltante", MessageBoxButtons.OK, (_result.Key) ? MessageBoxIcon.Information : MessageBoxIcon.Exclamation);
             if(_result.Key) btnCancelar_Click(btnCancelar, null);
         }

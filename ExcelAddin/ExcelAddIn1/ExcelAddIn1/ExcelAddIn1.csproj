@@ -124,8 +124,10 @@
   -->
   <ItemGroup>
     <Reference Include="Accessibility" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\..\SIPRED\GitHub\SIPRED-master 14ENE2019\SIPRED-master\ExcelAddin\ExcelAddIn1\ExcelAddIn1\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -188,9 +190,6 @@
     <Compile Include="Base.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DataAccess\Configuration.cs" />
-    <Compile Include="DataAccess\Connection.cs" />
-    <Compile Include="DataAccess\Plantilla.cs" />
     <Compile Include="LoadTemplate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -203,15 +202,20 @@
     <Compile Include="MyUserControl.Designer.cs">
       <DependentUpon>MyUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Objects\oAnio.cs" />
-    <Compile Include="Objects\oBase.cs" />
-    <Compile Include="Objects\oPlantilla.cs" />
-    <Compile Include="Objects\oTipoPlantilla.cs" />
+    <Compile Include="Nuevo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Nuevo.Designer.cs">
+      <DependentUpon>Nuevo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <EmbeddedResource Include="LoadTemplate.resx">
       <DependentUpon>LoadTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Nuevo.resx">
+      <DependentUpon>Nuevo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -231,7 +235,9 @@
     <None Include="bin\Debug\ExcelAddIn1.dll.manifest" />
     <None Include="bin\Debug\ExcelAddIn1.vsto" />
     <None Include="ExcelAddIn1_TemporaryKey.pfx" />
+    <None Include="jsons\Templates.json" />
     <None Include="jsons\TemplatesTypes.json" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -283,6 +289,9 @@
     <Content Include="bin\Debug\Newtonsoft.Json.dll" />
     <Content Include="bin\Debug\Newtonsoft.Json.pdb" />
     <Content Include="bin\Debug\Newtonsoft.Json.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="templates\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
