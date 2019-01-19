@@ -256,6 +256,7 @@
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>
+    <None Include="templates\SIPRED-EstadosFinancierosGeneral.xlsm" />
     <None Include="ThisAddIn.Designer.xml">
       <DependentUpon>ThisAddIn.cs</DependentUpon>
     </None>
@@ -290,9 +291,7 @@
     <Content Include="bin\Debug\Newtonsoft.Json.pdb" />
     <Content Include="bin\Debug\Newtonsoft.Json.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="templates\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
