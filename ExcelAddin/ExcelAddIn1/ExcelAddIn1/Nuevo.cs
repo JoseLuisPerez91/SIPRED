@@ -25,14 +25,14 @@ namespace ExcelAddIn1 {
         }
 
         private void btnCrear_Click(object sender, EventArgs e) {
-            oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>($"Environment.CurrentDirectory\\jsons\\Templates.json");
+            oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>($"{Environment.CurrentDirectory}\\jsons\\Templates.json");
             int _IdTemplateType = (int)cmbTipo.SelectedValue, _Year = (int)cmbAnio.SelectedValue;
             oPlantilla _Template = _Templates.FirstOrDefault(o => o.IdTipoPlantilla == _IdTemplateType && o.Anio == _Year);
             if(_Template != null) {
                 MessageBox.Show("No existe una plantilla para el tipo seleccionado, favor de seleccionar otro tipo o contactar al administrador.", "Información Incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-            string _newTemplate = $"{Environment.CurrentDirectory}\\templates\\{((oTipoPlantilla)cmbTipo.SelectedItem).Clave}-{cmbAnio.SelectedValue.ToString()}-{DateTime.Now.ToString("ddMMyyyyHHmmss")}.xlsx";
+            string _newTemplate = $"{Environment.CurrentDirectory}\\{((oTipoPlantilla)cmbTipo.SelectedItem).Clave}-{cmbAnio.SelectedValue.ToString()}-{DateTime.Now.ToString("ddMMyyyyHHmmss")}.xlsx";
             string _currentTemplate = $"{Environment.CurrentDirectory}\\templates\\{_Template.Nombre}";
             Microsoft.Office.Interop.Excel.Application _current = new Microsoft.Office.Interop.Excel.Application();
             Microsoft.Office.Interop.Excel.Workbook _workbook = _current.Workbooks.Open(_currentTemplate, Microsoft.Office.Interop.Excel.XlUpdateLinks.xlUpdateLinksNever, true, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);

@@ -10,6 +10,7 @@ namespace ExcelAddIn.Logic {
     public class lPlantilla : aPlantilla {
         List<string> _Messages = new List<string>();
         public lPlantilla(oPlantilla _Template) : base(_Template) {
+            Template = _Template;
             if(Template.IdTipoPlantilla == 0) _Messages.Add("Debe seleccionar un tipo.");
             if(Template.Anio == 0) _Messages.Add("Debe seleccionar un año.");
             if(string.IsNullOrEmpty(Template.Nombre) || string.IsNullOrWhiteSpace(Template.Nombre)) _Messages.Add("Debe seleccionar un archivo.");
