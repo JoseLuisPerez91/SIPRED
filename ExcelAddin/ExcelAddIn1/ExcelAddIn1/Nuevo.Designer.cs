@@ -29,6 +29,8 @@
             this.cmbTipo = new System.Windows.Forms.ComboBox();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnCrear = new System.Windows.Forms.Button();
+            this.sfdTemplate = new System.Windows.Forms.SaveFileDialog();
+            this.fbdTemplate = new System.Windows.Forms.FolderBrowserDialog();
             this.gbTipo.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -114,5 +116,7 @@
         private System.Windows.Forms.ComboBox cmbAnio;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Button btnCrear;
+        private System.Windows.Forms.SaveFileDialog sfdTemplate;
+        private System.Windows.Forms.FolderBrowserDialog fbdTemplate;
     }
 }

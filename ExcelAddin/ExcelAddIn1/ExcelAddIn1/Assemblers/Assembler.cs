@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Newtonsoft.Json;
+using ExcelAddIn.Objects;
 
 namespace ExcelAddIn1.Assemblers {
     public static class Assembler {
@@ -20,5 +21,11 @@ namespace ExcelAddIn1.Assemblers {
         }
 
         public static T LoadJson<T>(string _Path) => JsonConvert.DeserializeObject<T>(File.ReadAllText(_Path));
+
+        public static string ToString(this oCelda[] _Cells, string _Formula, bool _Condicion = false) {
+            string _result = (!_Condicion) ? _Formula.Split('=')[1] : _Formula;
+            foreach(oCelda _cell in _Cells) _result = _result.Replace(_cell.Original, _cell.CeldaExcel);
+            return _result;
+        }
     }
 }
