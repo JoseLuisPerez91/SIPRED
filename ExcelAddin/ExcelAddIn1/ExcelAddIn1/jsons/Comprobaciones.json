@@ -3,7 +3,7 @@
     "IdComprobacion": "1",
     "IdTipoPlantilla": "1",
     "Concepto": "TOTAL DE EFECTIVO E INSTRUMENTOS FINANCIEROS",
-    "Formula": "[01,01010004000000,3]=[01,01010000000000,3]&[01,01010002000000,3]+[01,01010003000000,3]",
+    "Formula": "[01,01010004000000,3]=SUM([01,01010000000000,3]&[01,01010002000000,3])+[01,01010003000000,3]",
     "Condicion": ""
   },
   {
