@@ -16,5 +16,6 @@ namespace ExcelAddIn.Access {
         public static string User => _unEncrypt(_getConfig("VAL3"));
         public static string Password => _unEncrypt(_getConfig("VAL4"));
         public static int TimeOut => int.Parse(_unEncrypt(_getConfig("VAL5")));
+        public static string Path => _unEncrypt(_getConfig("VAL6"));
     }
 }

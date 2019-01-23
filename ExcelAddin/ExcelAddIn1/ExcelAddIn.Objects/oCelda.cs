@@ -20,14 +20,10 @@ namespace ExcelAddIn.Objects {
         public int Columna { get; set; }
         public int Fila { get; set; } = -1;
         public string CeldaExcel { get; private set; }
-        public string CeldaExcelCompleta { get; private set; }
-        public string CeldaExcelAbsoluta { get; private set; }
 
-        public void setCeldaExcel(ExcelRange _Cell) {
+        public void setCeldaExcel(ExcelRange _Cell, string _Anexo) {
             Anexo = _Cell.Worksheet.Name;
-            CeldaExcel = _Cell.Address;
-            CeldaExcelCompleta = _Cell.FullAddress;
-            CeldaExcelAbsoluta = _Cell.FullAddressAbsolute;
+            CeldaExcel = (Anexo == _Anexo || _Anexo == "") ? _Cell.Address : _Cell.FullAddress;
         }
     }
 }

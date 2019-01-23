@@ -19,8 +19,8 @@ namespace ExcelAddIn.Logic {
 
         public new KeyValuePair<bool, string[]> Add() {
             if(_Messages.Count() > 0) return new KeyValuePair<bool, string[]>(false, _Messages.ToArray());
-            KeyValuePair<bool, string> _result = base.Add();
-            return new KeyValuePair<bool, string[]>(_result.Key, new string[] { _result.Value });
+            KeyValuePair<KeyValuePair<bool, string>, int> _result = base.Add();
+            return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
     }
 }

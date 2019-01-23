@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="aSerializados.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="aPlantilla.cs" />

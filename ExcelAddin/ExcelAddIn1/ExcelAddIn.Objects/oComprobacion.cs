@@ -21,6 +21,10 @@ namespace ExcelAddIn.Objects {
         public oCelda[] CeldasCondicion { get; set; }
         public string FormulaExcel { get; private set; }
 
+        public bool EsFormula() => Celdas.Count() > 0 || CeldasCondicion.Count() > 0;
+
+        public bool EsValida() => Celdas.Where(o => o.Fila == -1).Count() == 0 && CeldasCondicion.Where(o => o.Fila == -1).Count() == 0;
+
         public void setCeldas() {
             List<oCelda> _cells = new List<oCelda>();
             List<oCelda> _cCells = new List<oCelda>();
@@ -31,6 +35,11 @@ namespace ExcelAddIn.Objects {
             foreach(var _m in _mCondicion) _cCells.Add(new oCelda(_m.ToString()));
             Celdas = _cells.ToArray();
             CeldasCondicion = _cCells.ToArray();
+        }
+
+        public void setFormulaExcel() {
+            if(EsValida() && EsFormula()) FormulaExcel = (CeldasCondicion.Count() > 0) ? $"IF({CeldasCondicion.ToString(Condicion, true)},{Celdas.ToString(Formula)},0)" : Celdas.ToString(Formula);
+            if(EsValida() && !EsFormula()) FormulaExcel = Formula.Split('=')[1];
         }
     }
 }

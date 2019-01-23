@@ -241,6 +241,7 @@
     <None Include="bin\Debug\ExcelAddIn1.dll.manifest" />
     <None Include="bin\Debug\ExcelAddIn1.vsto" />
     <None Include="ExcelAddIn1_TemporaryKey.pfx" />
+    <None Include="Formulas.zip" />
     <None Include="jsons\Comprobaciones.json" />
     <None Include="jsons\Templates.json" />
     <None Include="jsons\TemplatesTypes.json" />

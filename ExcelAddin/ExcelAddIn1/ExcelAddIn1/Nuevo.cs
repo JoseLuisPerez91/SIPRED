@@ -11,7 +11,7 @@ using System.IO;
 using OfficeOpenXml;
 using Newtonsoft.Json;
 using ExcelAddIn.Objects;
-using ExcelAddIn1.Assemblers;
+//using ExcelAddIn1.Assemblers;
 
 namespace ExcelAddIn1 {
     public partial class Nuevo : Base {
@@ -68,21 +68,21 @@ namespace ExcelAddIn1 {
                         if(_Comprobacion.Destino.Fila > -1) {
                             oCelda[] _Celdas = _Comprobacion.Celdas.Where(o => o.Indice == _Comprobacion.Destino.Indice && o.Anexo == _Comprobacion.Destino.Anexo).ToArray();
                             oCelda[] _cCeldas = _Comprobacion.CeldasCondicion.Where(o => o.Indice == _Comprobacion.Destino.Indice && o.Anexo == _Comprobacion.Destino.Anexo).ToArray();
-                            _Comprobacion.Destino.setCeldaExcel(_workSheet.Cells[_Comprobacion.Destino.Fila, _Comprobacion.Destino.Columna]);
+                            _Comprobacion.Destino.setCeldaExcel(_workSheet.Cells[_Comprobacion.Destino.Fila, _Comprobacion.Destino.Columna], "");
                             foreach(oCelda _Celda in _Celdas) {
                                 _Celda.Fila = _Comprobacion.Destino.Fila;
-                                _Celda.setCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna]);
+                                _Celda.setCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna], _Comprobacion.Destino.Anexo);
                             }
                             foreach(oCelda _Celda in _cCeldas) {
                                 _Celda.Fila = _Comprobacion.Destino.Fila;
-                                _Celda.setCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna]);
+                                _Celda.setCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna], _Comprobacion.Destino.Anexo);
                             }
                             oCelda[] _Faltantes = _Comprobacion.Celdas.Where(o => o.Fila == -1).ToArray();
                             foreach(oCelda _Faltante in _Faltantes) {
                                 oCelda _Result = _Comprobaciones.Where(o => o.Destino != null && o.Destino.Indice == _Faltante.Indice && o.Destino.Anexo == _Faltante.Anexo.ToUpper()).Select(o => o.Destino).FirstOrDefault();
                                 if(_Result != null) {
                                     _Faltante.Fila = _Result.Fila;
-                                    _Faltante.setCeldaExcel(_workSheet.Cells[_Faltante.Fila, _Faltante.Columna]);
+                                    _Faltante.setCeldaExcel(_workSheet.Cells[_Faltante.Fila, _Faltante.Columna], _Comprobacion.Destino.Anexo);
                                 }
                                 if(_Result == null) {
                                     ExcelWorksheet _ws = _package.Workbook.Worksheets[_Faltante.Anexo];
@@ -92,7 +92,7 @@ namespace ExcelAddIn1 {
                                         _Faltante.Fila = (_ws.Cells[j, 1].Text == _Faltante.Indice) ? j : _Faltante.Fila;
                                         _Faltante.Fila = (_ws.Cells[(_mv - j), 1].Text == _Faltante.Indice) ? _mv - j : _Faltante.Fila;
                                         if(_Faltante.Fila > -1) {
-                                            _Faltante.setCeldaExcel(_ws.Cells[_Faltante.Fila, _Faltante.Columna]);
+                                            _Faltante.setCeldaExcel(_ws.Cells[_Faltante.Fila, _Faltante.Columna], _Comprobacion.Destino.Anexo);
                                             break;
                                         }
                                     }
@@ -103,7 +103,7 @@ namespace ExcelAddIn1 {
                                 oCelda _Result = _Comprobaciones.Where(o => o.Destino != null && o.Destino.Indice == _Faltante.Indice && o.Destino.Anexo == _Faltante.Anexo.ToUpper()).Select(o => o.Destino).FirstOrDefault();
                                 if(_Result != null) {
                                     _Faltante.Fila = _Result.Fila;
-                                    _Faltante.setCeldaExcel(_workSheet.Cells[_Faltante.Fila, _Faltante.Columna]);
+                                    _Faltante.setCeldaExcel(_workSheet.Cells[_Faltante.Fila, _Faltante.Columna], _Comprobacion.Destino.Anexo);
                                 }
                                 if(_Result == null) {
                                     ExcelWorksheet _ws = _package.Workbook.Worksheets[_Faltante.Anexo];
@@ -113,7 +113,7 @@ namespace ExcelAddIn1 {
                                         _Faltante.Fila = (_ws.Cells[j, 1].Text == _Faltante.Indice) ? j : _Faltante.Fila;
                                         _Faltante.Fila = (_ws.Cells[(_mv - j), 1].Text == _Faltante.Indice) ? _mv - j : _Faltante.Fila;
                                         if(_Faltante.Fila > -1) {
-                                            _Faltante.setCeldaExcel(_ws.Cells[_Faltante.Fila, _Faltante.Columna]);
+                                            _Faltante.setCeldaExcel(_ws.Cells[_Faltante.Fila, _Faltante.Columna], _Comprobacion.Destino.Anexo);
                                             break;
                                         }
                                     }
@@ -122,6 +122,7 @@ namespace ExcelAddIn1 {
                             break;
                         }
                     }
+                    _Comprobacion.setFormulaExcel();
                 }
             }
         }

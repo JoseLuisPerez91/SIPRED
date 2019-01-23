@@ -11,7 +11,7 @@ namespace ExcelAddIn.Access {
         protected oPlantilla Template = new oPlantilla("");
         public aPlantilla(oPlantilla _Template) : base() { }
 
-        protected KeyValuePair<bool, string> Add() {
+        protected KeyValuePair<KeyValuePair<bool, string>, int> Add() {
             KeyValuePair<bool, string> _result = new KeyValuePair<bool, string>(true, "Se procesó corectamente la información.");
             SqlParameter[] _Parameters = {
                 new SqlParameter("@pAnio", Template.Anio),
@@ -20,8 +20,7 @@ namespace ExcelAddIn.Access {
                 new SqlParameter("@pPlantilla", Template.Plantilla),
                 new SqlParameter("@pUsuario", Template.Usuario)
             };
-            _result = ExecuteSP("[dbo].[spLoadTemplate]", _Parameters);
-            return _result;
+            return ExecuteNonQuery("[dbo].[spLoadTemplate]", _Parameters);
         }
     }
 }

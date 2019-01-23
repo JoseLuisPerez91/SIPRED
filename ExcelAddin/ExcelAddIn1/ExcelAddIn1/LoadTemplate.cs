@@ -12,7 +12,6 @@ using System.IO;
 using Newtonsoft.Json;
 using ExcelAddIn.Objects;
 using ExcelAddIn.Logic;
-using ExcelAddIn1.Assemblers;
 
 namespace ExcelAddIn1 {
     public partial class LoadTemplate : Base {
