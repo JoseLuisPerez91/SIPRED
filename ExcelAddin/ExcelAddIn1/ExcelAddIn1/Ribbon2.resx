@@ -171,7 +171,7 @@
         rkJggg==
 </value>
   </data>
-  <data name="menu3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnIndice.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
         EwAACxMBAJqcGAAACcVJREFUeF7t3X1sFVkZBvBCcYtSKkUw7pe4LBXRXVwjWe2aqCSKrG7S1SUo1ggk
@@ -346,7 +346,7 @@
         s9MK70YS/5t/xr9jG7blMlyW6+gLMbxsq1fv/7eBjANIzhNIAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="button11.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnNewExpl.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
         EwAACxMBAJqcGAAAB25JREFUeF7t3durVGUYBvBddtLsMkw6GKWZJPQnVJRiZiIUZhf9A4H9F4V2MoO6
@@ -384,7 +384,7 @@
         woi21wAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="button12.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnDelExpl.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
         EwAACxMBAJqcGAAABqhJREFUeF7t3durVGUABfBTdtPsMUy6GKWZJPQnVJRiZiIUZg/9A4H9F4V2M4N6

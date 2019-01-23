@@ -38,12 +38,12 @@
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
             this.btnNew = this.Factory.CreateRibbonButton();
-            this.menu3 = this.Factory.CreateRibbonMenu();
+            this.btnIndice = this.Factory.CreateRibbonMenu();
             this.btnNewIndice = this.Factory.CreateRibbonButton();
             this.btnDelIndice = this.Factory.CreateRibbonButton();
             this.menu2 = this.Factory.CreateRibbonMenu();
-            this.button11 = this.Factory.CreateRibbonButton();
-            this.button12 = this.Factory.CreateRibbonButton();
+            this.btnNewExpl = this.Factory.CreateRibbonButton();
+            this.btnDelExpl = this.Factory.CreateRibbonButton();
             this.button2 = this.Factory.CreateRibbonButton();
             this.group2 = this.Factory.CreateRibbonGroup();
             this.button3 = this.Factory.CreateRibbonButton();
@@ -74,7 +74,7 @@
             // group1
             // 
             this.group1.Items.Add(this.btnNew);
-            this.group1.Items.Add(this.menu3);
+            this.group1.Items.Add(this.btnIndice);
             this.group1.Items.Add(this.menu2);
             this.group1.Items.Add(this.button2);
             this.group1.Label = "HOJA DE TRABAJO";
@@ -91,15 +91,15 @@
             this.btnNew.ShowImage = true;
             this.btnNew.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnNew_Click);
             // 
-            // menu3
+            // btnIndice
             // 
-            this.menu3.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.menu3.Image = ((System.Drawing.Image)(resources.GetObject("menu3.Image")));
-            this.menu3.Items.Add(this.btnNewIndice);
-            this.menu3.Items.Add(this.btnDelIndice);
-            this.menu3.Label = "Índice";
-            this.menu3.Name = "menu3";
-            this.menu3.ShowImage = true;
+            this.btnIndice.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnIndice.Image = ((System.Drawing.Image)(resources.GetObject("btnIndice.Image")));
+            this.btnIndice.Items.Add(this.btnNewIndice);
+            this.btnIndice.Items.Add(this.btnDelIndice);
+            this.btnIndice.Label = "Índice";
+            this.btnIndice.Name = "btnIndice";
+            this.btnIndice.ShowImage = true;
             // 
             // btnNewIndice
             // 
@@ -121,25 +121,27 @@
             // 
             this.menu2.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.menu2.Image = ((System.Drawing.Image)(resources.GetObject("menu2.Image")));
-            this.menu2.Items.Add(this.button11);
-            this.menu2.Items.Add(this.button12);
+            this.menu2.Items.Add(this.btnNewExpl);
+            this.menu2.Items.Add(this.btnDelExpl);
             this.menu2.Label = "Explicación";
             this.menu2.Name = "menu2";
             this.menu2.ShowImage = true;
             // 
-            // button11
+            // btnNewExpl
             // 
-            this.button11.Image = ((System.Drawing.Image)(resources.GetObject("button11.Image")));
-            this.button11.Label = "Agregar";
-            this.button11.Name = "button11";
-            this.button11.ShowImage = true;
+            this.btnNewExpl.Image = ((System.Drawing.Image)(resources.GetObject("btnNewExpl.Image")));
+            this.btnNewExpl.Label = "Agregar";
+            this.btnNewExpl.Name = "btnNewExpl";
+            this.btnNewExpl.ShowImage = true;
+            this.btnNewExpl.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnNewExpl_Click);
             // 
-            // button12
+            // btnDelExpl
             // 
-            this.button12.Image = ((System.Drawing.Image)(resources.GetObject("button12.Image")));
-            this.button12.Label = "Eliminar";
-            this.button12.Name = "button12";
-            this.button12.ShowImage = true;
+            this.btnDelExpl.Image = ((System.Drawing.Image)(resources.GetObject("btnDelExpl.Image")));
+            this.btnDelExpl.Label = "Eliminar";
+            this.btnDelExpl.Name = "btnDelExpl";
+            this.btnDelExpl.ShowImage = true;
+            this.btnDelExpl.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDelExpl_Click);
             // 
             // button2
             // 
@@ -264,9 +266,9 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button8;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button9;
         internal Microsoft.Office.Tools.Ribbon.RibbonMenu menu2;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button11;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button12;
-        internal Microsoft.Office.Tools.Ribbon.RibbonMenu menu3;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnNewExpl;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnDelExpl;
+        internal Microsoft.Office.Tools.Ribbon.RibbonMenu btnIndice;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnNewIndice;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnDelIndice;
     }

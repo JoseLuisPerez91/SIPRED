@@ -179,6 +179,12 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="frmNewExplicaciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewExplicaciones.Designer.cs">
+      <DependentUpon>frmNewExplicaciones.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmNewIndices.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -194,6 +200,9 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <EmbeddedResource Include="frmNewExplicaciones.resx">
+      <DependentUpon>frmNewExplicaciones.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmNewIndices.resx">
       <DependentUpon>frmNewIndices.cs</DependentUpon>
     </EmbeddedResource>

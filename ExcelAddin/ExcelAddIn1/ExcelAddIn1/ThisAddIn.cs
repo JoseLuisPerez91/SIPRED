@@ -11,8 +11,9 @@ namespace ExcelAddIn1
 {
     public partial class ThisAddIn
     {
-        private MyUserControl myUserControl1;
-        private Microsoft.Office.Tools.CustomTaskPane myCustomTaskPane;
+     
+        //private MyUserControl myUserControl1;
+        //private Microsoft.Office.Tools.CustomTaskPane myCustomTaskPane;
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             //myUserControl1 = new MyUserControl();
@@ -41,7 +42,9 @@ namespace ExcelAddIn1
            
             RemoveCutCopyPasteMenuItems();//proteger
 
-        }
+            Globals.ThisAddIn.Application.SheetSelectionChange += new Excel.AppEvents_SheetSelectionChangeEventHandler(Application_SheetSelectionChange);
+        
+    }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
@@ -79,6 +82,24 @@ namespace ExcelAddIn1
             GetCellContextMenu().Reset(); // reset the cell context menu back to the default 
         }
 
+        void Application_SheetSelectionChange(object Sh, Excel.Range Target)
+        {
+           // System.Windows.Forms.MessageBox.Show(Target.AddressLocal);
+
+
+              Globals.Ribbons.Ribbon2.btnNewIndice.Enabled = (!Target.AddressLocal.Contains(":"));
+              Globals.Ribbons.Ribbon2.btnNewExpl.Enabled = (!Target.AddressLocal.Contains(":"));
+              Globals.Ribbons.Ribbon2.btnDelIndice.Enabled = (!Target.AddressLocal.Contains(";"));// si  selecciona celdas intercaladas
+              Globals.Ribbons.Ribbon2.btnDelExpl.Enabled = (!Target.AddressLocal.Contains(";"));// si  selecciona celdas intercaladas
+
+        }
+
+        void DisplayAddress_Click(object sender, Microsoft.Office.Tools.Excel.ActionEventArgs e)
+        {
+            string smartTagAddress = e.Range.get_Address(Excel.XlReferenceStyle.xlA1);
+            System.Windows.Forms.MessageBox.Show("The recognized text '" + e.Text +
+                "' is at range " + smartTagAddress);
+        }
         //protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
         //{
         //    return new Ribbon1();
