@@ -34,8 +34,8 @@ namespace ExcelAddIn1
             Excel.Worksheet ActiveWorksheet = Globals.ThisAddIn.Application.ActiveSheet;
             Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
             Excel.Range objRange;
-
             Excel.Range currentCell = (Excel.Range)Globals.ThisAddIn.Application.ActiveCell;
+
             NroFilaPrincipal = currentCell.Row;
             NroColPrincipal = currentCell.Column;
             int iTotalColumns; int k = 1;
@@ -97,7 +97,7 @@ namespace ExcelAddIn1
                            
                                 CncValido = ExcelAddIn1.BusinessLogic.EsConceptoValido(ConceptoPrevio);
 
-                                if (CncValido)  //(ConceptoPrevio.Substring(0, 4).ToUpper() == "OTRO") 
+                                if (CncValido)  
                                 {
                                     NroFilaPrincipal = objRange.Row;
                                     NroColPrincipal = objRange.Column;
@@ -136,7 +136,7 @@ namespace ExcelAddIn1
             catch (Exception ex)
             {
                 MessageBox.Show("No es posible agregar índices en la fila seleccionada", "Agregar índice", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                //MessageBox.Show(ex.Message);
+               
 
             }
 
