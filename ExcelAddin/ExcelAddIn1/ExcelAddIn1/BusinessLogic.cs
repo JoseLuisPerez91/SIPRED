@@ -26,7 +26,7 @@ namespace ExcelAddIn1
             int NroColumn = currentCell.Column;
             string IndicePrevio = "";
             long IndiceInicial = 0;
-            bool tieneformula = false;
+          
             int iTotalColumns = 0;
             int k = 1;
             int i = 1;
@@ -87,8 +87,7 @@ namespace ExcelAddIn1
 
                 indiceNvo = Convert.ToInt64(IndicePrevio) + 100;
 
-                //if (FilasExplicacion.Contains(NroRow+i))
-                //    NroRow++;
+               
 
                 var rangej = xlSht.get_Range(string.Format("{0}:{0}", NroRow + i, Type.Missing));
                 rangej.Select();
@@ -363,11 +362,7 @@ namespace ExcelAddIn1
             var ser = JsonConvert.DeserializeObject<Rootobject>(jsonstr);
 
             Conceptos = ser.Conceptos;
-            //foreach (Concepto item in Conceptos)
-            //{
-            //    Desc.Add(item.Descripcion);
-
-            //}
+           
             return Conceptos;
         }
 
