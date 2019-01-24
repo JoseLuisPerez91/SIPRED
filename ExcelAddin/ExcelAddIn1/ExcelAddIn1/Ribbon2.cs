@@ -137,28 +137,13 @@ namespace ExcelAddIn1
 
         }
 
-        public static void AddNamedRange(int row, int col, string myrango)
-        {
-            Microsoft.Office.Tools.Excel.NamedRange NamedRange1;
-
-            Worksheet worksheet = Globals.Factory.GetVstoObject(
-                Globals.ThisAddIn.Application.ActiveWorkbook.ActiveSheet);
-
-
-            Excel.Range cell = worksheet.Cells[row, col];
-
-            NamedRange1 = worksheet.Controls.AddNamedRange(cell, myrango);
-
-
-
-        }
-
         private void btnDelIndice_Click(object sender, RibbonControlEventArgs e)
         {
 
 
             Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
-            Worksheet sheet = Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveWorkbook.ActiveSheet);
+            Worksheet sheetControl = Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveWorkbook.ActiveSheet);
+            Excel.Worksheet sheet = Globals.ThisAddIn.Application.ActiveSheet;
             string IndiceActivo = "";
             string IndiceSiguiente = "";
             bool Eliminar = false;
@@ -249,7 +234,7 @@ namespace ExcelAddIn1
                     currentCell.EntireRow.Delete(Excel.XlDeleteShiftDirection.xlShiftUp);
                     NombreRangosDEL.Sort();
                     string NM = NombreRangosDEL.FirstOrDefault();
-                    sheet.Controls.Remove(NM);
+                    sheetControl.Controls.Remove(NM);
                     foreach (Excel.Name item2 in wb.Names)
                         NombreRangos.Add(item2.Name);
                     string[] split = NM.Split('_');
@@ -259,7 +244,7 @@ namespace ExcelAddIn1
                     string IndiceSig = "0" + Convert.ToString(NamedRng);
                     while (NombreRangos.Contains("IA_" + IndiceSig))
                     {
-                        sheet.Controls.Remove("IA_" + IndiceSig);
+                        sheetControl.Controls.Remove("IA_" + IndiceSig);
 
                         NamedRng = Convert.ToInt64(IndiceSig) + 100;
                         IndiceSig = "0" + Convert.ToString(NamedRng);
@@ -294,7 +279,7 @@ namespace ExcelAddIn1
                         objRange.Value2 = IndiceAnt;
                        
                         if (tienedif)
-                            AddNamedRange(row, 1, "IA_" + Convert.ToString(IndiceAnt));
+                            ExcelAddIn1.BusinessLogic.AddNamedRange(row, 1, "IA_" + Convert.ToString(IndiceAnt));
                         //busco el siguiente activo
                         row++;
                         objRange = (Excel.Range)sheet.Cells[row, 1];
@@ -304,99 +289,11 @@ namespace ExcelAddIn1
                     }
 
 
+                    row=ExcelAddIn1.BusinessLogic.DameRangoPrincipal(FilaPadre.FirstOrDefault(), sheet);// busco el numero de fila OTRO para agregarle luego la sumatoria de los indices nuevos
 
 
-                    // busco el numero de fila OTRO para agregarle luego la sumatoria de los indices nuevos
-                    try
-                    {
-                        row = FilaPadre.FirstOrDefault();
-                        objRange = (Excel.Range)sheet.Cells[row, 2];
-                        string ConceptoPrevio = objRange.get_Value(Type.Missing);
-                        if (ConceptoPrevio != null)
-                        {
-                            ConceptoPrevio = ConceptoPrevio.ToString();
-                            if (ConceptoPrevio.Length >= 4)
-                            {
-                                if (ConceptoPrevio.Substring(0, 4).ToUpper() != "OTRO")
-                                {
-                                    while (row > 0)
-                                    {
-                                        objRange = (Excel.Range)sheet.Cells[row, 2];
-                                        ConceptoPrevio = objRange.get_Value(Type.Missing);
-                                        if (ConceptoPrevio != null)
-                                        {
-                                            ConceptoPrevio = ConceptoPrevio.ToString();
-                                            if (ConceptoPrevio.Length >= 4)
-                                            {
-                                                if (ConceptoPrevio.Substring(0, 4).ToUpper() == "OTRO")
-                                                {
-
-                                                    break;
-                                                }
-                                            }
-                                        }
-
-                                        row--;
-                                    }
-                                }
-
-                            }
-                            else
-                            {
-                                while (row > 0)
-                                {
-                                    objRange = (Excel.Range)sheet.Cells[row, 2];
-                                    ConceptoPrevio = objRange.get_Value(Type.Missing);
-                                    if (ConceptoPrevio != null)
-                                    {
-                                        ConceptoPrevio = ConceptoPrevio.ToString();
-                                        if (ConceptoPrevio.Length >= 4)
-                                        {
-                                            if (ConceptoPrevio.Substring(0, 4).ToUpper() == "OTRO")
-                                            {
-
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    row--;
-                                }
-
-                            }
-                        }
-                        else
-                        {
-                            while (row > 0)
-                            {
-                                objRange = (Excel.Range)sheet.Cells[row, 2];
-                                ConceptoPrevio = objRange.get_Value(Type.Missing);
-                                if (ConceptoPrevio != null)
-                                {
-                                    ConceptoPrevio = ConceptoPrevio.ToString();
-                                    if (ConceptoPrevio.Length >= 4)
-                                    {
-                                        if (ConceptoPrevio.Substring(0, 4).ToUpper() == "OTRO")
-                                        {
-
-                                            break;
-                                        }
-                                    }
-                                }
-                                row--;
-                            }
-
-                        }
-
-                        Excel.Range objRangeJ = ((Excel.Range)sheet.Cells[FilaPadre[0], 1]);
-                        objRangeJ.Select();
-
-                    }
-                    catch (Exception ex)
-                    {
-
-                        MessageBox.Show(ex.Message);
-                    }
-
+                    Excel.Range objRangeJ = ((Excel.Range)sheet.Cells[FilaPadre[0], 1]);
+                    objRangeJ.Select();
                     try
                     { // limpio si hay error en la formula
                         Excel.Range objRangeI = ((Excel.Range)sheet.Cells[row, 1]).SpecialCells(Excel.XlCellType.xlCellTypeFormulas, Excel.XlSpecialCellsValue.xlErrors);//obten las celdas con errores

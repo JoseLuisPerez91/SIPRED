@@ -179,6 +179,7 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="BusinessLogic.cs" />
     <Compile Include="frmNewExplicaciones.cs">
       <SubType>Form</SubType>
     </Compile>
