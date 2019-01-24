@@ -7,24 +7,23 @@ using System.Data.SqlClient;
 
 namespace ExcelAddIn.Access {
     public class aSerializados : Connection {
-        KeyValuePair<KeyValuePair<bool, string>, object> GetJson(string _Store) {
-            return ExecuteScalar(_Store);
-        }
+        public aSerializados() { }
 
-        protected KeyValuePair<KeyValuePair<bool, string>, object> ObtenerCruces() {
-            return GetJson("[dbo].[spObtenerCruces]");
+        protected KeyValuePair<KeyValuePair<bool, string>, object> ObtenerCruces(int _IdTipoPlantilla) {
+            SqlParameter[] _Parameters = new SqlParameter[] { new SqlParameter("@pIdTipoPlantilla", _IdTipoPlantilla) };
+            return ExecuteScalar("[dbo].[spObtenerCruces]", _Parameters);
         }
 
         protected KeyValuePair<KeyValuePair<bool, string>, object> ObtenerComprobaciones() {
-            return GetJson("[dbo].[spObtenerComprobaciones]");
+            return ExecuteScalar("[dbo].[spObtenerComprobaciones]");
         }
 
         protected KeyValuePair<KeyValuePair<bool, string>, object> ObtenerTiposPlantillas() {
-            return GetJson("[dbo].[spObtenerTiposPlantillas]");
+            return ExecuteScalar("[dbo].[spObtenerTiposPlantillas]");
         }
 
         protected KeyValuePair<KeyValuePair<bool, string>, object> ObtenerPlantillas() {
-            return GetJson("[dbo].[spObtenerPlantillas]");
+            return ExecuteScalar("[dbo].[spObtenerPlantillas]");
         }
 
         protected KeyValuePair<KeyValuePair<bool, string>, object> ObtenerArchivoPlantilla(int _IdPlantilla) {

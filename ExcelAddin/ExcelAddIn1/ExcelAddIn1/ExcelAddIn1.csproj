@@ -196,6 +196,12 @@
     <Compile Include="Base.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Cruce.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cruce.Designer.cs">
+      <DependentUpon>Cruce.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoadTemplate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -217,6 +223,9 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <EmbeddedResource Include="Cruce.resx">
+      <DependentUpon>Cruce.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoadTemplate.resx">
       <DependentUpon>LoadTemplate.cs</DependentUpon>
     </EmbeddedResource>

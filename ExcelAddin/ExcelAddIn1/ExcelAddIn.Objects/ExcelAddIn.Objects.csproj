@@ -57,6 +57,7 @@
     <Compile Include="oBase.cs" />
     <Compile Include="oCelda.cs" />
     <Compile Include="oComprobacion.cs" />
+    <Compile Include="oCruce.cs" />
     <Compile Include="oPlantilla.cs" />
     <Compile Include="oTipoPlantilla.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
