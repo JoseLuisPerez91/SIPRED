@@ -11,6 +11,7 @@ using System.IO;
 using OfficeOpenXml;
 using Newtonsoft.Json;
 using ExcelAddIn.Objects;
+using ExcelAddIn.Logic;
 //using ExcelAddIn1.Assemblers;
 
 namespace ExcelAddIn1 {
@@ -27,7 +28,7 @@ namespace ExcelAddIn1 {
         }
 
         private void btnCrear_Click(object sender, EventArgs e) {
-            oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>($"{Environment.CurrentDirectory}\\jsons\\Templates.json");
+            oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>($"{Environment.CurrentDirectory}\\jsons\\Plantillas.json");
             int _IdTemplateType = (int)cmbTipo.SelectedValue, _Year = (int)cmbAnio.SelectedValue;
             oPlantilla _Template = _Templates.FirstOrDefault(o => o.IdTipoPlantilla == _IdTemplateType && o.Anio == _Year);
             if(_Template != null) {
@@ -35,96 +36,33 @@ namespace ExcelAddIn1 {
                 return;
             }
             fbdTemplate.ShowDialog();
-            sfdTemplate.OpenFile();
-            if(fbdTemplate.SelectedPath == "") {
+            string _Path = fbdTemplate.SelectedPath;
+            if(_Path == "") {
                 MessageBox.Show("Debe especificar un ruta", "Ruta Invalida", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            string _Path = fbdTemplate.SelectedPath;
             string _newTemplate = $"{_Path}\\{((oTipoPlantilla)cmbTipo.SelectedItem).Clave}-{cmbAnio.SelectedValue.ToString()}-{DateTime.Now.ToString("ddMMyyyyHHmmss")}.xlsm";
-            string _currentTemplate = $"{Environment.CurrentDirectory}\\templates\\{_Template.Nombre}";
-            Microsoft.Office.Interop.Excel.Application _current = new Microsoft.Office.Interop.Excel.Application();
-            Microsoft.Office.Interop.Excel.Workbook _workbook = _current.Workbooks.Open(_currentTemplate, Microsoft.Office.Interop.Excel.XlUpdateLinks.xlUpdateLinksNever, true, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-            _workbook.SaveAs(_newTemplate, Microsoft.Office.Interop.Excel.XlFileFormat.xlExcel12, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-            _workbook.Close(false, Type.Missing, Type.Missing);
-            _current.Quit();
-            Globals.ThisAddIn.Application.Visible = true;
-            Globals.ThisAddIn.Application.Workbooks.Open(_newTemplate);
-            InicializarComprobaciones(_Path);
+            GenerarArchivo(_Template, _newTemplate);
         }
 
-        void InicializarComprobaciones(string _TemplateFile) {
-            oComprobacion[] _Comprobaciones = Assembler.LoadJson<oComprobacion[]>($"{Environment.CurrentDirectory}\\jsons\\Comprobaciones.json");
-            FileInfo _Excel = new FileInfo(_TemplateFile);
+        protected static void GenerarArchivo(oPlantilla _Template, string _DestinationPath) {
+            string _Path = ExcelAddIn.Access.Configuration.Path;
+            oComprobacion[] _Comprobaciones = Assembler.LoadJson<oComprobacion[]>($"{_Path}\\jsons\\Comprobaciones.json");
+            FileInfo _Excel = new FileInfo($"{_Path}\\templates\\{_Template.Nombre}");
             using(ExcelPackage _package = new ExcelPackage(_Excel)) {
-                foreach(oComprobacion _Comprobacion in _Comprobaciones) {
-                    _Comprobacion.setCeldas();
+                foreach(oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == _Template.IdTipoPlantilla).ToArray()) {
                     ExcelWorksheet _workSheet = _package.Workbook.Worksheets[_Comprobacion.Destino.Anexo];
-                    int _maxValue = _workSheet.Dimension.Rows + 1;
-                    int _maxRow = (_workSheet.Dimension.Rows / 2) + (_workSheet.Dimension.Rows % 2);
-                    for(int i = 1; i <= _maxRow; i++) {
-                        _Comprobacion.Destino.Fila = (_workSheet.Cells[i, 1].Text == _Comprobacion.Destino.Indice) ? i : _Comprobacion.Destino.Fila;
-                        _Comprobacion.Destino.Fila = (_workSheet.Cells[(_maxValue - i), 1].Text == _Comprobacion.Destino.Indice) ? _maxValue - i : _Comprobacion.Destino.Fila;
-                        if(_Comprobacion.Destino.Fila > -1) {
-                            oCelda[] _Celdas = _Comprobacion.Celdas.Where(o => o.Indice == _Comprobacion.Destino.Indice && o.Anexo == _Comprobacion.Destino.Anexo).ToArray();
-                            oCelda[] _cCeldas = _Comprobacion.CeldasCondicion.Where(o => o.Indice == _Comprobacion.Destino.Indice && o.Anexo == _Comprobacion.Destino.Anexo).ToArray();
-                            _Comprobacion.Destino.setCeldaExcel(_workSheet.Cells[_Comprobacion.Destino.Fila, _Comprobacion.Destino.Columna], "");
-                            foreach(oCelda _Celda in _Celdas) {
-                                _Celda.Fila = _Comprobacion.Destino.Fila;
-                                _Celda.setCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna], _Comprobacion.Destino.Anexo);
-                            }
-                            foreach(oCelda _Celda in _cCeldas) {
-                                _Celda.Fila = _Comprobacion.Destino.Fila;
-                                _Celda.setCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna], _Comprobacion.Destino.Anexo);
-                            }
-                            oCelda[] _Faltantes = _Comprobacion.Celdas.Where(o => o.Fila == -1).ToArray();
-                            foreach(oCelda _Faltante in _Faltantes) {
-                                oCelda _Result = _Comprobaciones.Where(o => o.Destino != null && o.Destino.Indice == _Faltante.Indice && o.Destino.Anexo == _Faltante.Anexo.ToUpper()).Select(o => o.Destino).FirstOrDefault();
-                                if(_Result != null) {
-                                    _Faltante.Fila = _Result.Fila;
-                                    _Faltante.setCeldaExcel(_workSheet.Cells[_Faltante.Fila, _Faltante.Columna], _Comprobacion.Destino.Anexo);
-                                }
-                                if(_Result == null) {
-                                    ExcelWorksheet _ws = _package.Workbook.Worksheets[_Faltante.Anexo];
-                                    int _mv = _ws.Dimension.Rows + 1;
-                                    int _mr = (_ws.Dimension.Rows / 2) + (_ws.Dimension.Rows % 2);
-                                    for(int j = 1; j <= _mr; j++) {
-                                        _Faltante.Fila = (_ws.Cells[j, 1].Text == _Faltante.Indice) ? j : _Faltante.Fila;
-                                        _Faltante.Fila = (_ws.Cells[(_mv - j), 1].Text == _Faltante.Indice) ? _mv - j : _Faltante.Fila;
-                                        if(_Faltante.Fila > -1) {
-                                            _Faltante.setCeldaExcel(_ws.Cells[_Faltante.Fila, _Faltante.Columna], _Comprobacion.Destino.Anexo);
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            oCelda[] _cFaltantes = _Comprobacion.CeldasCondicion.Where(o => o.Fila == -1).ToArray();
-                            foreach(oCelda _Faltante in _cFaltantes) {
-                                oCelda _Result = _Comprobaciones.Where(o => o.Destino != null && o.Destino.Indice == _Faltante.Indice && o.Destino.Anexo == _Faltante.Anexo.ToUpper()).Select(o => o.Destino).FirstOrDefault();
-                                if(_Result != null) {
-                                    _Faltante.Fila = _Result.Fila;
-                                    _Faltante.setCeldaExcel(_workSheet.Cells[_Faltante.Fila, _Faltante.Columna], _Comprobacion.Destino.Anexo);
-                                }
-                                if(_Result == null) {
-                                    ExcelWorksheet _ws = _package.Workbook.Worksheets[_Faltante.Anexo];
-                                    int _mv = _ws.Dimension.Rows + 1;
-                                    int _mr = (_ws.Dimension.Rows / 2) + (_ws.Dimension.Rows % 2);
-                                    for(int j = 1; j <= _mr; j++) {
-                                        _Faltante.Fila = (_ws.Cells[j, 1].Text == _Faltante.Indice) ? j : _Faltante.Fila;
-                                        _Faltante.Fila = (_ws.Cells[(_mv - j), 1].Text == _Faltante.Indice) ? _mv - j : _Faltante.Fila;
-                                        if(_Faltante.Fila > -1) {
-                                            _Faltante.setCeldaExcel(_ws.Cells[_Faltante.Fila, _Faltante.Columna], _Comprobacion.Destino.Anexo);
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            break;
-                        }
-                    }
-                    _Comprobacion.setFormulaExcel();
+                    if(_Comprobacion.EsValida() && _Comprobacion.EsFormula())
+                        _workSheet.Cells[_Comprobacion.Destino.CeldaExcel].Formula = _Comprobacion.FormulaExcel;
+                    else if(_Comprobacion.EsValida() && !_Comprobacion.EsFormula())
+                        _workSheet.Cells[_Comprobacion.Destino.CeldaExcel].Value = _Comprobacion.FormulaExcel;
                 }
+                _package.Workbook.CreateVBAProject();
+                byte[] _NewTemplate = _package.GetAsByteArray();
+                File.WriteAllBytes(_DestinationPath, _NewTemplate);
             }
+            Globals.ThisAddIn.Application.Visible = true;
+            Globals.ThisAddIn.Application.Workbooks.Open(_DestinationPath);
         }
     }
 }

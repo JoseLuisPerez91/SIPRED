@@ -19,6 +19,9 @@ namespace ExcelAddIn.Access {
 
     public class Connection {
         string _ConnectionString => string.Format(Configuration.ConnectionString, Configuration.Server, Configuration.DataBase, Configuration.User, Configuration.Password);
+
+        protected List<string> _Messages = new List<string>();
+
         public Connection() { }
 
         object Execute(string _Store, ExecutionType _Type, params SqlParameter[] _Parameters) {

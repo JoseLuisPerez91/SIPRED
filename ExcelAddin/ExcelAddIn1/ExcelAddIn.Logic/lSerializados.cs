@@ -5,56 +5,167 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using System.IO;
+using Newtonsoft.Json;
+using OfficeOpenXml;
 using ExcelAddIn.Objects;
 using ExcelAddIn.Access;
 
 namespace ExcelAddIn.Logic {
     public class lSerializados : aSerializados {
-        string _Path = Access.Configuration.Path;
-
         public lSerializados() { }
 
-        public KeyValuePair<bool, string> ObtenerSerializados() {
-            return new KeyValuePair<bool, string>();
+        public KeyValuePair<bool, string[]> ObtenerSerializados() {
+            KeyValuePair<bool, string[]> _TiposPlantillas = ObtenerTiposPlantillas();
+            KeyValuePair<bool, string[]> _Cruces = ObtenerCruces();
+            KeyValuePair<bool, string[]> _Plantillas = ObtenerPlantillas();
+            KeyValuePair<bool, string[]> _Comprobaciones = ObtenerComprobaciones();
+            bool _Key = (!_TiposPlantillas.Key || !_Cruces.Key || !_Plantillas.Key || !_Comprobaciones.Key);
+            _Messages = new List<string>();
+            _Messages.AddRange(_TiposPlantillas.Value);
+            _Messages.AddRange(_Cruces.Value);
+            _Messages.AddRange(_Plantillas.Value);
+            _Messages.AddRange(_Comprobaciones.Value);
+
+            return new KeyValuePair<bool, string[]>(_Key, _Messages.ToArray());
         }
 
-        new KeyValuePair<bool, string> ObtenerTiposPlantillas() {
+        new KeyValuePair<bool, string[]> ObtenerTiposPlantillas() {
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerTiposPlantillas();
             if(_result.Key.Key) {
                 string _JsonData = (string)_result.Value;
-                File.WriteAllText($"{_Path}\\jsons\\TiposPlantillas.json", _JsonData);
-                return new KeyValuePair<bool, string>(true, "Se generó correctamente el archivo json para los tipos de plantillas.");
-            }
-            return _result.Key;
+                File.WriteAllText($"{Access.Configuration.Path}\\jsons\\TiposPlantillas.json", _JsonData);
+                return new KeyValuePair<bool, string[]>(true, new string[] { "Se generó correctamente el archivo json para los tipos de plantillas." });
+            } else { }
+            return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
 
-        new KeyValuePair<bool, string> ObtenerCruces() {
+        new KeyValuePair<bool, string[]> ObtenerCruces() {
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerCruces();
             if(_result.Key.Key) {
                 string _JsonData = (string)_result.Value;
-                File.WriteAllText($"{_Path}\\jsons\\Cruces.json", _JsonData);
-                return new KeyValuePair<bool, string>(true, "Se generó correctamente el archivo json para los cruces.");
+                File.WriteAllText($"{Access.Configuration.Path}\\jsons\\Cruces.json", _JsonData);
+                return new KeyValuePair<bool, string[]>(true, new string[] { "Se generó correctamente el archivo json para los cruces." });
             }
-            return _result.Key;
+            return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
 
-        new KeyValuePair<bool, string> ObtenerPlantillas() {
+        new KeyValuePair<bool, string[]> ObtenerPlantillas() {
+            _Messages = new List<string>();
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerPlantillas();
             if(_result.Key.Key) {
-                string _JsonData = (string)_result.Value, _FullPath = $"{_Path}\\jsons\\Plantillas.json";
-                File.WriteAllText(_FullPath, _JsonData);
-                oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>(_FullPath);
+                string _JsonData = (string)_result.Value, _FullPath = $"{Access.Configuration.Path}\\jsons\\Plantillas.json";
+                oPlantilla[] _Templates = JsonConvert.DeserializeObject<oPlantilla[]>(_JsonData);
                 foreach(oPlantilla _Template in _Templates) {
                     KeyValuePair<KeyValuePair<bool, string>, object> _resultFile = base.ObtenerArchivoPlantilla(_Template.IdPlantilla);
                     if(_resultFile.Key.Key) {
                         byte[] _TemplateFile = (byte[])_resultFile.Value;
-                        File.WriteAllBytes($"{_Path}\\templates\\{_Template.Nombre}", _TemplateFile);
-                        return new KeyValuePair<bool, string>(true, $"Se generó correctamente el archivo de la plantilla {_Template.Nombre}.");
+                        try {
+                            File.WriteAllBytes($"{Access.Configuration.Path}\\templates\\{_Template.Nombre}", _TemplateFile);
+                        } catch(Exception _ex) {
+                            _Messages.Add(_ex.InnerException?.Message ?? _ex.Message);
+                            _Messages.Add(_ex.InnerException?.StackTrace ?? _ex.StackTrace);
+                        }
                     }
                 }
-                return new KeyValuePair<bool, string>(true, "Se generó correctamente el archivo json para las plantillas.");
+                if(_Messages.Count() == 0) {
+                    File.WriteAllText(_FullPath, _JsonData);
+                    _Messages.Add("Se generó correctamente el archivo json para las plantillas.");
+                    return new KeyValuePair<bool, string[]>(true, _Messages.ToArray());
+                } else {
+                    _Messages.Add("Ocurrio un error al momento de generar el archivo json de las Plantillas.");
+                    return new KeyValuePair<bool, string[]>(false, _Messages.ToArray());
+                }
             }
-            return _result.Key;
+            return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
+        }
+
+        new KeyValuePair<bool, string[]> ObtenerComprobaciones() {
+            KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerComprobaciones();
+            if(_result.Key.Key) {
+                string _JsonData = (string)_result.Value, _FullPath = $"{Access.Configuration.Path}\\jsons\\Comprobaciones.json";
+                oComprobacion[] _Comprobaciones = JsonConvert.DeserializeObject<oComprobacion[]>(_JsonData);
+                string _JsonComprobaciones = InicializarComprobaciones(_Comprobaciones);
+                File.WriteAllText(_FullPath, _JsonComprobaciones);
+                return new KeyValuePair<bool, string[]>(true, new string[] { "Se generó correctamente el archivo json de las comprobaciones." });
+            }
+            return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
+        }
+
+        string InicializarComprobaciones(oComprobacion[] _Comprobaciones) {
+            oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>($"{Access.Configuration.Path}\\jsons\\Plantillas.json");
+            foreach(oPlantilla _Template in _Templates) {
+                FileInfo _Excel = new FileInfo($"{Access.Configuration.Path}\\templates\\{_Template.Nombre}");
+                using(ExcelPackage _package = new ExcelPackage(_Excel)) {
+                    foreach(oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == _Template.IdTipoPlantilla).ToArray()) {
+                        _Comprobacion.setCeldas();
+                        ExcelWorksheet _workSheet = _package.Workbook.Worksheets[_Comprobacion.Destino.Anexo];
+                        int _maxValue = _workSheet.Dimension.Rows + 1;
+                        int _maxRow = (_workSheet.Dimension.Rows / 2) + (_workSheet.Dimension.Rows % 2);
+                        for(int i = 1; i <= _maxRow; i++) {
+                            _Comprobacion.Destino.Fila = (_workSheet.Cells[i, 1].Text == _Comprobacion.Destino.Indice) ? i : _Comprobacion.Destino.Fila;
+                            _Comprobacion.Destino.Fila = (_workSheet.Cells[(_maxValue - i), 1].Text == _Comprobacion.Destino.Indice) ? _maxValue - i : _Comprobacion.Destino.Fila;
+                            if(_Comprobacion.Destino.Fila > -1) {
+                                oCelda[] _Celdas = _Comprobacion.Celdas.Where(o => o.Indice == _Comprobacion.Destino.Indice && o.Anexo == _Comprobacion.Destino.Anexo).ToArray();
+                                oCelda[] _cCeldas = _Comprobacion.CeldasCondicion.Where(o => o.Indice == _Comprobacion.Destino.Indice && o.Anexo == _Comprobacion.Destino.Anexo).ToArray();
+                                _Comprobacion.Destino.setCeldaExcel(_workSheet.Cells[_Comprobacion.Destino.Fila, _Comprobacion.Destino.Columna], "");
+                                foreach(oCelda _Celda in _Celdas) {
+                                    _Celda.Fila = _Comprobacion.Destino.Fila;
+                                    _Celda.setCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna], _Comprobacion.Destino.Anexo);
+                                }
+                                foreach(oCelda _Celda in _cCeldas) {
+                                    _Celda.Fila = _Comprobacion.Destino.Fila;
+                                    _Celda.setCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna], _Comprobacion.Destino.Anexo);
+                                }
+                                oCelda[] _Faltantes = _Comprobacion.Celdas.Where(o => o.Fila == -1).ToArray();
+                                foreach(oCelda _Faltante in _Faltantes) {
+                                    oCelda _Result = _Comprobaciones.Where(o => o.Destino != null && o.Destino.Indice == _Faltante.Indice && o.Destino.Anexo == _Faltante.Anexo.ToUpper()).Select(o => o.Destino).FirstOrDefault();
+                                    if(_Result != null) {
+                                        _Faltante.Fila = _Result.Fila;
+                                        _Faltante.setCeldaExcel(_workSheet.Cells[_Faltante.Fila, _Faltante.Columna], _Comprobacion.Destino.Anexo);
+                                    }
+                                    if(_Result == null) {
+                                        ExcelWorksheet _ws = _package.Workbook.Worksheets[_Faltante.Anexo];
+                                        int _mv = _ws.Dimension.Rows + 1;
+                                        int _mr = (_ws.Dimension.Rows / 2) + (_ws.Dimension.Rows % 2);
+                                        for(int j = 1; j <= _mr; j++) {
+                                            _Faltante.Fila = (_ws.Cells[j, 1].Text == _Faltante.Indice) ? j : _Faltante.Fila;
+                                            _Faltante.Fila = (_ws.Cells[(_mv - j), 1].Text == _Faltante.Indice) ? _mv - j : _Faltante.Fila;
+                                            if(_Faltante.Fila > -1) {
+                                                _Faltante.setCeldaExcel(_ws.Cells[_Faltante.Fila, _Faltante.Columna], _Comprobacion.Destino.Anexo);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                oCelda[] _cFaltantes = _Comprobacion.CeldasCondicion.Where(o => o.Fila == -1).ToArray();
+                                foreach(oCelda _Faltante in _cFaltantes) {
+                                    oCelda _Result = _Comprobaciones.Where(o => o.Destino != null && o.Destino.Indice == _Faltante.Indice && o.Destino.Anexo == _Faltante.Anexo.ToUpper()).Select(o => o.Destino).FirstOrDefault();
+                                    if(_Result != null) {
+                                        _Faltante.Fila = _Result.Fila;
+                                        _Faltante.setCeldaExcel(_workSheet.Cells[_Faltante.Fila, _Faltante.Columna], _Comprobacion.Destino.Anexo);
+                                    }
+                                    if(_Result == null) {
+                                        ExcelWorksheet _ws = _package.Workbook.Worksheets[_Faltante.Anexo];
+                                        int _mv = _ws.Dimension.Rows + 1;
+                                        int _mr = (_ws.Dimension.Rows / 2) + (_ws.Dimension.Rows % 2);
+                                        for(int j = 1; j <= _mr; j++) {
+                                            _Faltante.Fila = (_ws.Cells[j, 1].Text == _Faltante.Indice) ? j : _Faltante.Fila;
+                                            _Faltante.Fila = (_ws.Cells[(_mv - j), 1].Text == _Faltante.Indice) ? _mv - j : _Faltante.Fila;
+                                            if(_Faltante.Fila > -1) {
+                                                _Faltante.setCeldaExcel(_ws.Cells[_Faltante.Fila, _Faltante.Columna], _Comprobacion.Destino.Anexo);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                        _Comprobacion.setFormulaExcel();
+                    }
+                }
+            }
+            return JsonConvert.SerializeObject(_Comprobaciones);
         }
     }
 }
