@@ -87,18 +87,23 @@ namespace ExcelAddIn1
                     {
                         objRange = (Excel.Range)ActiveWorksheet.Cells[NroFilaPrincipal, 2];
                         var ConceptoPrevio = objRange.get_Value(Type.Missing);
+                        List<Concepto> ConceptVal = new List<Concepto>();
+                        ConceptVal = ExcelAddIn1.BusinessLogic.DameConceptosValidos();
+                        bool CncValido = false;
                         if (ConceptoPrevio != null)
                         {
                             ConceptoPrevio = ConceptoPrevio.ToString();
-                            if (ConceptoPrevio.Length >= 4)
-                            {
-                                if (ConceptoPrevio.Substring(0, 4).ToUpper() == "OTRO")
+
+                           
+                                CncValido = ExcelAddIn1.BusinessLogic.EsConceptoValido(ConceptoPrevio);
+
+                                if (CncValido)  //(ConceptoPrevio.Substring(0, 4).ToUpper() == "OTRO") 
                                 {
                                     NroFilaPrincipal = objRange.Row;
                                     NroColPrincipal = objRange.Column;
                                     if ((NroFilaPrincipal - 1) > 0)
                                     {
-                                        // objRange = (Excel.Range)ActiveWorksheet.Cells[NroFilaPrincipal - 1, Type.Missing]; //Verifico que la fila anterior tenga formula
+                                        
                                         var RangeConFr = ActiveWorksheet.get_Range(string.Format("{0}:{0}", NroFilaPrincipal - 1, Type.Missing));
                                         iTotalColumns = ActiveWorksheet.UsedRange.Columns.Count;
 
@@ -117,7 +122,7 @@ namespace ExcelAddIn1
                                 }
                                 else
                                     MessageBox.Show("No es posible agregar índices debajo del índice " + IndicePrevio, "Agregar índice", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
+                            
                         }
 
 

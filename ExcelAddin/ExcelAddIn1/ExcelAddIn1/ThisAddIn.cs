@@ -39,7 +39,7 @@ namespace ExcelAddIn1
             xlSht.Cells[3, 2] = "OTROS A CARGO";
             xlSht.Cells[4, 1] = "01080034000000";
             xlSht.Cells[4, 2] = "EFECTO DE REEXPRESION";
-           
+            xlSht.Name = "ANEXO 6";
             RemoveCutCopyPasteMenuItems();//proteger
 
             Globals.ThisAddIn.Application.SheetSelectionChange += new Excel.AppEvents_SheetSelectionChangeEventHandler(Application_SheetSelectionChange);

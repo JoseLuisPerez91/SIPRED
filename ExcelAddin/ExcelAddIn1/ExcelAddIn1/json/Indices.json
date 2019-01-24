@@ -1,0 +1,35 @@
+{
+  "Subtotales": [
+    {
+      "Hoja": "ANEXO 6",
+      "Columna": "C"
+    },
+    {
+      "Hoja": "ANEXO 6",
+      "Columna": "D"
+    },
+    {
+      "Hoja": "ANEXO 6",
+      "Columna": "E"
+    },
+    {
+      "Hoja": "ANEXO 6",
+      "Columna": "F"
+    }
+  ],
+
+  "Conceptos": [
+    {
+      "Descripcion": "OTRO",
+       "Caracteres": 4
+    },
+    {
+      "Descripcion": "(",
+      "Caracteres": 1
+    },
+    {
+      "Descripcion": "*",
+      "Caracteres": 1
+    }
+  ]
+} 

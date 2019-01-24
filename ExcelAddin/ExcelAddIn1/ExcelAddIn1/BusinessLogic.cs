@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
 using Office = Microsoft.Office.Core;
 using Microsoft.Office.Tools.Excel;
+using System.IO;
+using Newtonsoft.Json;
+using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace ExcelAddIn1
 {
@@ -76,7 +80,7 @@ namespace ExcelAddIn1
             int NroRowx = 0;
 
             CantRango = CantRango + CantExpl;
-
+            int NroPrincipalAux = DameRangoPrincipal(NroPrincipal, xlSht);
             while (i <= CantReg)
             {
 
@@ -94,15 +98,13 @@ namespace ExcelAddIn1
 
 
 
-                xlSht.Cells[NroRow + i, 1] = "0" + Convert.ToString(indiceNvo);
-                sheet.Controls.Remove("IA_0" + indiceNvo);
-                AddNamedRange(NroRow + i, 1, "IA_0" + Convert.ToString(indiceNvo));
+                
 
 
 
                 if (ConFormula)
                 {
-                    var rangeall = xlSht.get_Range(string.Format("{0}:{0}", NroRow - i, Type.Missing));
+                    var rangeall = xlSht.get_Range(string.Format("{0}:{0}", NroPrincipalAux - 1, Type.Missing));
                     var rangeaCopy = xlSht.get_Range(string.Format("{0}:{0}", NroRow + i, Type.Missing));
                     iTotalColumns = xlSht.UsedRange.Columns.Count;
                     rangeall.Copy();
@@ -121,7 +123,9 @@ namespace ExcelAddIn1
                         k = k + 1;
                     }
                 }
-
+                xlSht.Cells[NroRow + i, 1] = "0" + Convert.ToString(indiceNvo);
+                sheet.Controls.Remove("IA_0" + indiceNvo);
+                AddNamedRange(NroRow + i, 1, "IA_0" + Convert.ToString(indiceNvo));
 
                 currentCell = (Excel.Range)xlSht.Cells[NroRow + i, 1];
                 IndicePrevio = currentCell.get_Value(Type.Missing).ToString();
@@ -163,6 +167,7 @@ namespace ExcelAddIn1
                     if (!FilasExplicacion.Contains(NroRowx + j))
                     {
                         //  NroRowx++;
+                        
                         indiceNvo = Convert.ToInt64(IndicePrevio) + 100;
 
                         xlSht.Cells[NroRowx + j, 1] = "0" + Convert.ToString(indiceNvo);
@@ -179,18 +184,22 @@ namespace ExcelAddIn1
             }
 
             
-            int NroPrincipalAux = DameRangoPrincipal(NroPrincipal, xlSht);
+           
+            List<Subtotal> ColumnasST = DameColumnasST();
+            Excel.Range Sum_Range = null;
+            int NroFinal = NroRow + CantReg + CantRango;
 
-            Excel.Range Sum_Range = xlSht.get_Range("C" + (NroPrincipalAux).ToString(), "C" + (NroPrincipalAux).ToString());
+            foreach (Subtotal ST in ColumnasST)
+            {
+                if (ST.Hoja == xlSht.Name)
+                {
+                    Sum_Range = xlSht.get_Range(ST.Columna + (NroPrincipalAux).ToString(), ST.Columna + (NroPrincipalAux).ToString());
+                    
+                    Sum_Range.Formula = "=sum(" + ST.Columna + (NroPrincipalAux + 1).ToString() + ":" + ST.Columna + (NroFinal).ToString();
+                }
+            }
 
-            Sum_Range.Formula = "=sum(C" + (NroPrincipalAux + 1).ToString() + ":C" + (NroRow + CantReg).ToString();
-
-
-
-            Sum_Range = xlSht.get_Range("D" + (NroPrincipalAux).ToString(), "D" + (NroPrincipalAux).ToString());
-
-            Sum_Range.Formula = "=sum(D" + (NroPrincipalAux + 1).ToString() + ":D" + (NroRow + CantReg).ToString();
-
+            
             Sum_Range = xlSht.get_Range("B" + (NroPrincipal).ToString(), "B" + (NroPrincipal).ToString());
 
             Sum_Range.Select();
@@ -243,7 +252,7 @@ namespace ExcelAddIn1
 
         }
 
-       public static int DameRangoPrincipal(int NroPrincipal, Excel.Worksheet xlSht)
+        public static int DameRangoPrincipal(int NroPrincipal, Excel.Worksheet xlSht)
         {
             int NroPrincipalAux = NroPrincipal;
             Excel.Range objRange = (Excel.Range)xlSht.Cells[NroPrincipal, 2];
@@ -251,10 +260,10 @@ namespace ExcelAddIn1
             if (ConceptoPrevio != null)
             {
                 ConceptoPrevio = ConceptoPrevio.ToString();
-                if (ConceptoPrevio.Length >= 4)
+
+                if  (EsConceptoValido(ConceptoPrevio))
                 {
-                    if (ConceptoPrevio.Substring(0, 4).ToUpper() != "OTRO")
-                    {
+                    
 
                         while (NroPrincipalAux > 0)
                         {
@@ -263,18 +272,13 @@ namespace ExcelAddIn1
                             if (ConceptoPrevio != null)
                             {
                                 ConceptoPrevio = ConceptoPrevio.ToString();
-                                if (ConceptoPrevio.Length >= 4)
-                                {
-                                    if (ConceptoPrevio.Substring(0, 4).ToUpper() == "OTRO")
-                                    {
-
-                                        break;
-                                    }
-                                }
+                           
+                               if (EsConceptoValido(ConceptoPrevio))
+                                   break;
                             }
                             NroPrincipalAux--;
                         }
-                    }
+                    
                 }
                 else
                 {
@@ -285,14 +289,9 @@ namespace ExcelAddIn1
                         if (ConceptoPrevio != null)
                         {
                             ConceptoPrevio = ConceptoPrevio.ToString();
-                            if (ConceptoPrevio.Length >= 4)
-                            {
-                                if (ConceptoPrevio.Substring(0, 4).ToUpper() == "OTRO")
-                                {
-
-                                    break;
-                                }
-                            }
+                            if (EsConceptoValido(ConceptoPrevio))
+                                break;
+                           
                         }
                         NroPrincipalAux--;
                     }
@@ -308,14 +307,9 @@ namespace ExcelAddIn1
                     if (ConceptoPrevio != null)
                     {
                         ConceptoPrevio = ConceptoPrevio.ToString();
-                        if (ConceptoPrevio.Length >= 4)
-                        {
-                            if (ConceptoPrevio.Substring(0, 4).ToUpper() == "OTRO")
-                            {
-
-                                break;
-                            }
-                        }
+                        if (EsConceptoValido(ConceptoPrevio))
+                            break;
+                        
                     }
                     NroPrincipalAux--;
                 }
@@ -325,5 +319,77 @@ namespace ExcelAddIn1
 
             return NroPrincipalAux;
         }
+
+        public static bool EsConceptoValido(string Concepto)
+        {
+            bool CncValido = false;
+            List<Concepto> ConceptVal = new List<Concepto>();
+            ConceptVal = ExcelAddIn1.BusinessLogic.DameConceptosValidos();
+
+            foreach (Concepto c in ConceptVal)
+            {
+                if (Concepto.Length >= c.Caracteres)
+                {
+                    if (Concepto.Substring(0, c.Caracteres).Contains(c.Descripcion))
+                    {
+                        CncValido = true;
+                        break;
+                    }
+                }
+
+            }
+            return CncValido;
+        }
+        public static List<Subtotal> DameColumnasST()
+        {
+            List<Subtotal> Subtotales = new List<Subtotal>();
+            var jsonFolder = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\json\\Indices.json");
+
+            string jsonstr = File.ReadAllText(jsonFolder);
+            var ser = JsonConvert.DeserializeObject<Rootobject>(jsonstr);
+
+            Subtotales = ser.Subtotales;
+           
+            return Subtotales;
+        }
+
+        public static List<Concepto> DameConceptosValidos()
+        {
+            List<Concepto> Conceptos = new List<Concepto>();
+            List<string> Desc = new List<string>();
+            var jsonFolder = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\json\\Indices.json");
+
+            string jsonstr = File.ReadAllText(jsonFolder);
+            var ser = JsonConvert.DeserializeObject<Rootobject>(jsonstr);
+
+            Conceptos = ser.Conceptos;
+            //foreach (Concepto item in Conceptos)
+            //{
+            //    Desc.Add(item.Descripcion);
+
+            //}
+            return Conceptos;
+        }
+
+    }
+
+    public class Subtotal
+    {
+       
+        public string Hoja;
+        public string Columna;
+    }
+
+    public class Concepto
+    {
+        public string Descripcion;
+        public int Caracteres;
+
+    }
+    public class Rootobject
+    {
+        public List<Subtotal> Subtotales { get; set; }
+        public List<Concepto> Conceptos { get; set; }
+
     }
 }
