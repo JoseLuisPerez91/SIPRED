@@ -42,14 +42,15 @@ namespace ExcelAddIn1 {
                 return;
             }
             string _newTemplate = $"{_Path}\\{((oTipoPlantilla)cmbTipo.SelectedItem).Clave}-{cmbAnio.SelectedValue.ToString()}-{DateTime.Now.ToString("ddMMyyyyHHmmss")}.xlsm";
-            GenerarArchivo(_Template, _newTemplate);
+            GenerarArchivo(_Template, _newTemplate, ((oTipoPlantilla)cmbTipo.SelectedItem).Clave);
         }
 
-        protected static void GenerarArchivo(oPlantilla _Template, string _DestinationPath) {
+        protected static void GenerarArchivo(oPlantilla _Template, string _DestinationPath, string _Tipo) {
             string _Path = ExcelAddIn.Access.Configuration.Path;
             oComprobacion[] _Comprobaciones = Assembler.LoadJson<oComprobacion[]>($"{_Path}\\jsons\\Comprobaciones.json");
             FileInfo _Excel = new FileInfo($"{_Path}\\templates\\{_Template.Nombre}");
             using(ExcelPackage _package = new ExcelPackage(_Excel)) {
+                _package.Workbook.Worksheets.Add(_Tipo);
                 foreach(oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == _Template.IdTipoPlantilla).ToArray()) {
                     ExcelWorksheet _workSheet = _package.Workbook.Worksheets[_Comprobacion.Destino.Anexo];
                     if(_Comprobacion.EsValida() && _Comprobacion.EsFormula())

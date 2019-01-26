@@ -9,9 +9,8 @@ namespace ExcelAddIn.Access {
     public class aSerializados : Connection {
         public aSerializados() { }
 
-        protected KeyValuePair<KeyValuePair<bool, string>, object> ObtenerCruces(int _IdTipoPlantilla) {
-            SqlParameter[] _Parameters = new SqlParameter[] { new SqlParameter("@pIdTipoPlantilla", _IdTipoPlantilla) };
-            return ExecuteScalar("[dbo].[spObtenerCruces]", _Parameters);
+        protected KeyValuePair<KeyValuePair<bool, string>, object> ObtenerCruces() {
+            return ExecuteScalar("[dbo].[spObtenerCruces]");
         }
 
         protected KeyValuePair<KeyValuePair<bool, string>, object> ObtenerComprobaciones() {

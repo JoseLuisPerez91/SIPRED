@@ -16,13 +16,13 @@ namespace ExcelAddIn.Logic {
 
         public KeyValuePair<bool, string[]> ObtenerSerializados() {
             KeyValuePair<bool, string[]> _TiposPlantillas = ObtenerTiposPlantillas();
-            //KeyValuePair<bool, string[]> _Cruces = ObtenerCruces();
+            KeyValuePair<bool, string[]> _Cruces = ObtenerCruces();
             KeyValuePair<bool, string[]> _Plantillas = ObtenerPlantillas();
             KeyValuePair<bool, string[]> _Comprobaciones = ObtenerComprobaciones();
             bool _Key = (!_TiposPlantillas.Key || /*!_Cruces.Key ||*/ !_Plantillas.Key || !_Comprobaciones.Key);
             _Messages = new List<string>();
             _Messages.AddRange(_TiposPlantillas.Value);
-            //_Messages.AddRange(_Cruces.Value);
+            _Messages.AddRange(_Cruces.Value);
             _Messages.AddRange(_Plantillas.Value);
             _Messages.AddRange(_Comprobaciones.Value);
 
@@ -39,14 +39,16 @@ namespace ExcelAddIn.Logic {
             return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
 
-        public new oCruce[] ObtenerCruces(int _IdTipoPlantilla) {
-            KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerCruces(_IdTipoPlantilla);
+        new KeyValuePair<bool, string[]> ObtenerCruces() {
+            KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerCruces();
             if(_result.Key.Key) {
                 string _JsonData = (string)_result.Value;
-                if(string.IsNullOrEmpty(_JsonData) || string.IsNullOrWhiteSpace(_JsonData)) return new oCruce[] { };
-                return JsonConvert.DeserializeObject<oCruce[]>(_JsonData);
+                if(string.IsNullOrEmpty(_JsonData) || string.IsNullOrWhiteSpace(_JsonData))
+                    return new KeyValuePair<bool, string[]>(false, new string[] { "No se encontro información para la generación de los cruces." });
+                File.WriteAllText($"{Access.Configuration.Path}\\jsons\\Cruces.json", _JsonData.Replace("\\\"", "\""));
+                return new KeyValuePair<bool, string[]>(true, new string[] { "Se generó correctamente el archivo json para los cruces." });
             }
-            return new oCruce[] { };
+            return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
 
         new KeyValuePair<bool, string[]> ObtenerPlantillas() {
