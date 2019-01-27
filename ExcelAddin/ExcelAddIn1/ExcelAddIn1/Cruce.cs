@@ -70,5 +70,10 @@ namespace ExcelAddIn1 {
                     MessageBox.Show("Archivo no valido, favor de generar el archivo mediante el AddIn D.SAT", "Información Incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
     }
 }

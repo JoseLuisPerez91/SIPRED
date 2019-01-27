@@ -28,24 +28,25 @@ namespace ExcelAddIn1 {
         }
 
         private void btnCrear_Click(object sender, EventArgs e) {
-            oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>($"{Environment.CurrentDirectory}\\jsons\\Plantillas.json");
+            string _Path = ExcelAddIn.Access.Configuration.Path;
+            oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>($"{_Path}\\jsons\\Plantillas.json");
             int _IdTemplateType = (int)cmbTipo.SelectedValue, _Year = (int)cmbAnio.SelectedValue;
             oPlantilla _Template = _Templates.FirstOrDefault(o => o.IdTipoPlantilla == _IdTemplateType && o.Anio == _Year);
-            if(_Template != null) {
+            if(_Template == null) {
                 MessageBox.Show("No existe una plantilla para el tipo seleccionado, favor de seleccionar otro tipo o contactar al administrador.", "Información Incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             fbdTemplate.ShowDialog();
-            string _Path = fbdTemplate.SelectedPath;
-            if(_Path == "") {
+            string _DestinationPath = fbdTemplate.SelectedPath;
+            if(_DestinationPath == "") {
                 MessageBox.Show("Debe especificar un ruta", "Ruta Invalida", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            string _newTemplate = $"{_Path}\\{((oTipoPlantilla)cmbTipo.SelectedItem).Clave}-{cmbAnio.SelectedValue.ToString()}-{DateTime.Now.ToString("ddMMyyyyHHmmss")}.xlsm";
+            string _newTemplate = $"{_DestinationPath}\\{((oTipoPlantilla)cmbTipo.SelectedItem).Clave}-{cmbAnio.SelectedValue.ToString()}-{DateTime.Now.ToString("ddMMyyyyHHmmss")}.xlsm";
             GenerarArchivo(_Template, _newTemplate, ((oTipoPlantilla)cmbTipo.SelectedItem).Clave);
         }
 
-        protected static void GenerarArchivo(oPlantilla _Template, string _DestinationPath, string _Tipo) {
+        protected void GenerarArchivo(oPlantilla _Template, string _DestinationPath, string _Tipo) {
             string _Path = ExcelAddIn.Access.Configuration.Path;
             oComprobacion[] _Comprobaciones = Assembler.LoadJson<oComprobacion[]>($"{_Path}\\jsons\\Comprobaciones.json");
             FileInfo _Excel = new FileInfo($"{_Path}\\templates\\{_Template.Nombre}");
@@ -53,6 +54,7 @@ namespace ExcelAddIn1 {
                 _package.Workbook.Worksheets.Add(_Tipo);
                 foreach(oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == _Template.IdTipoPlantilla).ToArray()) {
                     ExcelWorksheet _workSheet = _package.Workbook.Worksheets[_Comprobacion.Destino.Anexo];
+                    _Comprobacion.setFormulaExcel();
                     if(_Comprobacion.EsValida() && _Comprobacion.EsFormula())
                         _workSheet.Cells[_Comprobacion.Destino.CeldaExcel].Formula = _Comprobacion.FormulaExcel;
                     else if(_Comprobacion.EsValida() && !_Comprobacion.EsFormula())
@@ -64,6 +66,7 @@ namespace ExcelAddIn1 {
             }
             Globals.ThisAddIn.Application.Visible = true;
             Globals.ThisAddIn.Application.Workbooks.Open(_DestinationPath);
+            btnCancelar_Click(btnCancelar, null);
         }
     }
 }

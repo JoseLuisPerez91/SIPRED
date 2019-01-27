@@ -34,7 +34,7 @@ namespace ExcelAddIn1 {
         }
 
         private void btnCargar_Click(object sender, EventArgs e) {
-            oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>(System.Environment.CurrentDirectory + "\\jsons\\Plantillas.json");
+            oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>($"{ExcelAddIn.Access.Configuration.Path}\\jsons\\Plantillas.json");
             oPlantilla _Template = new oPlantilla("eduardo.perez") {
                 Anio = (int)cmbAnio.SelectedValue,
                 IdTipoPlantilla = (int)cmbTipoPlantilla.SelectedValue,

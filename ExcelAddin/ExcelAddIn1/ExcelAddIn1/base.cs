@@ -18,7 +18,7 @@ namespace ExcelAddIn1 {
         }
 
         internal void FillTemplateType(ComboBox _cmb) {
-            oTipoPlantilla[] _TemplatesTypes = ExcelAddIn.Objects.Assembler.LoadJson<oTipoPlantilla[]>($"{Environment.CurrentDirectory}\\jsons\\TiposPlantillas.json");
+            oTipoPlantilla[] _TemplatesTypes = ExcelAddIn.Objects.Assembler.LoadJson<oTipoPlantilla[]>($"{ExcelAddIn.Access.Configuration.Path}\\jsons\\TiposPlantillas.json");
             _cmb.Fill<oTipoPlantilla>(_TemplatesTypes, "IdTipoPlantilla", "FullName", new oTipoPlantilla() { IdTipoPlantilla = 0, Clave = "", Concepto = "Seleccione un Tipo de Plantilla" });
         }
     }

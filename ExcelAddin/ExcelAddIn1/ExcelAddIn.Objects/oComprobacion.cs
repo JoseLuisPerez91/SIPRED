@@ -9,7 +9,7 @@ namespace ExcelAddIn.Objects {
     public class oComprobacion {
         Regex regex = new Regex(@"\[.*?\]");
 
-        public oComprobacion() { }
+        public oComprobacion() { IdTipoPlantilla = 1; }
 
         public int IdComprobacion { get; set; }
         public int IdTipoPlantilla { get; set; }
@@ -19,7 +19,7 @@ namespace ExcelAddIn.Objects {
         public oCelda Destino { get; set; }
         public oCelda[] Celdas { get; set; }
         public oCelda[] CeldasCondicion { get; set; }
-        public string FormulaExcel { get; private set; }
+        public string FormulaExcel { get; set; }
 
         public bool EsFormula() => Celdas.Count() > 0 || CeldasCondicion.Count() > 0;
 

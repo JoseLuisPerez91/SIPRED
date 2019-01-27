@@ -37,6 +37,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ribbon2));
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
+            this.group2 = this.Factory.CreateRibbonGroup();
+            this.group3 = this.Factory.CreateRibbonGroup();
+            this.group4 = this.Factory.CreateRibbonGroup();
             this.btnNew = this.Factory.CreateRibbonButton();
             this.menu3 = this.Factory.CreateRibbonMenu();
             this.button13 = this.Factory.CreateRibbonButton();
@@ -45,13 +48,10 @@
             this.button11 = this.Factory.CreateRibbonButton();
             this.button12 = this.Factory.CreateRibbonButton();
             this.button2 = this.Factory.CreateRibbonButton();
-            this.group2 = this.Factory.CreateRibbonGroup();
             this.button3 = this.Factory.CreateRibbonButton();
             this.button4 = this.Factory.CreateRibbonButton();
-            this.group3 = this.Factory.CreateRibbonGroup();
             this.button6 = this.Factory.CreateRibbonButton();
             this.button5 = this.Factory.CreateRibbonButton();
-            this.group4 = this.Factory.CreateRibbonGroup();
             this.button7 = this.Factory.CreateRibbonButton();
             this.button8 = this.Factory.CreateRibbonButton();
             this.button9 = this.Factory.CreateRibbonButton();
@@ -79,6 +79,28 @@
             this.group1.Items.Add(this.button2);
             this.group1.Label = "HOJA DE TRABAJO";
             this.group1.Name = "group1";
+            // 
+            // group2
+            // 
+            this.group2.Items.Add(this.button3);
+            this.group2.Items.Add(this.button4);
+            this.group2.Label = "VERIFICACIONES";
+            this.group2.Name = "group2";
+            // 
+            // group3
+            // 
+            this.group3.Items.Add(this.button6);
+            this.group3.Items.Add(this.button5);
+            this.group3.Label = "HERRAMIENTAS SAT";
+            this.group3.Name = "group3";
+            // 
+            // group4
+            // 
+            this.group4.Items.Add(this.button7);
+            this.group4.Items.Add(this.button8);
+            this.group4.Items.Add(this.button9);
+            this.group4.Label = "ADMINISTRACIÓN";
+            this.group4.Name = "group4";
             // 
             // btnNew
             // 
@@ -147,13 +169,6 @@
             this.button2.Name = "button2";
             this.button2.ShowImage = true;
             // 
-            // group2
-            // 
-            this.group2.Items.Add(this.button3);
-            this.group2.Items.Add(this.button4);
-            this.group2.Label = "VERIFICACIONES";
-            this.group2.Name = "group2";
-            // 
             // button3
             // 
             this.button3.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -161,6 +176,7 @@
             this.button3.Label = "Cruces";
             this.button3.Name = "button3";
             this.button3.ShowImage = true;
+            this.button3.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button3_Click);
             // 
             // button4
             // 
@@ -169,13 +185,7 @@
             this.button4.Label = "Comprobaciones";
             this.button4.Name = "button4";
             this.button4.ShowImage = true;
-            // 
-            // group3
-            // 
-            this.group3.Items.Add(this.button6);
-            this.group3.Items.Add(this.button5);
-            this.group3.Label = "HERRAMIENTAS SAT";
-            this.group3.Name = "group3";
+            this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button4_Click);
             // 
             // button6
             // 
@@ -192,14 +202,6 @@
             this.button5.Label = "Convertir";
             this.button5.Name = "button5";
             this.button5.ShowImage = true;
-            // 
-            // group4
-            // 
-            this.group4.Items.Add(this.button7);
-            this.group4.Items.Add(this.button8);
-            this.group4.Items.Add(this.button9);
-            this.group4.Label = "ADMINISTRACIÓN";
-            this.group4.Name = "group4";
             // 
             // button7
             // 

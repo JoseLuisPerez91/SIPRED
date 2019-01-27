@@ -19,5 +19,17 @@ namespace ExcelAddIn1 {
             LoadTemplate _Template = new LoadTemplate();
             _Template.Show();
         }
+
+        private void button3_Click(object sender, RibbonControlEventArgs e)
+        {
+            Cruce cruce = new Cruce();
+            cruce.Show();
+        }
+
+        private void button4_Click(object sender, RibbonControlEventArgs e)
+        {
+            Nuevo _Comprobaciones = new Nuevo();
+            _Comprobaciones.Show();
+        }
     }
 }
