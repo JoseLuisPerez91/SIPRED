@@ -56,6 +56,7 @@
     <Compile Include="oAnio.cs" />
     <Compile Include="oBase.cs" />
     <Compile Include="oCelda.cs" />
+    <Compile Include="oCeldaCondicion.cs" />
     <Compile Include="oComprobacion.cs" />
     <Compile Include="oCruce.cs" />
     <Compile Include="oPlantilla.cs" />

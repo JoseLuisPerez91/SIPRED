@@ -16,7 +16,7 @@ namespace ExcelAddIn.Objects {
         public string Formula { get; set; }
         public string Condicion { get; set; }
         public oCelda[] CeldasFormula { get; private set; }
-        public oCelda[] CeldasCondicion { get; private set; }
+        public oCeldaCondicion[] CeldasCondicion { get; private set; }
         public string FormulaExcel { get; private set; }
         public string CondicionExcel { get; private set; }
         public string ResultadoFormula { get; set; }
@@ -24,11 +24,11 @@ namespace ExcelAddIn.Objects {
 
         public void setCeldas() {
             List<oCelda> _cFormulas = new List<oCelda>();
-            List<oCelda> _cCondicion = new List<oCelda>();
+            List<oCeldaCondicion> _cCondicion = new List<oCeldaCondicion>();
             MatchCollection _matchCF = regex.Matches(Formula);
             MatchCollection _matchCC = regex.Matches(Condicion);
             foreach(var _m in _matchCF) _cFormulas.Add(new oCelda(_m.ToString()));
-            foreach(var _m in _matchCC) _cCondicion.Add(new oCelda(_m.ToString()));
+            foreach(var _m in _matchCC) _cCondicion.Add(new oCeldaCondicion(_m.ToString()));
             CeldasFormula = _cFormulas.ToArray();
             CeldasCondicion = _cCondicion.ToArray();
         }
