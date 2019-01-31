@@ -37,24 +37,25 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ribbon2));
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
-            this.group2 = this.Factory.CreateRibbonGroup();
-            this.group3 = this.Factory.CreateRibbonGroup();
-            this.group4 = this.Factory.CreateRibbonGroup();
             this.btnNew = this.Factory.CreateRibbonButton();
-            this.menu2 = this.Factory.CreateRibbonMenu();
-            this.button2 = this.Factory.CreateRibbonButton();
-            this.button3 = this.Factory.CreateRibbonButton();
-            this.button4 = this.Factory.CreateRibbonButton();
-            this.button6 = this.Factory.CreateRibbonButton();
-            this.button5 = this.Factory.CreateRibbonButton();
-            this.button7 = this.Factory.CreateRibbonButton();
-            this.button8 = this.Factory.CreateRibbonButton();
-            this.button9 = this.Factory.CreateRibbonButton();
+            this.btnPrellenar = this.Factory.CreateRibbonButton();
+            this.btnIndice = this.Factory.CreateRibbonMenu();
+            this.btnAgregarIndice = this.Factory.CreateRibbonButton();
+            this.btnEliminarIndice = this.Factory.CreateRibbonButton();
+            this.btnExplicacion = this.Factory.CreateRibbonMenu();
             this.button11 = this.Factory.CreateRibbonButton();
             this.button12 = this.Factory.CreateRibbonButton();
-            this.menu3 = this.Factory.CreateRibbonMenu();
-            this.button13 = this.Factory.CreateRibbonButton();
-            this.button14 = this.Factory.CreateRibbonButton();
+            this.btnImprimir = this.Factory.CreateRibbonButton();
+            this.group2 = this.Factory.CreateRibbonGroup();
+            this.btnCruces = this.Factory.CreateRibbonButton();
+            this.group3 = this.Factory.CreateRibbonGroup();
+            this.btnConvertir = this.Factory.CreateRibbonButton();
+            this.btnConvertirMas = this.Factory.CreateRibbonButton();
+            this.btnTransferir = this.Factory.CreateRibbonButton();
+            this.group4 = this.Factory.CreateRibbonGroup();
+            this.btnPlantilla = this.Factory.CreateRibbonButton();
+            this.btnCrucesAdmin = this.Factory.CreateRibbonButton();
+            this.btnComprobacionesAdmin = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -74,33 +75,12 @@
             // group1
             // 
             this.group1.Items.Add(this.btnNew);
-            this.group1.Items.Add(this.menu3);
-            this.group1.Items.Add(this.menu2);
-            this.group1.Items.Add(this.button2);
+            this.group1.Items.Add(this.btnPrellenar);
+            this.group1.Items.Add(this.btnIndice);
+            this.group1.Items.Add(this.btnExplicacion);
+            this.group1.Items.Add(this.btnImprimir);
             this.group1.Label = "HOJA DE TRABAJO";
             this.group1.Name = "group1";
-            // 
-            // group2
-            // 
-            this.group2.Items.Add(this.button3);
-            this.group2.Items.Add(this.button4);
-            this.group2.Label = "VERIFICACIONES";
-            this.group2.Name = "group2";
-            // 
-            // group3
-            // 
-            this.group3.Items.Add(this.button6);
-            this.group3.Items.Add(this.button5);
-            this.group3.Label = "HERRAMIENTAS SAT";
-            this.group3.Name = "group3";
-            // 
-            // group4
-            // 
-            this.group4.Items.Add(this.button7);
-            this.group4.Items.Add(this.button8);
-            this.group4.Items.Add(this.button9);
-            this.group4.Label = "ADMINISTRACIÓN";
-            this.group4.Name = "group4";
             // 
             // btnNew
             // 
@@ -108,122 +88,190 @@
             this.btnNew.Image = ((System.Drawing.Image)(resources.GetObject("btnNew.Image")));
             this.btnNew.Label = "Nuevo";
             this.btnNew.Name = "btnNew";
-            this.btnNew.OfficeImageId = "HappyFace";
             this.btnNew.Position = this.Factory.RibbonPosition.BeforeOfficeId("TabView");
+            this.btnNew.ScreenTip = "Nueva hoja de trabajo";
             this.btnNew.ShowImage = true;
+            this.btnNew.SuperTip = "Crea una hoja de trabajo para capturar la información del cliente";
             this.btnNew.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnNew_Click);
             // 
-            // menu2
+            // btnPrellenar
             // 
-            this.menu2.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.menu2.Image = ((System.Drawing.Image)(resources.GetObject("menu2.Image")));
-            this.menu2.Items.Add(this.button11);
-            this.menu2.Items.Add(this.button12);
-            this.menu2.Label = "Explicación";
-            this.menu2.Name = "menu2";
-            this.menu2.ShowImage = true;
+            this.btnPrellenar.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnPrellenar.Image = ((System.Drawing.Image)(resources.GetObject("btnPrellenar.Image")));
+            this.btnPrellenar.Label = "Prellenar";
+            this.btnPrellenar.Name = "btnPrellenar";
+            this.btnPrellenar.Position = this.Factory.RibbonPosition.BeforeOfficeId("TabView");
+            this.btnPrellenar.ScreenTip = "Llenar hoja de trabajo";
+            this.btnPrellenar.ShowImage = true;
+            this.btnPrellenar.SuperTip = "Obtiene la información seleccionada del cliente.";
             // 
-            // button2
+            // btnIndice
             // 
-            this.button2.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.Label = "Imprimir";
-            this.button2.Name = "button2";
-            this.button2.ShowImage = true;
+            this.btnIndice.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnIndice.Image = ((System.Drawing.Image)(resources.GetObject("btnIndice.Image")));
+            this.btnIndice.Items.Add(this.btnAgregarIndice);
+            this.btnIndice.Items.Add(this.btnEliminarIndice);
+            this.btnIndice.Label = "Índice";
+            this.btnIndice.Name = "btnIndice";
+            this.btnIndice.ScreenTip = "Índices";
+            this.btnIndice.ShowImage = true;
+            this.btnIndice.SuperTip = "Agrega o elimina índices en un anexo o apartado. Opción Agregar: Inserta una fila" +
+    " para un nuevo índice debajo de la celda seleccionada.";
             // 
-            // button3
+            // btnAgregarIndice
             // 
-            this.button3.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
-            this.button3.Label = "Cruces";
-            this.button3.Name = "button3";
-            this.button3.ShowImage = true;
+            this.btnAgregarIndice.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarIndice.Image")));
+            this.btnAgregarIndice.Label = "Agregar";
+            this.btnAgregarIndice.Name = "btnAgregarIndice";
+            this.btnAgregarIndice.ScreenTip = "Agregar índice";
+            this.btnAgregarIndice.ShowImage = true;
+            this.btnAgregarIndice.SuperTip = "Inserta una fila para un nuevo índice debajo de la celda seleccionada. ";
             // 
-            // button4
+            // btnEliminarIndice
             // 
-            this.button4.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
-            this.button4.Label = "Comprobaciones";
-            this.button4.Name = "button4";
-            this.button4.ShowImage = true;
+            this.btnEliminarIndice.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminarIndice.Image")));
+            this.btnEliminarIndice.Label = "Eliminar";
+            this.btnEliminarIndice.Name = "btnEliminarIndice";
+            this.btnEliminarIndice.ScreenTip = "Eliminar índice";
+            this.btnEliminarIndice.ShowImage = true;
+            this.btnEliminarIndice.SuperTip = "Elimina toda la fila del índice seleccionado";
             // 
-            // button6
+            // btnExplicacion
             // 
-            this.button6.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button6.Image = ((System.Drawing.Image)(resources.GetObject("button6.Image")));
-            this.button6.Label = "Conversión Masiva";
-            this.button6.Name = "button6";
-            this.button6.ShowImage = true;
-            // 
-            // button5
-            // 
-            this.button5.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button5.Image = ((System.Drawing.Image)(resources.GetObject("button5.Image")));
-            this.button5.Label = "Convertir";
-            this.button5.Name = "button5";
-            this.button5.ShowImage = true;
-            // 
-            // button7
-            // 
-            this.button7.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button7.Image = ((System.Drawing.Image)(resources.GetObject("button7.Image")));
-            this.button7.Label = "Plantilla SAT";
-            this.button7.Name = "button7";
-            this.button7.ShowImage = true;
-            // 
-            // button8
-            // 
-            this.button8.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button8.Image = ((System.Drawing.Image)(resources.GetObject("button8.Image")));
-            this.button8.Label = "Cruces";
-            this.button8.Name = "button8";
-            this.button8.ShowImage = true;
-            // 
-            // button9
-            // 
-            this.button9.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.button9.Image = ((System.Drawing.Image)(resources.GetObject("button9.Image")));
-            this.button9.Label = "Comprobaciones";
-            this.button9.Name = "button9";
-            this.button9.ShowImage = true;
+            this.btnExplicacion.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnExplicacion.Image = ((System.Drawing.Image)(resources.GetObject("btnExplicacion.Image")));
+            this.btnExplicacion.Items.Add(this.button11);
+            this.btnExplicacion.Items.Add(this.button12);
+            this.btnExplicacion.Label = "Explicación";
+            this.btnExplicacion.Name = "btnExplicacion";
+            this.btnExplicacion.ScreenTip = "Explicaciones";
+            this.btnExplicacion.ShowImage = true;
+            this.btnExplicacion.SuperTip = "Agrega o elimina explicaciones en un anexo o apartado. ";
             // 
             // button11
             // 
             this.button11.Image = ((System.Drawing.Image)(resources.GetObject("button11.Image")));
             this.button11.Label = "Agregar";
             this.button11.Name = "button11";
+            this.button11.ScreenTip = "Agregar explicación";
             this.button11.ShowImage = true;
+            this.button11.SuperTip = "Inserta una fila de explicación debajo de la celda seleccionada. ";
             // 
             // button12
             // 
             this.button12.Image = ((System.Drawing.Image)(resources.GetObject("button12.Image")));
             this.button12.Label = "Eliminar";
             this.button12.Name = "button12";
+            this.button12.ScreenTip = "Eliminar explicación";
             this.button12.ShowImage = true;
+            this.button12.SuperTip = "Elimina toda la fila de la explicación seleccionada.";
             // 
-            // menu3
+            // btnImprimir
             // 
-            this.menu3.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.menu3.Image = ((System.Drawing.Image)(resources.GetObject("menu3.Image")));
-            this.menu3.Items.Add(this.button13);
-            this.menu3.Items.Add(this.button14);
-            this.menu3.Label = "Índice";
-            this.menu3.Name = "menu3";
-            this.menu3.ShowImage = true;
+            this.btnImprimir.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnImprimir.Image = ((System.Drawing.Image)(resources.GetObject("btnImprimir.Image")));
+            this.btnImprimir.Label = "Imprimir";
+            this.btnImprimir.Name = "btnImprimir";
+            this.btnImprimir.ScreenTip = "Imprimir información";
+            this.btnImprimir.ShowImage = true;
+            this.btnImprimir.SuperTip = "Identifica los anexos que tienen información generando una vista de impresión.";
             // 
-            // button13
+            // group2
             // 
-            this.button13.Image = ((System.Drawing.Image)(resources.GetObject("button13.Image")));
-            this.button13.Label = "Agregar";
-            this.button13.Name = "button13";
-            this.button13.ShowImage = true;
+            this.group2.Items.Add(this.btnCruces);
+            this.group2.Label = "VERIFICACIONES";
+            this.group2.Name = "group2";
             // 
-            // button14
+            // btnCruces
             // 
-            this.button14.Image = ((System.Drawing.Image)(resources.GetObject("button14.Image")));
-            this.button14.Label = "Eliminar";
-            this.button14.Name = "button14";
-            this.button14.ShowImage = true;
+            this.btnCruces.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnCruces.Image = ((System.Drawing.Image)(resources.GetObject("btnCruces.Image")));
+            this.btnCruces.Label = "Cruces";
+            this.btnCruces.Name = "btnCruces";
+            this.btnCruces.ScreenTip = "Verificar";
+            this.btnCruces.ShowImage = true;
+            this.btnCruces.SuperTip = "Realiza la verificación de cruces entre apartados o anexos.";
+            this.btnCruces.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCruces_Click);
+            // 
+            // group3
+            // 
+            this.group3.Items.Add(this.btnConvertir);
+            this.group3.Items.Add(this.btnConvertirMas);
+            this.group3.Items.Add(this.btnTransferir);
+            this.group3.Label = "HERRAMIENTAS SAT";
+            this.group3.Name = "group3";
+            // 
+            // btnConvertir
+            // 
+            this.btnConvertir.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnConvertir.Image = ((System.Drawing.Image)(resources.GetObject("btnConvertir.Image")));
+            this.btnConvertir.Label = "Convertir";
+            this.btnConvertir.Name = "btnConvertir";
+            this.btnConvertir.ScreenTip = "Convertir información";
+            this.btnConvertir.ShowImage = true;
+            this.btnConvertir.SuperTip = "Convierte un dictamen del año anterior a su equivalente para el presente ejercici" +
+    "o";
+            // 
+            // btnConvertirMas
+            // 
+            this.btnConvertirMas.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnConvertirMas.Image = ((System.Drawing.Image)(resources.GetObject("btnConvertirMas.Image")));
+            this.btnConvertirMas.Label = "Conversión Masiva";
+            this.btnConvertirMas.Name = "btnConvertirMas";
+            this.btnConvertirMas.ScreenTip = "Convertit información";
+            this.btnConvertirMas.ShowImage = true;
+            this.btnConvertirMas.SuperTip = "Convierte todos los dictámenes del año anterior ubicados en una carpeta a su equi" +
+    "valente para el presente ejercicio";
+            // 
+            // btnTransferir
+            // 
+            this.btnTransferir.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnTransferir.Image = ((System.Drawing.Image)(resources.GetObject("btnTransferir.Image")));
+            this.btnTransferir.Label = "Transferir";
+            this.btnTransferir.Name = "btnTransferir";
+            this.btnTransferir.ScreenTip = "Transferir información";
+            this.btnTransferir.ShowImage = true;
+            this.btnTransferir.SuperTip = "Transfiere la información a la plantilla .xspr";
+            // 
+            // group4
+            // 
+            this.group4.Items.Add(this.btnPlantilla);
+            this.group4.Items.Add(this.btnCrucesAdmin);
+            this.group4.Items.Add(this.btnComprobacionesAdmin);
+            this.group4.Label = "ADMINISTRACIÓN";
+            this.group4.Name = "group4";
+            // 
+            // btnPlantilla
+            // 
+            this.btnPlantilla.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnPlantilla.Image = ((System.Drawing.Image)(resources.GetObject("btnPlantilla.Image")));
+            this.btnPlantilla.Label = "Plantilla SAT";
+            this.btnPlantilla.Name = "btnPlantilla";
+            this.btnPlantilla.ScreenTip = "Cargar plantilla";
+            this.btnPlantilla.ShowImage = true;
+            this.btnPlantilla.SuperTip = "Permite cargar las plantillas formuladas SIPRED.";
+            this.btnPlantilla.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnPlantilla_Click);
+            // 
+            // btnCrucesAdmin
+            // 
+            this.btnCrucesAdmin.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnCrucesAdmin.Image = ((System.Drawing.Image)(resources.GetObject("btnCrucesAdmin.Image")));
+            this.btnCrucesAdmin.Label = "Cruces";
+            this.btnCrucesAdmin.Name = "btnCrucesAdmin";
+            this.btnCrucesAdmin.ScreenTip = "Administrar cruces";
+            this.btnCrucesAdmin.ShowImage = true;
+            this.btnCrucesAdmin.SuperTip = "Permite crear, adecuar o eliminar los cruces definidos en el sistema.";
+            // 
+            // btnComprobacionesAdmin
+            // 
+            this.btnComprobacionesAdmin.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnComprobacionesAdmin.Image = ((System.Drawing.Image)(resources.GetObject("btnComprobacionesAdmin.Image")));
+            this.btnComprobacionesAdmin.Label = "Comprobaciones";
+            this.btnComprobacionesAdmin.Name = "btnComprobacionesAdmin";
+            this.btnComprobacionesAdmin.ScreenTip = "Administrar comprobaciones";
+            this.btnComprobacionesAdmin.ShowImage = true;
+            this.btnComprobacionesAdmin.SuperTip = "Permite crear, adecuar o eliminar las comprobaciones aritméticas definidas en el " +
+    "sistema.";
             // 
             // Ribbon2
             // 
@@ -250,23 +298,24 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnNew;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button2;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnImprimir;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group2;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button3;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button4;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnCruces;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group3;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button5;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button6;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnConvertir;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnConvertirMas;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group4;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button7;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button8;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button9;
-        internal Microsoft.Office.Tools.Ribbon.RibbonMenu menu2;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnPlantilla;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnCrucesAdmin;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnComprobacionesAdmin;
+        internal Microsoft.Office.Tools.Ribbon.RibbonMenu btnExplicacion;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button11;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button12;
-        internal Microsoft.Office.Tools.Ribbon.RibbonMenu menu3;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button13;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button14;
+        internal Microsoft.Office.Tools.Ribbon.RibbonMenu btnIndice;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnAgregarIndice;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnEliminarIndice;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnTransferir;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnPrellenar;
     }
 
     partial class ThisRibbonCollection
