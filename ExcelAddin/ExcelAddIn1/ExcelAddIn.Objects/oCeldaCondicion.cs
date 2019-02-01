@@ -31,5 +31,11 @@ namespace ExcelAddIn.Objects
             Anexo = _Cell.Worksheet.Name;
             CeldaExcel = (Anexo == _Anexo || _Anexo == "") ? _Cell.Address : _Cell.FullAddress;
         }
+
+        public void setFullAddressCeldaExcel(ExcelRange _Cell)
+        {
+            
+            CeldaExcel = _Cell.FullAddress;
+        }
     }
 }

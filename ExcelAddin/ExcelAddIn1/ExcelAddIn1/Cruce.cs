@@ -14,6 +14,7 @@ using ExcelAddIn.Logic;
 using iTextSharp;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Microsoft.Office.Interop.Excel;
 
 namespace ExcelAddIn1 {
     public partial class Cruce : Base {
@@ -40,24 +41,56 @@ namespace ExcelAddIn1 {
                 if (_TemplateType != null)
                 {
                     _package.Workbook.Worksheets.Add("Test");
-                    ExcelWorksheet _wsTest = _package.Workbook.Worksheets.First(o => o.Name == "Test");
+                     ExcelWorksheet _wsTest = _package.Workbook.Worksheets.First(o => o.Name == "Test");
+                    //INTEROOP//
+                    Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+                    Worksheet xlSht = null;
+                    Range currentCell = null;
+                    Range currentFind = null;
+                    ////////
                     foreach (oCruce _Cruce in _Cruces.Where(o => o.IdTipoPlantilla == _TemplateType.IdTipoPlantilla))
                     {
                         _Cruce.setCeldas();
                         foreach (oCelda _Celda in _Cruce.CeldasFormula)
                         {
                             ExcelWorksheet _workSheet = _package.Workbook.Worksheets[_Celda.Anexo];
-                            int _maxValue = _workSheet.Dimension.Rows + 1;
-                            int _maxRow = (_workSheet.Dimension.Rows / 2) + (_workSheet.Dimension.Rows % 2);
-                            for (int i = 1; i <= _maxRow; i++)
+                            if (_workSheet != null)
                             {
-                                _Celda.Fila = (_workSheet.Cells[i, 1].Text == _Celda.Indice) ? i : _Celda.Fila;
-                                _Celda.Fila = (_workSheet.Cells[(_maxValue - i), 1].Text == _Celda.Indice) ? _maxValue - i : _Celda.Fila;
-                                if (_Celda.Fila > -1) {
-                                    _Celda.setCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna], _Celda.Anexo);
+                                int _maxValue = _workSheet.Dimension.Rows + 1;
+                                int _maxRow = (_workSheet.Dimension.Rows / 2) + (_workSheet.Dimension.Rows % 2);
+
+
+                                xlSht = (Worksheet)wb.Worksheets.get_Item(_Celda.Anexo);
+
+                                currentCell = (Range)xlSht.get_Range("A1", "A" + (_maxValue).ToString());
+
+
+                                currentFind = currentCell.Find(_Celda.Indice, Type.Missing, XlFindLookIn.xlValues, XlLookAt.xlPart,
+                                   XlSearchOrder.xlByRows, XlSearchDirection.xlNext, false,
+                                    Type.Missing, Type.Missing);
+                                if (currentFind != null)
+                                {
+                                    _Celda.Fila = currentFind.Row;
+
+                                    _Celda.setFullAddressCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna]);
                                     _Celda.Concepto = _workSheet.Cells[_Celda.Fila, 2].Text;
                                 }
                             }
+                            //for (int i = 1; i <= _maxRow; i++)
+                            //{
+                            //    _Celda.Fila = (_workSheet.Cells[i, 1].Text == _Celda.Indice) ? i : _Celda.Fila;
+                            //    _Celda.Fila = (_workSheet.Cells[(_maxValue - i), 1].Text == _Celda.Indice) ? _maxValue - i : _Celda.Fila;
+                            //    if (_Celda.Fila > -1) {
+                            //        _Celda.setCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna], _Celda.Anexo);
+                            //        _Celda.Concepto = _workSheet.Cells[_Celda.Fila, 2].Text;
+
+                            //    }
+
+
+
+
+                            //}
+                           
                         }
                         foreach (oCeldaCondicion _Celda in _Cruce.CeldasCondicion)
                         {
@@ -66,28 +99,66 @@ namespace ExcelAddIn1 {
                             {
                                 int _maxValue = _workSheet.Dimension.Rows + 1;
                                 int _maxRow = (_workSheet.Dimension.Rows / 2) + (_workSheet.Dimension.Rows % 2);
-                                for (int i = 1; i <= _maxRow; i++)
+
+                                xlSht = (Worksheet)wb.Worksheets.get_Item(_Celda.Anexo);
+
+                                currentCell = (Range)xlSht.get_Range("A1", "A" + (_maxValue).ToString());
+
+
+                                currentFind = currentCell.Find(_Celda.Indice, Type.Missing, XlFindLookIn.xlValues, XlLookAt.xlPart,
+                                   XlSearchOrder.xlByRows, XlSearchDirection.xlNext, false,
+                                    Type.Missing, Type.Missing);
+                                if (currentFind != null)
                                 {
-                                    _Celda.Fila = (_workSheet.Cells[i, 1].Text == _Celda.Indice) ? i : _Celda.Fila;
-                                    _Celda.Fila = (_workSheet.Cells[(_maxValue - i), 1].Text == _Celda.Indice) ? _maxValue - i : _Celda.Fila;
-                                    if (_Celda.Fila > -1) _Celda.setCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna], _Celda.Anexo);
+                                    _Celda.Fila = currentFind.Row;
+                                    _Celda.setFullAddressCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna]);
+
                                 }
-                            }
-                        }
-                        _Cruce.setFormulaExcel();
-                        _wsTest.Cells["A1"].Formula = _Cruce.FormulaExcel;
-                        _wsTest.Cells["A1"].Calculate();
-                        if (_Cruce.CondicionExcel != "")
-                        {
-                            _wsTest.Cells["A2"].Formula = _Cruce.CondicionExcel;
-                            _wsTest.Cells["A2"].Calculate();
-                            _Cruce.ResultadoCondicion = _wsTest.Cells["A2"].Value.ToString();
+
+                                    //for (int i = 1; i <= _maxRow; i++)
+                                    //{
+                                    //    _Celda.Fila = (_workSheet.Cells[i, 1].Text == _Celda.Indice) ? i : _Celda.Fila;
+                                    //    _Celda.Fila = (_workSheet.Cells[(_maxValue - i), 1].Text == _Celda.Indice) ? _maxValue - i : _Celda.Fila;
+                                    //    if (_Celda.Fila > -1) _Celda.setCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna], _Celda.Anexo);
+                                    //}
+                                }
                         }
 
-                        _Cruce.ResultadoFormula = _wsTest.Cells["A1"].Value.ToString();
+
+                        _Cruce.setFormulaExcel();
+
+                        
+                        xlSht = (Worksheet)wb.Worksheets.get_Item("SIPRED");
+                        Range Test_Range = (Range)xlSht.get_Range("A1");
+
+                        Test_Range.Formula = "="+ _Cruce.FormulaExcel;
+
+                        _Cruce.ResultadoFormula = Test_Range.get_Value(Type.Missing).ToString();
+                       
+                        //_wsTest.Cells["A1"].Formula = _Cruce.FormulaExcel;
+                        //_wsTest.Cells["A1"].Calculate();
+                        //_Cruce.ResultadoFormula = _wsTest.Cells["A1"].Value.ToString();
+
+                        if (_Cruce.CondicionExcel != "")
+                        {
+                            Test_Range = (Range)xlSht.get_Range("A2");
+                            Test_Range.Formula = "=" + _Cruce.CondicionExcel;
+                            _Cruce.ResultadoCondicion = Test_Range.get_Value(Type.Missing).ToString();
+
+                            //_wsTest.Cells["A2"].Formula = _Cruce.CondicionExcel;
+                            //_wsTest.Cells["A2"].Calculate();
+                            //_Cruce.ResultadoCondicion = _wsTest.Cells["A2"].Value.ToString();
+
+                            
+                            _Cruce.Condicion = "["+ _Cruce.Condicion + "] = "+ _Cruce.ResultadoCondicion;
+                        }
+
+                      
 
                         if (_Cruce.ResultadoFormula.ToLower() != "true")
                             _result.Add(_Cruce);
+
+                      
                     }
                 }
                 else if (_TemplateType == null)
