@@ -158,7 +158,7 @@ namespace ExcelAddIn1 {
 
                       
 
-                        if (_Cruce.ResultadoFormula.ToLower() != "true")
+                        if (_Cruce.ResultadoFormula.ToLower() == "false")
                             _result.Add(_Cruce);
 
                       
