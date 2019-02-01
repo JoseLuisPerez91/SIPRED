@@ -40,8 +40,8 @@ namespace ExcelAddIn1 {
                 }
                 if (_TemplateType != null)
                 {
-                    _package.Workbook.Worksheets.Add("Test");
-                     ExcelWorksheet _wsTest = _package.Workbook.Worksheets.First(o => o.Name == "Test");
+                    //_package.Workbook.Worksheets.Add("Test");
+                    // ExcelWorksheet _wsTest = _package.Workbook.Worksheets.First(o => o.Name == "Test");
                     //INTEROOP//
                     Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
                     Worksheet xlSht = null;
@@ -130,11 +130,13 @@ namespace ExcelAddIn1 {
                         
                         xlSht = (Worksheet)wb.Worksheets.get_Item("SIPRED");
                         Range Test_Range = (Range)xlSht.get_Range("A1");
+                        string ValorAnterior = Test_Range.get_Value(Type.Missing);
 
                         Test_Range.Formula = "="+ _Cruce.FormulaExcel;
 
                         _Cruce.ResultadoFormula = Test_Range.get_Value(Type.Missing).ToString();
-                       
+
+                        xlSht.Cells[1, 1] = ValorAnterior;// restauro
                         //_wsTest.Cells["A1"].Formula = _Cruce.FormulaExcel;
                         //_wsTest.Cells["A1"].Calculate();
                         //_Cruce.ResultadoFormula = _wsTest.Cells["A1"].Value.ToString();
@@ -142,14 +144,15 @@ namespace ExcelAddIn1 {
                         if (_Cruce.CondicionExcel != "")
                         {
                             Test_Range = (Range)xlSht.get_Range("A2");
+                            ValorAnterior = Test_Range.get_Value(Type.Missing);
                             Test_Range.Formula = "=" + _Cruce.CondicionExcel;
                             _Cruce.ResultadoCondicion = Test_Range.get_Value(Type.Missing).ToString();
+                            xlSht.Cells[2, 1] = ValorAnterior;// restauro
+                                                              //_wsTest.Cells["A2"].Formula = _Cruce.CondicionExcel;
+                                                              //_wsTest.Cells["A2"].Calculate();
+                                                              //_Cruce.ResultadoCondicion = _wsTest.Cells["A2"].Value.ToString();
 
-                            //_wsTest.Cells["A2"].Formula = _Cruce.CondicionExcel;
-                            //_wsTest.Cells["A2"].Calculate();
-                            //_Cruce.ResultadoCondicion = _wsTest.Cells["A2"].Value.ToString();
 
-                            
                             _Cruce.Condicion = "["+ _Cruce.Condicion + "] = "+ _Cruce.ResultadoCondicion;
                         }
 
@@ -175,7 +178,17 @@ namespace ExcelAddIn1 {
         {
             this.Hide();
         }
-
+        public static string ColumnAdress(int col)
+        {
+            if (col <= 26)
+            {
+                return Convert.ToChar(col + 64).ToString();
+            }
+            int div = col / 26;
+            int mod = col % 26;
+            if (mod == 0) { mod = 26; div--; }
+            return ColumnAdress(div) + ColumnAdress(mod);
+        }
         private void CreatePDF(oCruce[] _result, oCruce[] cruces, string path)
         {
             var fecha = DateTime.Now;
@@ -278,7 +291,7 @@ namespace ExcelAddIn1 {
                 var valor = 1;
                 foreach (var detail in item.CeldasFormula) {
                     var color = Color.White;
-
+                    
                     if ((valor % 2) == 0)
                         color = Color.LightGray;
 
@@ -288,7 +301,7 @@ namespace ExcelAddIn1 {
                     PdfPCell cellindice = new PdfPCell(new Phrase(detail.Indice, _standardFont));
                     cellindice.BorderWidth = 0;
                     cellindice.BackgroundColor = new BaseColor(color);
-                    PdfPCell cellcolumna = new PdfPCell(new Phrase(detail.Columna.ToString(), _standardFont));
+                    PdfPCell cellcolumna = new PdfPCell(new Phrase(ColumnAdress(detail.Columna), _standardFont));
                     cellcolumna.BorderWidth = 0;
                     cellcolumna.BackgroundColor = new BaseColor(color);
                     PdfPCell cellconceptodet = new PdfPCell(new Phrase(detail.Concepto, _standardFont));
