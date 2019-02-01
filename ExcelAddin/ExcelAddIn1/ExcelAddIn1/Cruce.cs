@@ -356,46 +356,54 @@ namespace ExcelAddIn1 {
             string _Hojas = "";
             ////////
             List<oValidaCruces> _Result = new List<oValidaCruces>();
-
-            foreach (oValidaCruces _F in _ValidCruces)
+            try
             {
+                foreach (oValidaCruces _F in _ValidCruces)
+                {
                     xlSht = (Worksheet)wb.Worksheets.get_Item(_F.Hoja);
-                if (xlSht != null)
+                    if (xlSht != null)
+                    {
+
+                        _maxValue = xlSht.UsedRange.Count + 1;
+                        currentCell = (Range)xlSht.get_Range("A1", "A" + (_maxValue).ToString());
+
+
+                        currentFind = currentCell.Find(_F.Indice, Type.Missing, XlFindLookIn.xlValues, XlLookAt.xlPart,
+                           XlSearchOrder.xlByRows, XlSearchDirection.xlNext, false,
+                            Type.Missing, Type.Missing);
+                        if (currentFind != null)
+                        {
+                            currentCell = (Range)xlSht.Cells[currentFind.Row, 3];
+                            if (currentCell.get_Value(Type.Missing) == null)
+                            {
+                                _F.EsCorrecto = false;
+                                currentCell = (Range)xlSht.Cells[currentFind.Row, 2];
+                                _F.Concepto = currentCell.get_Value(Type.Missing);
+
+                                if (!(_Hojas.Contains(_F.Hoja)))
+                                    _Hojas = _F.Hoja + "," + _Hojas;
+
+                                _Result.Add(_F);
+                            }
+
+                        }
+                    }
+
+                }
+                if (_Result.Count() > 0)
                 {
 
-                    _maxValue = xlSht.UsedRange.Count + 1;
-                    currentCell = (Range)xlSht.get_Range("A1", "A" + (_maxValue).ToString());
-
-
-                    currentFind = currentCell.Find(_F.Indice, Type.Missing, XlFindLookIn.xlValues, XlLookAt.xlPart,
-                       XlSearchOrder.xlByRows, XlSearchDirection.xlNext, false,
-                        Type.Missing, Type.Missing);
-                    if (currentFind != null)
-                    {
-                        currentCell = (Range)xlSht.Cells[currentFind.Row, 3];
-                        if (currentCell.get_Value(Type.Missing) == null)
-                        {
-                            _F.EsCorrecto = false;
-                            currentCell = (Range)xlSht.Cells[currentFind.Row, 2];
-                            _F.Concepto = currentCell.get_Value(Type.Missing);
-
-                            if (!(_Hojas.Contains(_F.Hoja)))
-                               _Hojas=_F.Hoja+","+_Hojas;
-
-                            _Result.Add(_F);
-                        }
-
-                    }
+                    MessageBox.Show("Para que la verificación se realice correctamente es necesario completar o revisar respuestas en " + _Hojas.TrimEnd(',') + " de los índices relacionados a continuación", "Información Correcta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-                
+
+                return _Result.Count() == 0;
             }
-            if (_Result.Count()>0)
+            catch
             {
-
-                MessageBox.Show("Para que la verificación se realice correctamente es necesario completar o revisar respuestas en " + _Hojas.TrimEnd(',') + " de los índices relacionados a continuación", "Información Correcta", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Archivo no válido, favor de generar el archivo mediante el AddIn D.SAT", "Información Incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
-
-            return _Result.Count() == 0;
+            
         }
     }
 }
