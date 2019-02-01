@@ -23,12 +23,33 @@ namespace ExcelAddIn1 {
         }
 
         private void btnAceptar_Click(object sender, EventArgs e) {
-            this.Hide();
+            //this.Hide();
+          
             string _Path = ExcelAddIn.Access.Configuration.Path;
+           
+            oValidaCruces[] _ValidaCruces = Assembler.LoadJson<oValidaCruces[]>($"{_Path}\\jsons\\ValidacionCruces.json");
+
+            if (!ValidaCruces(_ValidaCruces))
+            {
+                this.Hide();
+                return;
+            }
+
+            this.pgbCruces.Visible = true;
+            lblTitle.Text = "Comienzo verificación, por favor espere!! ";
+            this.btnAceptar.Visible = false;
+            this.btnCancelar.Visible = false;
+            int progress = 0;
+            progress += 10;
+            pgbCruces.Value = progress;
             oTipoPlantilla[] _TemplateTypes = Assembler.LoadJson<oTipoPlantilla[]>($"{_Path}\\jsons\\TiposPlantillas.json");
             oCruce[] _Cruces = Assembler.LoadJson<oCruce[]>($"{_Path}\\jsons\\Cruces.json");
+
             List<oCruce> _result = new List<oCruce>();
             FileInfo _Excel = new FileInfo(Globals.ThisAddIn.Application.ActiveWorkbook.FullName);
+
+            progress += 10;
+            pgbCruces.Value = progress;
             //FileInfo _Excel = new FileInfo($"{_Path}\\jsons\\SIPRED-EstadosFinancierosGeneral.xlsm");
             oTipoPlantilla _TemplateType = null;
             using (ExcelPackage _package = new ExcelPackage(_Excel))
@@ -38,6 +59,8 @@ namespace ExcelAddIn1 {
                     if (_package.Workbook.Worksheets.Where(o => o.Name == _TT.Clave).FirstOrDefault() != null)
                         _TemplateType = _TT;
                 }
+                progress += 10;
+                pgbCruces.Value = progress;
                 if (_TemplateType != null)
                 {
                     //_package.Workbook.Worksheets.Add("Test");
@@ -54,6 +77,7 @@ namespace ExcelAddIn1 {
                         foreach (oCelda _Celda in _Cruce.CeldasFormula)
                         {
                             ExcelWorksheet _workSheet = _package.Workbook.Worksheets[_Celda.Anexo];
+                            lblTitle.Text = "Verificando " + _Celda.Anexo;
                             if (_workSheet != null)
                             {
                                 int _maxValue = _workSheet.Dimension.Rows + 1;
@@ -76,22 +100,11 @@ namespace ExcelAddIn1 {
                                     _Celda.Concepto = _workSheet.Cells[_Celda.Fila, 2].Text;
                                 }
                             }
-                            //for (int i = 1; i <= _maxRow; i++)
-                            //{
-                            //    _Celda.Fila = (_workSheet.Cells[i, 1].Text == _Celda.Indice) ? i : _Celda.Fila;
-                            //    _Celda.Fila = (_workSheet.Cells[(_maxValue - i), 1].Text == _Celda.Indice) ? _maxValue - i : _Celda.Fila;
-                            //    if (_Celda.Fila > -1) {
-                            //        _Celda.setCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna], _Celda.Anexo);
-                            //        _Celda.Concepto = _workSheet.Cells[_Celda.Fila, 2].Text;
-
-                            //    }
-
-
-
-
-                            //}
+                            
                            
                         }
+                       
+                        pgbCruces.Value = progress;
                         foreach (oCeldaCondicion _Celda in _Cruce.CeldasCondicion)
                         {
                             ExcelWorksheet _workSheet = _package.Workbook.Worksheets[_Celda.Anexo];
@@ -115,16 +128,11 @@ namespace ExcelAddIn1 {
 
                                 }
 
-                                    //for (int i = 1; i <= _maxRow; i++)
-                                    //{
-                                    //    _Celda.Fila = (_workSheet.Cells[i, 1].Text == _Celda.Indice) ? i : _Celda.Fila;
-                                    //    _Celda.Fila = (_workSheet.Cells[(_maxValue - i), 1].Text == _Celda.Indice) ? _maxValue - i : _Celda.Fila;
-                                    //    if (_Celda.Fila > -1) _Celda.setCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna], _Celda.Anexo);
-                                    //}
+                                   
                                 }
                         }
 
-
+                       
                         _Cruce.setFormulaExcel();
 
                         
@@ -137,9 +145,7 @@ namespace ExcelAddIn1 {
                         _Cruce.ResultadoFormula = Test_Range.get_Value(Type.Missing).ToString();
 
                         xlSht.Cells[1, 1] = ValorAnterior;// restauro
-                        //_wsTest.Cells["A1"].Formula = _Cruce.FormulaExcel;
-                        //_wsTest.Cells["A1"].Calculate();
-                        //_Cruce.ResultadoFormula = _wsTest.Cells["A1"].Value.ToString();
+                      
 
                         if (_Cruce.CondicionExcel != "")
                         {
@@ -148,9 +154,7 @@ namespace ExcelAddIn1 {
                             Test_Range.Formula = "=" + _Cruce.CondicionExcel;
                             _Cruce.ResultadoCondicion = Test_Range.get_Value(Type.Missing).ToString();
                             xlSht.Cells[2, 1] = ValorAnterior;// restauro
-                                                              //_wsTest.Cells["A2"].Formula = _Cruce.CondicionExcel;
-                                                              //_wsTest.Cells["A2"].Calculate();
-                                                              //_Cruce.ResultadoCondicion = _wsTest.Cells["A2"].Value.ToString();
+                                                             
 
 
                             _Cruce.Condicion = "["+ _Cruce.Condicion + "] = "+ _Cruce.ResultadoCondicion;
@@ -161,17 +165,31 @@ namespace ExcelAddIn1 {
                         if (_Cruce.ResultadoFormula.ToLower() == "false")
                             _result.Add(_Cruce);
 
-                      
+                        if (progress <= 70)
+                        {
+                            progress += 10;
+                            pgbCruces.Value = progress;
+                        }
                     }
+
+                   progress += 5;
+
+                    pgbCruces.Value = progress;
                 }
                 else if (_TemplateType == null)
-                    MessageBox.Show("Archivo no valido, favor de generar el archivo mediante el AddIn D.SAT", "Información Incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Archivo no válido, favor de generar el archivo mediante el AddIn D.SAT", "Información Incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+
+            progress += 15;
+
+            pgbCruces.Value = progress;
             if (_result.Count > 0)
-                CreatePDF(_result.ToArray(), _Cruces, _Path);
+                 CreatePDF(_result.ToArray(), _Cruces, _Path);
             else
                 MessageBox.Show("No se encontraron diferencias", "Información Correcta", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
+            this.Hide();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -324,6 +342,60 @@ namespace ExcelAddIn1 {
 
             WebBrowser wb = new WebBrowser();
             wb.Navigate(filepath);
+        }
+
+        public static bool ValidaCruces(oValidaCruces[] _ValidCruces)
+        {
+            FileInfo _Excel = new FileInfo(Globals.ThisAddIn.Application.ActiveWorkbook.FullName);
+            //INTEROOP//
+            Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+            Worksheet xlSht = null;
+            Range currentCell = null;
+            Range currentFind = null;
+            int _maxValue = 0;
+            string _Hojas = "";
+            ////////
+            List<oValidaCruces> _Result = new List<oValidaCruces>();
+
+            foreach (oValidaCruces _F in _ValidCruces)
+            {
+                    xlSht = (Worksheet)wb.Worksheets.get_Item(_F.Hoja);
+                if (xlSht != null)
+                {
+
+                    _maxValue = xlSht.UsedRange.Count + 1;
+                    currentCell = (Range)xlSht.get_Range("A1", "A" + (_maxValue).ToString());
+
+
+                    currentFind = currentCell.Find(_F.Indice, Type.Missing, XlFindLookIn.xlValues, XlLookAt.xlPart,
+                       XlSearchOrder.xlByRows, XlSearchDirection.xlNext, false,
+                        Type.Missing, Type.Missing);
+                    if (currentFind != null)
+                    {
+                        currentCell = (Range)xlSht.Cells[currentFind.Row, 3];
+                        if (currentCell.get_Value(Type.Missing) == null)
+                        {
+                            _F.EsCorrecto = false;
+                            currentCell = (Range)xlSht.Cells[currentFind.Row, 2];
+                            _F.Concepto = currentCell.get_Value(Type.Missing);
+
+                            if (!(_Hojas.Contains(_F.Hoja)))
+                               _Hojas=_F.Hoja+","+_Hojas;
+
+                            _Result.Add(_F);
+                        }
+
+                    }
+                }
+                
+            }
+            if (_Result.Count()>0)
+            {
+
+                MessageBox.Show("Para que la verificación se realice correctamente es necesario completar o revisar respuestas en " + _Hojas.TrimEnd(',') + " de los índices relacionados a continuación", "Información Correcta", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            return _Result.Count() == 0;
         }
     }
 }

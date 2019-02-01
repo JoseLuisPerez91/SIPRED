@@ -263,6 +263,7 @@
     <None Include="jsons\Templates.json" />
     <None Include="jsons\TemplatesTypes.json" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\ExcelAddIn.Objects.oValidaCruces.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
