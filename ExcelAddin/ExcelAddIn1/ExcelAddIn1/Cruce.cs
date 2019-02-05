@@ -26,7 +26,7 @@ namespace ExcelAddIn1 {
             //this.Hide();
           
             string _Path = ExcelAddIn.Access.Configuration.Path;
-           
+
             oValidaCruces[] _ValidaCruces = Assembler.LoadJson<oValidaCruces[]>($"{_Path}\\jsons\\ValidacionCruces.json");
 
             if (!ValidaCruces(_ValidaCruces))
@@ -98,6 +98,14 @@ namespace ExcelAddIn1 {
 
                                     _Celda.setFullAddressCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna]);
                                     _Celda.Concepto = _workSheet.Cells[_Celda.Fila, 2].Text;
+
+                                    currentCell = (Range)xlSht.Cells[_Celda.Fila, _Celda.Columna];
+                                    if (currentCell.get_Value(Type.Missing) != null)
+                                        _Celda.Valor = currentCell.get_Value(Type.Missing).ToString();
+                                    else
+                                        _Celda.Valor = "0";
+
+
                                 }
                             }
                             
@@ -139,13 +147,18 @@ namespace ExcelAddIn1 {
                         xlSht = (Worksheet)wb.Worksheets.get_Item("SIPRED");
                         Range Test_Range = (Range)xlSht.get_Range("A1");
                         string ValorAnterior = Test_Range.get_Value(Type.Missing);
+                        string[] formula;
+                        
+
 
                         Test_Range.Formula = "="+ _Cruce.FormulaExcel;
 
                         _Cruce.ResultadoFormula = Test_Range.get_Value(Type.Missing).ToString();
 
                         xlSht.Cells[1, 1] = ValorAnterior;// restauro
-                      
+
+                       
+
 
                         if (_Cruce.CondicionExcel != "")
                         {
@@ -160,10 +173,24 @@ namespace ExcelAddIn1 {
                             _Cruce.Condicion = "["+ _Cruce.Condicion + "] = "+ _Cruce.ResultadoCondicion;
                         }
 
-                      
+
 
                         if (_Cruce.ResultadoFormula.ToLower() == "false")
+                        {
+                           
+                            //calculo la diferencia
+                            if (_Cruce.FormulaExcel.Contains("="))
+                            {
+                                formula = _Cruce.FormulaExcel.Split('=');
+                                Test_Range = (Range)xlSht.get_Range("A3");
+                                ValorAnterior = Test_Range.get_Value(Type.Missing);
+                                Test_Range.Formula = "=" +formula[0] +"-"+ formula[1];
+                                _Cruce.Diferencia = Test_Range.get_Value(Type.Missing).ToString();
+                                xlSht.Cells[3, 1] = ValorAnterior;// restauro
+
+                            }
                             _result.Add(_Cruce);
+                        }
 
                         if (progress <= 70)
                         {
@@ -218,7 +245,7 @@ namespace ExcelAddIn1 {
             PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(filepath, FileMode.Create));
             // Le colocamos el título y el autor
             // **Nota: Esto no será visible en el documento
-            doc.AddTitle("Curces");
+            doc.AddTitle("Cruces");
             doc.AddCreator("S-DAT");
             // Abrimos el archivo
             doc.Open();
@@ -231,7 +258,7 @@ namespace ExcelAddIn1 {
             doc.Add(new Paragraph("SIPRED - ESTADOS FINANCIEROS GENERAL"));
             doc.Add(Chunk.NEWLINE);
 
-            PdfPTable tblHeader = new PdfPTable(4);
+            PdfPTable tblHeader = new PdfPTable(5);
             tblHeader.WidthPercentage = 100;
             PdfPCell cellNum = new PdfPCell(new Phrase("Número", titlefont));
             cellNum.BorderWidth = 0;
@@ -260,29 +287,42 @@ namespace ExcelAddIn1 {
             cellCol4.BorderWidthBottom = 0.75f;
             cellCol4.BorderColorTop = new BaseColor(Color.Blue);
             cellCol4.BorderColorBottom = new BaseColor(Color.Blue);
+            PdfPCell cellCol5 = new PdfPCell(new Phrase("", titlefont));
+            cellCol5.BorderWidth = 0;
+            cellCol5.BorderWidthTop = 0.75f;
+            cellCol5.BorderWidthBottom = 0.75f;
+            cellCol5.BorderColorTop = new BaseColor(Color.Blue);
+            cellCol5.BorderColorBottom = new BaseColor(Color.Blue);
 
             tblHeader.AddCell(cellNum);
             tblHeader.AddCell(cellconc);
             tblHeader.AddCell(cellCol3);
             tblHeader.AddCell(cellCol4);
+            tblHeader.AddCell(cellCol5);
 
             foreach (var item in _result)
             {
+
+               
+
+
                 PdfPCell cellid = new PdfPCell(new Phrase(item.IdCruce.ToString(), titlefont));
                 cellid.BorderWidth = 0;
 
                 var strConcepto = cruces.Where(c => c.IdCruce == item.IdCruce).FirstOrDefault();
-                PdfPCell cellconcepto = new PdfPCell(new Phrase(strConcepto.Concepto, titlefont));
+                PdfPCell cellconcepto = new PdfPCell(new Phrase(strConcepto.Concepto+ " ("+ "DIFERENCIA: " + item.Diferencia+")", titlefont));
                 cellconcepto.BorderWidth = 0;
                 cellconcepto.Colspan = 3;
 
                 tblHeader.AddCell(cellid);
                 tblHeader.AddCell(cellconcepto);
-
+               
                 PdfPCell cellformula = new PdfPCell(new Phrase(item.Formula, _standardFont));
                 cellformula.BorderWidth = 0;
                 cellformula.Colspan = 4;
                 tblHeader.AddCell(cellformula);
+
+                
 
                 if (item.Condicion != null || item.Condicion.Length > 0)
                 {
@@ -291,6 +331,11 @@ namespace ExcelAddIn1 {
                     cellcondicion.Colspan = 4;
                     tblHeader.AddCell(cellcondicion);
                 }
+                PdfPCell cellvalor = new PdfPCell(new Phrase("", _standardFont));
+                cellvalor.BorderWidth = 0;
+                cellformula.Colspan = 1;
+                tblHeader.AddCell(cellvalor);
+
 
                 PdfPCell cellanexohdr = new PdfPCell(new Phrase("Anexo", _standardFont));
                 cellanexohdr.BorderWidth = 0;
@@ -300,11 +345,14 @@ namespace ExcelAddIn1 {
                 cellcolumnahdr.BorderWidth = 0;
                 PdfPCell cellconceptodethdr = new PdfPCell(new Phrase("Concepto", _standardFont));
                 cellconceptodethdr.BorderWidth = 0;
+                PdfPCell cellGpo1thdr = new PdfPCell(new Phrase("Valor.", _standardFont));
+                cellGpo1thdr.BorderWidth = 0;
 
                 tblHeader.AddCell(cellanexohdr);
                 tblHeader.AddCell(cellindicehdr);
                 tblHeader.AddCell(cellcolumnahdr);
                 tblHeader.AddCell(cellconceptodethdr);
+                tblHeader.AddCell(cellGpo1thdr);
 
                 var valor = 1;
                 foreach (var detail in item.CeldasFormula) {
@@ -326,13 +374,20 @@ namespace ExcelAddIn1 {
                     cellconceptodet.BorderWidth = 0;
                     cellconceptodet.BackgroundColor = new BaseColor(color);
 
+                    PdfPCell valorcolumna = new PdfPCell(new Phrase(detail.Valor, _standardFont));
+                    valorcolumna.BorderWidth = 0;
+                    valorcolumna.BackgroundColor = new BaseColor(color);
+
+
                     tblHeader.AddCell(cellanexo);
                     tblHeader.AddCell(cellindice);
                     tblHeader.AddCell(cellcolumna);
                     tblHeader.AddCell(cellconceptodet);
+                    tblHeader.AddCell(valorcolumna);
 
                     valor++;
                 }
+               
             }
 
             doc.Add(tblHeader);
