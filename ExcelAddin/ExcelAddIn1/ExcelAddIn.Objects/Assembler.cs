@@ -22,5 +22,12 @@ namespace ExcelAddIn.Objects {
             foreach (oCeldaCondicion _cell in _Cells) _result = _result.Replace(_cell.Original, _cell.CeldaExcel);
             return _result;
         }
+
+        public static string ToString(this oCelda[] _Cells, string _Formula)
+        {
+            string _result = _Formula;
+            foreach (oCelda _cell in _Cells) _result = _result.Replace(_cell.Original, _cell.Valor.ToString());
+            return _result;
+        }
     }
 }

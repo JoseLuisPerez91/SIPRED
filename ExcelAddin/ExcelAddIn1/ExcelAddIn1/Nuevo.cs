@@ -14,31 +14,61 @@ using ExcelAddIn.Objects;
 using ExcelAddIn.Logic;
 //using ExcelAddIn1.Assemblers;
 
-namespace ExcelAddIn1 {
-    public partial class Nuevo : Base {
-        public Nuevo() {
+namespace ExcelAddIn1
+{
+    public partial class Nuevo : Base
+    {
+        public Nuevo()
+        {
+            string _Path = ExcelAddIn.Access.Configuration.Path;
             InitializeComponent();
-            FillYears(cmbAnio);
-            FillTemplateType(cmbTipo);
+
+            if (Directory.Exists(_Path + "\\jsons") && Directory.Exists(_Path + "\\templates"))
+            {
+                if (File.Exists(_Path + "\\jsons\\TiposPlantillas.json"))
+                {
+                    FillYears(cmbAnio);
+                    FillTemplateType(cmbTipo);
+                }
+                else
+                {
+                    KeyValuePair<bool, string[]> _result = new lSerializados().ObtenerSerializados();
+
+                    FillYears(cmbAnio);
+                    FillTemplateType(cmbTipo);
+                }
+            }
+            else
+            {
+                Directory.CreateDirectory(_Path + "\\jsons");
+                Directory.CreateDirectory(_Path + "\\templates");
+                KeyValuePair<bool, string[]> _result = new lSerializados().ObtenerSerializados();
+                FillYears(cmbAnio);
+                FillTemplateType(cmbTipo);
+            }
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e) {
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
             cmbAnio.SelectedIndex = 0;
             cmbTipo.SelectedIndex = 0;
         }
 
-        private void btnCrear_Click(object sender, EventArgs e) {
+        private void btnCrear_Click(object sender, EventArgs e)
+        {
             string _Path = ExcelAddIn.Access.Configuration.Path;
             oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>($"{_Path}\\jsons\\Plantillas.json");
             int _IdTemplateType = (int)cmbTipo.SelectedValue, _Year = (int)cmbAnio.SelectedValue;
             oPlantilla _Template = _Templates.FirstOrDefault(o => o.IdTipoPlantilla == _IdTemplateType && o.Anio == _Year);
-            if(_Template == null) {
+            if (_Template == null)
+            {
                 MessageBox.Show("No existe una plantilla para el tipo seleccionado, favor de seleccionar otro tipo o contactar al administrador.", "Información Incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
             fbdTemplate.ShowDialog();
             string _DestinationPath = fbdTemplate.SelectedPath;
-            if(_DestinationPath == "") {
+            if (_DestinationPath == "")
+            {
                 MessageBox.Show("Debe especificar un ruta", "Ruta Invalida", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -46,18 +76,21 @@ namespace ExcelAddIn1 {
             GenerarArchivo(_Template, _newTemplate, ((oTipoPlantilla)cmbTipo.SelectedItem).Clave);
         }
 
-        protected void GenerarArchivo(oPlantilla _Template, string _DestinationPath, string _Tipo) {
+        protected void GenerarArchivo(oPlantilla _Template, string _DestinationPath, string _Tipo)
+        {
             string _Path = ExcelAddIn.Access.Configuration.Path;
             oComprobacion[] _Comprobaciones = Assembler.LoadJson<oComprobacion[]>($"{_Path}\\jsons\\Comprobaciones.json");
             FileInfo _Excel = new FileInfo($"{_Path}\\templates\\{_Template.Nombre}");
-            using(ExcelPackage _package = new ExcelPackage(_Excel)) {
+            using (ExcelPackage _package = new ExcelPackage(_Excel))
+            {
                 _package.Workbook.Worksheets.Add(_Tipo);
-                foreach(oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == _Template.IdTipoPlantilla).ToArray()) {
+                foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == _Template.IdTipoPlantilla).ToArray())
+                {
                     ExcelWorksheet _workSheet = _package.Workbook.Worksheets[_Comprobacion.Destino.Anexo];
                     _Comprobacion.setFormulaExcel();
-                    if(_Comprobacion.EsValida() && _Comprobacion.EsFormula())
+                    if (_Comprobacion.EsValida() && _Comprobacion.EsFormula())
                         _workSheet.Cells[_Comprobacion.Destino.CeldaExcel].Formula = _Comprobacion.FormulaExcel;
-                    else if(_Comprobacion.EsValida() && !_Comprobacion.EsFormula())
+                    else if (_Comprobacion.EsValida() && !_Comprobacion.EsFormula())
                         _workSheet.Cells[_Comprobacion.Destino.CeldaExcel].Value = _Comprobacion.FormulaExcel;
                 }
                 _package.Workbook.CreateVBAProject();

@@ -22,10 +22,14 @@ namespace ExcelAddIn.Objects {
         public int Columna { get; set; }
         public int Fila { get; set; } = -1;
         public string CeldaExcel { get; set; }
+        public string Concepto { get; set; }      
+        public double Valor { get; set; }
+        public string CeldaXlsx { get; set; }
 
         public void setCeldaExcel(ExcelRange _Cell, string _Anexo) {
             Anexo = _Cell.Worksheet.Name;
-            CeldaExcel = (Anexo == _Anexo || _Anexo == "") ? _Cell.Address : _Cell.FullAddress;
+            CeldaExcel = _Cell.FullAddress; // (Anexo.ToLower() == _Anexo.ToLower() || _Anexo == "") ? _Cell.Address : _Cell.FullAddress;
+            CeldaXlsx = _Cell.Address;
         }
     }
 }

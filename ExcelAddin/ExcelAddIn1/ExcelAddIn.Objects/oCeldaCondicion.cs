@@ -14,7 +14,7 @@ namespace ExcelAddIn.Objects
         public oCeldaCondicion(string _Expression)
         {
             Original = _Expression;
-            Anexo = $"{_Expression.Replace("[", "").Replace("]", "").Split(',')[0]}";
+            Anexo = _Expression.Contains("Generales") ? $"{_Expression.Replace("[", "").Replace("]", "").Split(',')[0]}" : $"Anexo {int.Parse(_Expression.Replace("[", "").Replace("]", "").Split(',')[0])}";
             Indice = _Expression.Replace("[", "").Replace("]", "").Split(',')[1];
             Columna = int.Parse(_Expression.Replace("[", "").Replace("]", "").Split(',')[2]);
         }
@@ -25,6 +25,8 @@ namespace ExcelAddIn.Objects
         public int Columna { get; set; }
         public int Fila { get; set; } = -1;
         public string CeldaExcel { get; set; }
+        public string Concepto { get; set; }
+        public string Valor { get; set; }
 
         public void setCeldaExcel(ExcelRange _Cell, string _Anexo)
         {

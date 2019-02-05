@@ -21,6 +21,11 @@ namespace ExcelAddIn.Objects {
         public string CondicionExcel { get; private set; }
         public string ResultadoFormula { get; set; }
         public string ResultadoCondicion { get; set; }
+        public string ValorFormula { get; set; }
+        public double Diferencia { get; set; }
+        public double Grupo1 { get; set; }
+        public double Grupo2 { get; set; }
+        public string FormulaNumero { get; set; }
 
         public void setCeldas() {
             List<oCelda> _cFormulas = new List<oCelda>();
@@ -36,6 +41,7 @@ namespace ExcelAddIn.Objects {
         public void setFormulaExcel() {
             FormulaExcel = CeldasFormula.ToString(Formula, true);
             CondicionExcel = (CeldasCondicion.Count() > 0 && CeldasCondicion.Where(o => o.Fila == -1).Count() == 0) ? CeldasCondicion.ToString(Condicion, true) : "";
+            FormulaNumero = CeldasFormula.ToString(Formula);
         }
     }
 }
