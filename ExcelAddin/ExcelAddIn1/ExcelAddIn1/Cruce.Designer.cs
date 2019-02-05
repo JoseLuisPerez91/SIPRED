@@ -45,7 +45,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(271, 79);
+            this.btnCancelar.Location = new System.Drawing.Point(271, 71);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 4;
@@ -55,7 +55,7 @@
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(190, 79);
+            this.btnAceptar.Location = new System.Drawing.Point(190, 71);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(75, 23);
             this.btnAceptar.TabIndex = 5;
@@ -65,7 +65,7 @@
             // 
             // pgbCruces
             // 
-            this.pgbCruces.Location = new System.Drawing.Point(12, 12);
+            this.pgbCruces.Location = new System.Drawing.Point(16, 12);
             this.pgbCruces.Name = "pgbCruces";
             this.pgbCruces.Size = new System.Drawing.Size(511, 23);
             this.pgbCruces.TabIndex = 6;
