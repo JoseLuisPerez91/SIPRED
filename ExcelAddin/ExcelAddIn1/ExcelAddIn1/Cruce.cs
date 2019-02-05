@@ -172,11 +172,13 @@ namespace ExcelAddIn1 {
                 CreatePDF(_result.ToArray(), _Cruces, _Path);
             else
                 MessageBox.Show("No se encontraron diferencias", "Información Correcta", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            this.Close();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
         }
         public static string ColumnAdress(int col)
         {

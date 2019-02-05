@@ -34,6 +34,16 @@ namespace ExcelAddIn1 {
 
                     FillYears(cmbAnio);
                     FillTemplateType(cmbTipo);
+                    /*
+                    if (!_result.Key)
+                    {
+                        MessageBox.Show(_result.Value[0], "Conexión de Red", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        FillYears(cmbAnio);
+                        FillTemplateType(cmbTipo);
+                    }*/
                 }
             }
             else{
@@ -57,6 +67,7 @@ namespace ExcelAddIn1 {
             cmbAnio.SelectedIndex = 0;
             cmbTipo.SelectedIndex = 0;
             cmbTipo.Focus();
+            this.Close();
         }
 
         private void btnCrear_Click(object sender, EventArgs e) {
@@ -93,7 +104,7 @@ namespace ExcelAddIn1 {
                     else if(_Comprobacion.EsValida() && !_Comprobacion.EsFormula())
                         _workSheet.Cells[_Comprobacion.Destino.CeldaExcel].Value = _Comprobacion.FormulaExcel;
                 }
-                _package.Workbook.CreateVBAProject();
+                //_package.Workbook.CreateVBAProject();
                 byte[] _NewTemplate = _package.GetAsByteArray();
                 File.WriteAllBytes(_DestinationPath, _NewTemplate);
             }

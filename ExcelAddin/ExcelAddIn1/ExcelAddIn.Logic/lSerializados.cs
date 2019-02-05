@@ -9,23 +9,34 @@ using Newtonsoft.Json;
 using OfficeOpenXml;
 using ExcelAddIn.Objects;
 using ExcelAddIn.Access;
+using System.Net;
 
 namespace ExcelAddIn.Logic {
     public class lSerializados : aSerializados {
         public lSerializados() { }
 
         public KeyValuePair<bool, string[]> ObtenerSerializados() {
-            KeyValuePair<bool, string[]> _TiposPlantillas = ObtenerTiposPlantillas();
-            KeyValuePair<bool, string[]> _Cruces = ObtenerCruces();
-            KeyValuePair<bool, string[]> _Plantillas = ObtenerPlantillas();
-            KeyValuePair<bool, string[]> _Comprobaciones = ObtenerComprobaciones();
-            bool _Key = (!_TiposPlantillas.Key || !_Cruces.Key || !_Plantillas.Key || !_Comprobaciones.Key);
+            bool _Key= true;
             _Messages = new List<string>();
-            _Messages.AddRange(_TiposPlantillas.Value);
-            _Messages.AddRange(_Cruces.Value);
-            _Messages.AddRange(_Plantillas.Value);
-            _Messages.AddRange(_Comprobaciones.Value);
 
+            if (!CheckConnection("http://www.google.com"))
+            {
+                string[] input = { "No existe conexión con el servidor de datos... Contacte a un Administrador de Red para ver las opciones de conexión." };
+                _Messages.AddRange(input);
+                _Key = false;
+            }
+            else
+            {
+                KeyValuePair<bool, string[]> _TiposPlantillas = ObtenerTiposPlantillas();
+                KeyValuePair<bool, string[]> _Cruces = ObtenerCruces();
+                KeyValuePair<bool, string[]> _Plantillas = ObtenerPlantillas();
+                KeyValuePair<bool, string[]> _Comprobaciones = ObtenerComprobaciones();
+                _Key = (!_TiposPlantillas.Key || !_Cruces.Key || !_Plantillas.Key || !_Comprobaciones.Key);
+                _Messages.AddRange(_TiposPlantillas.Value);
+                _Messages.AddRange(_Cruces.Value);
+                _Messages.AddRange(_Plantillas.Value);
+                _Messages.AddRange(_Comprobaciones.Value);
+            }
             return new KeyValuePair<bool, string[]>(_Key, _Messages.ToArray());
         }
 
@@ -168,6 +179,25 @@ namespace ExcelAddIn.Logic {
                 }
             }
             return JsonConvert.SerializeObject(_Comprobaciones);
+        }
+        public bool CheckConnection(String URL)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
+                request.Timeout = 5000;
+                request.Credentials = CredentialCache.DefaultNetworkCredentials;
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                    return true;
+                else
+                    return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
