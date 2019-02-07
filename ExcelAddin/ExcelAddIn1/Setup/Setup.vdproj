@@ -27,6 +27,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_15C97A285CC6457EB0DDFEB0466E6A7F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_19A260B59B254FA7A6E2BD91CD36B82D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -34,6 +40,12 @@
         "Entry"
         {
         "MsmKey" = "8:_25773E64A23549AC9889482DC5C9179D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_37B58200A6A74E458A6B2C2EFE40D624"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -105,12 +117,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_70F45294C3514D44AA9EC5784BDAFD6E"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_7E52C4DA65AA4792BCAD7ACD4D73B1B2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -135,7 +141,25 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_90CA371BCEF94591ADBCC10BD390AA0E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_942104E414B2458CA2C5E57E62B13438"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_99B5B36ECCEF4D46BEE6C979A92360F9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9ECB93470A4D48728419EC874B14B09C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -405,12 +429,52 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_15C97A285CC6457EB0DDFEB0466E6A7F"
+            {
+            "SourcePath" = "8:..\\ExcelAddIn1\\jsons\\ValidacionCruces.json"
+            "TargetName" = "8:ValidacionCruces.json"
+            "Tag" = "8:"
+            "Folder" = "8:_99CF2C66FB784EC4AE8F8D99FBCEC32C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_19A260B59B254FA7A6E2BD91CD36B82D"
             {
             "SourcePath" = "8:..\\ExcelAddIn1\\jsons\\Plantillas.json"
             "TargetName" = "8:Plantillas.json"
             "Tag" = "8:"
             "Folder" = "8:_99CF2C66FB784EC4AE8F8D99FBCEC32C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_37B58200A6A74E458A6B2C2EFE40D624"
+            {
+            "SourcePath" = "8:..\\ExcelAddIn1\\templates\\SIPRED-EstadosFinan.xlsm"
+            "TargetName" = "8:SIPRED-EstadosFinan.xlsm"
+            "Tag" = "8:"
+            "Folder" = "8:_DF4852360417469FB6B46F50677B254B"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -507,26 +571,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_70F45294C3514D44AA9EC5784BDAFD6E"
-            {
-            "SourcePath" = "8:..\\ExcelAddIn1\\templates\\SIPRED-EstadosFinancierosGeneral.xlsm"
-            "TargetName" = "8:SIPRED-EstadosFinancierosGeneral.xlsm"
-            "Tag" = "8:"
-            "Folder" = "8:_DF4852360417469FB6B46F50677B254B"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7E52C4DA65AA4792BCAD7ACD4D73B1B2"
             {
             "SourcePath" = "8:..\\ExcelAddIn1\\App.config"
@@ -578,10 +622,70 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_90CA371BCEF94591ADBCC10BD390AA0E"
+            {
+            "SourcePath" = "8:..\\ExcelAddIn1\\bin\\Debug\\ExcelAddIn1.dll.manifest"
+            "TargetName" = "8:ExcelAddIn1.dll.manifest"
+            "Tag" = "8:"
+            "Folder" = "8:_EC229B71F77142AFBADFB82D54964E64"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_942104E414B2458CA2C5E57E62B13438"
             {
             "SourcePath" = "8:..\\..\\..\\..\\..\\Promociones\\Install.ico"
             "TargetName" = "8:Install.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_EC229B71F77142AFBADFB82D54964E64"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_99B5B36ECCEF4D46BEE6C979A92360F9"
+            {
+            "SourcePath" = "8:..\\ExcelAddIn1\\bin\\Debug\\ExcelAddIn1.vsto"
+            "TargetName" = "8:ExcelAddIn1.vsto"
+            "Tag" = "8:"
+            "Folder" = "8:_EC229B71F77142AFBADFB82D54964E64"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9ECB93470A4D48728419EC874B14B09C"
+            {
+            "SourcePath" = "8:..\\ExcelAddIn1\\bin\\Debug\\ExcelAddIn1.pdb"
+            "TargetName" = "8:ExcelAddIn1.pdb"
             "Tag" = "8:"
             "Folder" = "8:_EC229B71F77142AFBADFB82D54964E64"
             "Condition" = "8:"
@@ -821,7 +925,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:DSAT"
         "ProductCode" = "8:{2B12A366-ACED-45A3-977B-2C4398E0DD0F}"
-        "PackageCode" = "8:{D6D9F53D-DAE5-4657-A700-E0704B9E0936}"
+        "PackageCode" = "8:{797FA2FF-F0AD-4FEE-8CC6-7E75DA778DB4}"
         "UpgradeCode" = "8:{0811A66E-A62D-40A9-896E-AD8C1D161EF4}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

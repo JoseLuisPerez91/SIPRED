@@ -31,10 +31,10 @@
     <DefineConstants>VSTO40</DefineConstants>
     <IsWebBootstrapper>False</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <PublishUrl>C:\Users\lasoriano\Documents\Pruebas SIPRED\</PublishUrl>
+    <PublishUrl>C:\DSAT\Setup\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.1</ApplicationVersion>
+    <ApplicationVersion>1.0.0.2</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -49,7 +49,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 y x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -59,7 +59,7 @@
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.VSTORuntime.4.0">
       <Visible>False</Visible>
-      <ProductName>Microsoft Visual Studio 2010 Tools for Office Runtime %28x86 and x64%29</ProductName>
+      <ProductName>Runtime de Microsoft Visual Studio 2010 Tools para Office %28x86 y x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
@@ -205,11 +205,11 @@
     <Compile Include="Cruce.Designer.cs">
       <DependentUpon>Cruce.cs</DependentUpon>
     </Compile>
-    <Compile Include="FileJson.cs">
+    <Compile Include="LoadTemplates.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FileJson.Designer.cs">
-      <DependentUpon>FileJson.cs</DependentUpon>
+    <Compile Include="LoadTemplates.Designer.cs">
+      <DependentUpon>LoadTemplates.cs</DependentUpon>
     </Compile>
     <Compile Include="LoadTemplate.cs">
       <SubType>Form</SubType>
@@ -237,6 +237,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LoadTemplate.resx">
       <DependentUpon>LoadTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoadTemplates.resx">
+      <DependentUpon>LoadTemplates.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Nuevo.resx">
       <DependentUpon>Nuevo.cs</DependentUpon>

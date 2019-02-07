@@ -31,15 +31,29 @@ namespace ExcelAddIn.Logic {
                 KeyValuePair<bool, string[]> _Cruces = ObtenerCruces();
                 KeyValuePair<bool, string[]> _Plantillas = ObtenerPlantillas();
                 KeyValuePair<bool, string[]> _Comprobaciones = ObtenerComprobaciones();
-                _Key = (!_TiposPlantillas.Key || !_Cruces.Key || !_Plantillas.Key || !_Comprobaciones.Key);
+                KeyValuePair<bool, string[]> _Validaciones = ObtenerValidacionCruces();
+                _Key = (!_TiposPlantillas.Key || !_Cruces.Key || !_Plantillas.Key || !_Comprobaciones.Key || !_Validaciones.Key);
                 _Messages.AddRange(_TiposPlantillas.Value);
                 _Messages.AddRange(_Cruces.Value);
                 _Messages.AddRange(_Plantillas.Value);
                 _Messages.AddRange(_Comprobaciones.Value);
+                _Messages.AddRange(_Validaciones.Value);
             }
             return new KeyValuePair<bool, string[]>(_Key, _Messages.ToArray());
         }
 
+        new KeyValuePair<bool, string[]> ObtenerValidacionCruces()
+        {
+            KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerValidacionCruces();
+            if (_result.Key.Key)
+            {
+                string _JsonData = (string)_result.Value;
+                File.WriteAllText($"{Access.Configuration.Path}\\jsons\\ValidacionCruces.json", _JsonData);
+                return new KeyValuePair<bool, string[]>(true, new string[] { "Se generó correctamente el archivo json para la Validacion de Cruces." });
+            }
+            else { }
+            return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
+        }
         new KeyValuePair<bool, string[]> ObtenerTiposPlantillas() {
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerTiposPlantillas();
             if(_result.Key.Key) {

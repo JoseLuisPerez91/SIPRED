@@ -61,6 +61,7 @@
     <Compile Include="oCruce.cs" />
     <Compile Include="oPlantilla.cs" />
     <Compile Include="oTipoPlantilla.cs" />
+    <Compile Include="oValidaCruces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

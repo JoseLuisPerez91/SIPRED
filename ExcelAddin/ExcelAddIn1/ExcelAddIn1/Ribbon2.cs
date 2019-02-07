@@ -41,7 +41,7 @@ namespace ExcelAddIn1 {
         {
             if (cConexion)
             {
-                LoadTemplate _Template = new LoadTemplate();
+                LoadTemplates _Template = new LoadTemplates();
                 _Template.Show();
             }
             else

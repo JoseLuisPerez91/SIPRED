@@ -23,16 +23,20 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnAceptar = new System.Windows.Forms.Button();
+            this.pgbCruces = new System.Windows.Forms.ProgressBar();
+            this.oValidaCrucesBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.oValidaCrucesBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTitle
             // 
             this.lblTitle.BackColor = System.Drawing.SystemColors.Info;
             this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitle.Location = new System.Drawing.Point(13, 37);
+            this.lblTitle.Location = new System.Drawing.Point(13, 38);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(514, 23);
             this.lblTitle.TabIndex = 0;
@@ -41,7 +45,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(271, 96);
+            this.btnCancelar.Location = new System.Drawing.Point(271, 71);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 4;
@@ -51,7 +55,7 @@
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(190, 96);
+            this.btnAceptar.Location = new System.Drawing.Point(190, 71);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(75, 23);
             this.btnAceptar.TabIndex = 5;
@@ -59,11 +63,24 @@
             this.btnAceptar.UseVisualStyleBackColor = true;
             this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
+            // pgbCruces
+            // 
+            this.pgbCruces.Location = new System.Drawing.Point(16, 12);
+            this.pgbCruces.Name = "pgbCruces";
+            this.pgbCruces.Size = new System.Drawing.Size(511, 23);
+            this.pgbCruces.TabIndex = 6;
+            this.pgbCruces.Visible = false;
+            // 
+            // oValidaCrucesBindingSource
+            // 
+            this.oValidaCrucesBindingSource.DataSource = typeof(ExcelAddIn.Objects.oValidaCruces);
+            // 
             // Cruce
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(539, 130);
+            this.ClientSize = new System.Drawing.Size(539, 106);
+            this.Controls.Add(this.pgbCruces);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.lblTitle);
@@ -71,6 +88,7 @@
             this.Name = "Cruce";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Verificación de Cruces";
+            ((System.ComponentModel.ISupportInitialize)(this.oValidaCrucesBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -80,5 +98,7 @@
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Button btnAceptar;
+        private System.Windows.Forms.BindingSource oValidaCrucesBindingSource;
+        private System.Windows.Forms.ProgressBar pgbCruces;
     }
 }

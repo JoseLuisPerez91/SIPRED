@@ -15,28 +15,18 @@ using ExcelAddIn.Logic;
 
 namespace ExcelAddIn1
 {
-    public partial class LoadTemplate : Base
+    public partial class LoadTemplates : Base
     {
-        public LoadTemplate()
+        public LoadTemplates()
         {
             InitializeComponent();
             FillTemplateType(cmbTipoPlantilla);
             FillYears(cmbAnio);
         }
 
-        private void btnSeleccionar_Click(object sender, EventArgs e)
-        {
-            DialogResult _Result = ofdTemplate.ShowDialog();
-        }
-
         private void ofdTemplate_FileOk(object sender, CancelEventArgs e) { txtPlantilla.Text = ofdTemplate.FileName; }
-
-        private void btnCancelar_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void btnCargar_Click(object sender, EventArgs e)
+        
+        private void btnCargar_Click_1(object sender, EventArgs e)
         {
             string _Message = (cmbTipoPlantilla.SelectedIndex == 0) ? "- Debe seleccionar un tipo." : "";
             _Message += (cmbAnio.SelectedIndex == 0) ? ((_Message.Length > 0) ? "\r\n" : "") + "- Debe seleccionar un año." : "";
@@ -60,7 +50,7 @@ namespace ExcelAddIn1
                 _response = MessageBox.Show($"¿Desea reemplazar la plantilla para {((oTipoPlantilla)cmbTipoPlantilla.SelectedItem).FullName} y {cmbAnio.SelectedValue.ToString()}?", "Plantilla Existente", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (_response == DialogResult.No)
                 {
-                    btnCancelar_Click(btnCancelar, null);
+                    btnCancelar_Click_1(btnCancelar, null);
                     return;
                 }
             }
@@ -69,7 +59,17 @@ namespace ExcelAddIn1
             foreach (string _Msg in _result.Value) _Messages += ((_Messages.Length > 0) ? "\r\n" : "") + _Msg;
             if (_result.Key && _response != DialogResult.Yes) _Messages = "La plantilla fue reemplazada con éxito";
             MessageBox.Show(_Messages, (_result.Key) ? "Proceso Existoso" : "Información Faltante", MessageBoxButtons.OK, (_result.Key) ? MessageBoxIcon.Information : MessageBoxIcon.Exclamation);
-            if (_result.Key) btnCancelar_Click(btnCancelar, null);
+            if (_result.Key) btnCancelar_Click_1(btnCancelar, null);
+        }
+
+        private void btnCancelar_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnSeleccionar_Click_1(object sender, EventArgs e)
+        {
+            DialogResult _Result = ofdTemplate.ShowDialog();
         }
     }
 }
