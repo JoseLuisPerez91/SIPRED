@@ -43,8 +43,8 @@
             this.btnAgregarIndice = this.Factory.CreateRibbonButton();
             this.btnEliminarIndice = this.Factory.CreateRibbonButton();
             this.btnExplicacion = this.Factory.CreateRibbonMenu();
-            this.button11 = this.Factory.CreateRibbonButton();
-            this.button12 = this.Factory.CreateRibbonButton();
+            this.btnAgregarExplicacion = this.Factory.CreateRibbonButton();
+            this.btnEliminaeExplicacion = this.Factory.CreateRibbonButton();
             this.btnImprimir = this.Factory.CreateRibbonButton();
             this.group2 = this.Factory.CreateRibbonGroup();
             this.btnCruces = this.Factory.CreateRibbonButton();
@@ -143,31 +143,31 @@
             // 
             this.btnExplicacion.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.btnExplicacion.Image = ((System.Drawing.Image)(resources.GetObject("btnExplicacion.Image")));
-            this.btnExplicacion.Items.Add(this.button11);
-            this.btnExplicacion.Items.Add(this.button12);
+            this.btnExplicacion.Items.Add(this.btnAgregarExplicacion);
+            this.btnExplicacion.Items.Add(this.btnEliminaeExplicacion);
             this.btnExplicacion.Label = "Explicación";
             this.btnExplicacion.Name = "btnExplicacion";
             this.btnExplicacion.ScreenTip = "Explicaciones";
             this.btnExplicacion.ShowImage = true;
             this.btnExplicacion.SuperTip = "Agrega o elimina explicaciones en un anexo o apartado. ";
             // 
-            // button11
+            // btnAgregarExplicacion
             // 
-            this.button11.Image = ((System.Drawing.Image)(resources.GetObject("button11.Image")));
-            this.button11.Label = "Agregar";
-            this.button11.Name = "button11";
-            this.button11.ScreenTip = "Agregar explicación";
-            this.button11.ShowImage = true;
-            this.button11.SuperTip = "Inserta una fila de explicación debajo de la celda seleccionada. ";
+            this.btnAgregarExplicacion.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarExplicacion.Image")));
+            this.btnAgregarExplicacion.Label = "Agregar";
+            this.btnAgregarExplicacion.Name = "btnAgregarExplicacion";
+            this.btnAgregarExplicacion.ScreenTip = "Agregar explicación";
+            this.btnAgregarExplicacion.ShowImage = true;
+            this.btnAgregarExplicacion.SuperTip = "Inserta una fila de explicación debajo de la celda seleccionada. ";
             // 
-            // button12
+            // btnEliminaeExplicacion
             // 
-            this.button12.Image = ((System.Drawing.Image)(resources.GetObject("button12.Image")));
-            this.button12.Label = "Eliminar";
-            this.button12.Name = "button12";
-            this.button12.ScreenTip = "Eliminar explicación";
-            this.button12.ShowImage = true;
-            this.button12.SuperTip = "Elimina toda la fila de la explicación seleccionada.";
+            this.btnEliminaeExplicacion.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminaeExplicacion.Image")));
+            this.btnEliminaeExplicacion.Label = "Eliminar";
+            this.btnEliminaeExplicacion.Name = "btnEliminaeExplicacion";
+            this.btnEliminaeExplicacion.ScreenTip = "Eliminar explicación";
+            this.btnEliminaeExplicacion.ShowImage = true;
+            this.btnEliminaeExplicacion.SuperTip = "Elimina toda la fila de la explicación seleccionada.";
             // 
             // btnImprimir
             // 
@@ -312,8 +312,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnCrucesAdmin;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnComprobacionesAdmin;
         internal Microsoft.Office.Tools.Ribbon.RibbonMenu btnExplicacion;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button11;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button12;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnAgregarExplicacion;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnEliminaeExplicacion;
         internal Microsoft.Office.Tools.Ribbon.RibbonMenu btnIndice;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnAgregarIndice;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnEliminarIndice;

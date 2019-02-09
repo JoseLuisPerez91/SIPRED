@@ -18,7 +18,7 @@ namespace ExcelAddIn1
             //myUserControl1 = new MyUserControl();
             //myCustomTaskPane = this.CustomTaskPanes.Add(myUserControl1, "My Task Pane");
             //myCustomTaskPane.Visible = true;
-          
+            Globals.ThisAddIn.Application.SheetSelectionChange += new Excel.AppEvents_SheetSelectionChangeEventHandler(Application_SheetSelectionChange);
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
@@ -28,6 +28,18 @@ namespace ExcelAddIn1
         //{
         //    return new Ribbon1();
         //}
+
+
+        void Application_SheetSelectionChange(object Sh, Excel.Range Target)
+        {
+            
+
+            Globals.Ribbons.Ribbon2.btnAgregarIndice.Enabled = (!Target.AddressLocal.Contains(":"));
+            Globals.Ribbons.Ribbon2.btnAgregarExplicacion.Enabled = (!Target.AddressLocal.Contains(":"));
+            Globals.Ribbons.Ribbon2.btnEliminarIndice.Enabled = (!Target.AddressLocal.Contains(";"));// si  selecciona celdas intercaladas
+            Globals.Ribbons.Ribbon2.btnEliminaeExplicacion.Enabled = (!Target.AddressLocal.Contains(";"));// si  selecciona celdas intercaladas
+
+        }
 
 
         #region VSTO generated code
