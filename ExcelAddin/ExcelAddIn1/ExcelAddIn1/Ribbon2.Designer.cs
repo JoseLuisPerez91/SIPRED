@@ -37,9 +37,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ribbon2));
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
-            this.group2 = this.Factory.CreateRibbonGroup();
-            this.group3 = this.Factory.CreateRibbonGroup();
-            this.group4 = this.Factory.CreateRibbonGroup();
             this.btnNew = this.Factory.CreateRibbonButton();
             this.btnPrellenar = this.Factory.CreateRibbonButton();
             this.btnIndice = this.Factory.CreateRibbonMenu();
@@ -49,10 +46,13 @@
             this.button11 = this.Factory.CreateRibbonButton();
             this.button12 = this.Factory.CreateRibbonButton();
             this.btnImprimir = this.Factory.CreateRibbonButton();
+            this.group2 = this.Factory.CreateRibbonGroup();
             this.btnCruces = this.Factory.CreateRibbonButton();
+            this.group3 = this.Factory.CreateRibbonGroup();
             this.btnConvertir = this.Factory.CreateRibbonButton();
             this.btnConvertirMas = this.Factory.CreateRibbonButton();
             this.btnTransferir = this.Factory.CreateRibbonButton();
+            this.group4 = this.Factory.CreateRibbonGroup();
             this.btnPlantilla = this.Factory.CreateRibbonButton();
             this.btnCrucesAdmin = this.Factory.CreateRibbonButton();
             this.btnComprobacionesAdmin = this.Factory.CreateRibbonButton();
@@ -81,28 +81,6 @@
             this.group1.Items.Add(this.btnImprimir);
             this.group1.Label = "HOJA DE TRABAJO";
             this.group1.Name = "group1";
-            // 
-            // group2
-            // 
-            this.group2.Items.Add(this.btnCruces);
-            this.group2.Label = "VERIFICACIONES";
-            this.group2.Name = "group2";
-            // 
-            // group3
-            // 
-            this.group3.Items.Add(this.btnConvertir);
-            this.group3.Items.Add(this.btnConvertirMas);
-            this.group3.Items.Add(this.btnTransferir);
-            this.group3.Label = "HERRAMIENTAS SAT";
-            this.group3.Name = "group3";
-            // 
-            // group4
-            // 
-            this.group4.Items.Add(this.btnPlantilla);
-            this.group4.Items.Add(this.btnCrucesAdmin);
-            this.group4.Items.Add(this.btnComprobacionesAdmin);
-            this.group4.Label = "ADMINISTRACIÓN";
-            this.group4.Name = "group4";
             // 
             // btnNew
             // 
@@ -159,6 +137,7 @@
             this.btnEliminarIndice.ScreenTip = "Eliminar índice";
             this.btnEliminarIndice.ShowImage = true;
             this.btnEliminarIndice.SuperTip = "Elimina toda la fila del índice seleccionado";
+            this.btnEliminarIndice.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnEliminarIndice_Click);
             // 
             // btnExplicacion
             // 
@@ -200,6 +179,12 @@
             this.btnImprimir.ShowImage = true;
             this.btnImprimir.SuperTip = "Identifica los anexos que tienen información generando una vista de impresión.";
             // 
+            // group2
+            // 
+            this.group2.Items.Add(this.btnCruces);
+            this.group2.Label = "VERIFICACIONES";
+            this.group2.Name = "group2";
+            // 
             // btnCruces
             // 
             this.btnCruces.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -210,6 +195,14 @@
             this.btnCruces.ShowImage = true;
             this.btnCruces.SuperTip = "Realiza la verificación de cruces entre apartados o anexos.";
             this.btnCruces.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCruces_Click);
+            // 
+            // group3
+            // 
+            this.group3.Items.Add(this.btnConvertir);
+            this.group3.Items.Add(this.btnConvertirMas);
+            this.group3.Items.Add(this.btnTransferir);
+            this.group3.Label = "HERRAMIENTAS SAT";
+            this.group3.Name = "group3";
             // 
             // btnConvertir
             // 
@@ -242,6 +235,14 @@
             this.btnTransferir.ScreenTip = "Transferir información";
             this.btnTransferir.ShowImage = true;
             this.btnTransferir.SuperTip = "Transfiere la información a la plantilla .xspr";
+            // 
+            // group4
+            // 
+            this.group4.Items.Add(this.btnPlantilla);
+            this.group4.Items.Add(this.btnCrucesAdmin);
+            this.group4.Items.Add(this.btnComprobacionesAdmin);
+            this.group4.Label = "ADMINISTRACIÓN";
+            this.group4.Name = "group4";
             // 
             // btnPlantilla
             // 

@@ -326,7 +326,7 @@ namespace ExcelAddIn1
             {
                 if (Concepto.Length >= c.Caracteres)
                 {
-                    if (Concepto.Substring(0, c.Caracteres).Contains(c.Descripcion))
+                    if (Concepto.ToUpper().Substring(0, c.Caracteres).Contains(c.Descripcion.ToUpper()))
                     {
                         CncValido = true;
                         break;

@@ -18,6 +18,7 @@ namespace ExcelAddIn1
             //myUserControl1 = new MyUserControl();
             //myCustomTaskPane = this.CustomTaskPanes.Add(myUserControl1, "My Task Pane");
             //myCustomTaskPane.Visible = true;
+          
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
