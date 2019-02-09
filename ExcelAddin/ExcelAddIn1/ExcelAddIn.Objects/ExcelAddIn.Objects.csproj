@@ -54,6 +54,9 @@
   <ItemGroup>
     <Compile Include="Assembler.cs" />
     <Compile Include="oAnio.cs" />
+    <Compile Include="oConcepto.cs" />
+    <Compile Include="oRootObject.cs" />
+    <Compile Include="oSubtotal.cs" />
     <Compile Include="oValidaCruces.cs" />
     <Compile Include="oBase.cs" />
     <Compile Include="oCelda.cs" />

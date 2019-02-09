@@ -31,10 +31,10 @@
     <DefineConstants>VSTO40</DefineConstants>
     <IsWebBootstrapper>False</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <PublishUrl>C:\Users\lasoriano\Documents\Pruebas SIPRED\</PublishUrl>
+    <PublishUrl>C:\DSAT\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.1</ApplicationVersion>
+    <ApplicationVersion>1.0.0.3</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -49,7 +49,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 y x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -59,7 +59,7 @@
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.VSTORuntime.4.0">
       <Visible>False</Visible>
-      <ProductName>Microsoft Visual Studio 2010 Tools for Office Runtime %28x86 and x64%29</ProductName>
+      <ProductName>Runtime de Microsoft Visual Studio 2010 Tools para Office %28x86 y x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
@@ -196,6 +196,7 @@
   -->
   <ItemGroup>
     <Compile Include="Assemblers\Assembler.cs" />
+    <Compile Include="Assemblers\Generales.cs" />
     <Compile Include="Base.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -210,6 +211,12 @@
     </Compile>
     <Compile Include="FileJson.Designer.cs">
       <DependentUpon>FileJson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Indices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Indices.Designer.cs">
+      <DependentUpon>Indices.cs</DependentUpon>
     </Compile>
     <Compile Include="LoadTemplate.cs">
       <SubType>Form</SubType>
@@ -234,6 +241,9 @@
     </Compile>
     <EmbeddedResource Include="Cruce.resx">
       <DependentUpon>Cruce.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices.resx">
+      <DependentUpon>Indices.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoadTemplate.resx">
       <DependentUpon>LoadTemplate.cs</DependentUpon>
