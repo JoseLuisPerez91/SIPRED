@@ -50,7 +50,7 @@ namespace ExcelAddIn1 {
             int iTotalColumns; int k = 1;
             bool puedeinsertar = false;
             string IndicePrevio;
-
+            tieneformula = false;
             string tag = "";
             try
             {
@@ -73,14 +73,17 @@ namespace ExcelAddIn1 {
 
                                 if ((NroFilaPrincipal - 1) > 0)
                                 {
-                                    objRange = (Excel.Range)ActiveWorksheet.Cells[NroFilaPrincipal - 1, 1];
+                                    var RangeConFr = ActiveWorksheet.get_Range(string.Format("{0}:{0}", NroFilaPrincipal, Type.Missing));
                                     iTotalColumns = ActiveWorksheet.UsedRange.Columns.Count;
-
+                                    
                                     while (k <= iTotalColumns)
                                     {
 
-                                        if (objRange.Cells[k].HasFormula)
+                                        if (RangeConFr.Cells[k].HasFormula)
+                                        {
                                             tieneformula = true;
+                                            break;
+                                        }
 
                                         k = k + 1;
                                     }
@@ -126,7 +129,10 @@ namespace ExcelAddIn1 {
                                     {
 
                                         if (RangeConFr.Cells[k].HasFormula)
+                                        {
                                             tieneformula = true;
+                                            break;
+                                        }
 
                                         k = k + 1;
                                     }
@@ -286,7 +292,12 @@ namespace ExcelAddIn1 {
                     string NM = NombreRangosDEL.FirstOrDefault();
                     sheetControl.Controls.Remove(NM);
                     foreach (Excel.Name item2 in wb.Names)
-                        NombreRangos.Add(item2.Name);
+                    {
+                        if (item2.Name.Substring(0, 3) == "IA_")
+                        {
+                            NombreRangos.Add(item2.Name);
+                        }
+                    }
                     string[] split = NM.Split('_');
                     NM = split[1];
                     // foreach (string Nm in NombreRangosDEL)
@@ -307,8 +318,13 @@ namespace ExcelAddIn1 {
 
                     objRange = (Excel.Range)sheet.Cells[row - 1, 1];
                     string IndiceAnt = objRange.get_Value(Type.Missing).ToString();
-                    //i = 1;
+                    //me salto la explciacion
+                    if (IndiceAnt.Trim()=="EXPLICACION")
+                    {
 
+                        objRange = (Excel.Range)sheet.Cells[row - 2, 1];
+                        IndiceAnt = objRange.get_Value(Type.Missing).ToString();
+                    }
                     while (NombreRangos.Contains("IA_" + IndiceActivo))
                     {
                         tienedif = false;
@@ -373,6 +389,83 @@ namespace ExcelAddIn1 {
 
 
 
+        }
+
+        private void btnAgregarExplicacion_Click(object sender, RibbonControlEventArgs e)
+        {
+            try
+            {
+                Excel.Worksheet ActiveWorksheet = Globals.ThisAddIn.Application.ActiveSheet;
+
+                Excel.Range currentCell = (Excel.Range)Globals.ThisAddIn.Application.ActiveCell; // Fila activa
+                Excel.Range objRange = (Excel.Range)ActiveWorksheet.Cells[currentCell.Row, 9];// voy a la columna 9
+                string DebeExplicar = objRange.get_Value(Type.Missing);
+                objRange = (Excel.Range)ActiveWorksheet.Cells[currentCell.Row, 1]; // me aseguro que sea la activa en la columna 1
+                string Indice = objRange.get_Value(Type.Missing);
+                objRange = (Excel.Range)ActiveWorksheet.Cells[currentCell.Row, 2];// voy a la columna 2 de concepto del indice activo
+                string Concepto = objRange.get_Value(Type.Missing);
+                objRange = (Excel.Range)ActiveWorksheet.Cells[currentCell.Row + 1, 1]; // voy al indice siguiente
+                string IndiceSig = objRange.get_Value(Type.Missing);
+
+                if (Indice != null)
+                {
+                    if (Indice.ToString().ToUpper().Trim() == "EXPLICACION")
+                        MessageBox.Show("El índice " + Indice.ToString() + "no es válido", "Agregar Explicación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    else
+                    if (DebeExplicar != null)
+                    {
+                        if (DebeExplicar.ToString().ToUpper() == "SI")
+                        {
+
+                            if (IndiceSig != null)
+                            {
+                                if (IndiceSig.ToString().ToUpper().Trim() == "EXPLICACION")
+                                    MessageBox.Show("El índice " + Indice.ToString() + " ya tiene una explicación asociada", "Agregar Explicación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                else
+                                    CargaFormulario(Indice, Concepto);
+
+
+                            }
+                            else
+                                CargaFormulario(Indice, Concepto);
+
+
+                        }
+                        else
+                            MessageBox.Show("Debe haber una respuesta afirmativa en la columna ' EXPLICAR VARIACION ' para agregar una explicación en el índice " + Indice.ToString(), "Agregar Explicación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+
+                    }
+                    else
+                        MessageBox.Show("Debe haber una respuesta afirmativa en la columna ' EXPLICAR VARIACION ' para agregar una explicación en el índice " + Indice.ToString(), "Agregar Explicación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                }
+                else
+                    MessageBox.Show("El índice no es válido ", "Agregar Explicación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            }
+            catch { }
+        }
+
+        public static void CargaFormulario(string Indice, string Concepto)
+        {
+            Explicaciones NewExplicacion = new Explicaciones();
+            NewExplicacion.Text = "Explicación índice " + Indice.ToString();
+            if (Concepto != null)
+                NewExplicacion.Text = NewExplicacion.Text + " " + Concepto.ToString();
+
+            NewExplicacion.ShowDialog();
+
+        }
+
+        private void btnEliminaeExplicacion_Click(object sender, RibbonControlEventArgs e)
+        {
+            Excel.Range currentCell = (Excel.Range)Globals.ThisAddIn.Application.ActiveCell;
+            string indice = currentCell.Value2;
+            if (indice.ToUpper().Trim() == "EXPLICACION")
+                currentCell.EntireRow.Delete(Excel.XlDeleteShiftDirection.xlShiftUp);
+            else
+                MessageBox.Show("La fila seleccionada no es una explicación ", "Eliminar Explicación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 }
