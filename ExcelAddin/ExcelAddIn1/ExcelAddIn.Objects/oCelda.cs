@@ -23,7 +23,7 @@ namespace ExcelAddIn.Objects {
         public string CeldaExcel { get; set; }
         public string Concepto { get; set; }
         public string Valor { get; set; }
-
+        public int Grupo { get; set; }
         public void setCeldaExcel(ExcelRange _Cell, string _Anexo) {
             Anexo = _Cell.Worksheet.Name;
             CeldaExcel = (Anexo == _Anexo || _Anexo == "") ? _Cell.Address : _Cell.FullAddress;

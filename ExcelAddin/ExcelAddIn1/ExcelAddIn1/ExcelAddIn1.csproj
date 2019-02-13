@@ -34,7 +34,7 @@
     <PublishUrl>C:\DSAT\Setup\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.2</ApplicationVersion>
+    <ApplicationVersion>1.0.0.3</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -196,6 +196,7 @@
   -->
   <ItemGroup>
     <Compile Include="Assemblers\Assembler.cs" />
+    <Compile Include="Assemblers\Generales.cs" />
     <Compile Include="Base.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -204,6 +205,18 @@
     </Compile>
     <Compile Include="Cruce.Designer.cs">
       <DependentUpon>Cruce.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Explicaciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Explicaciones.Designer.cs">
+      <DependentUpon>Explicaciones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Indices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Indices.Designer.cs">
+      <DependentUpon>Indices.cs</DependentUpon>
     </Compile>
     <Compile Include="LoadTemplates.cs">
       <SubType>Form</SubType>
@@ -234,6 +247,12 @@
     </Compile>
     <EmbeddedResource Include="Cruce.resx">
       <DependentUpon>Cruce.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Explicaciones.resx">
+      <DependentUpon>Explicaciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indices.resx">
+      <DependentUpon>Indices.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoadTemplate.resx">
       <DependentUpon>LoadTemplate.cs</DependentUpon>

@@ -22,6 +22,8 @@ namespace ExcelAddIn.Objects {
         public string ResultadoFormula { get; set; }
         public string ResultadoCondicion { get; set; }
         public string Diferencia { get; set; }
+        public string Grupo1 { get; set; }
+        public string Grupo2 { get; set; }
 
         public void setCeldas() {
             List<oCelda> _cFormulas = new List<oCelda>();
