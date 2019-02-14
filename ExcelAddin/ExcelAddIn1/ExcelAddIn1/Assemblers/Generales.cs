@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.Windows.Forms;
 using System.Diagnostics;
 using ExcelAddIn.Objects;
+using ExcelAddIn.Logic;
 
 namespace ExcelAddIn1
 {
@@ -342,6 +343,31 @@ namespace ExcelAddIn1
           
             string _Path = ExcelAddIn.Access.Configuration.Path;
 
+
+            if (Directory.Exists(_Path + "\\jsons") && Directory.Exists(_Path + "\\templates"))
+            {
+                if (!File.Exists(_Path + "\\jsons\\Indices.json"))
+                {
+                    MessageBox.Show("Los archivos base serán generados... Click en el botón Aceptar para continuar.", "Archivos Base", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    KeyValuePair<bool, string[]> _result = new lSerializados().ObtenerSerializados();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Los archivos base serán generados... Click en el botón Aceptar para continuar.", "Archivos Base", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (!Directory.Exists(_Path + "\\jsons"))
+                {
+                    Directory.CreateDirectory(_Path + "\\jsons");
+                }
+                if (!Directory.Exists(_Path + "\\templates"))
+                {
+                    Directory.CreateDirectory(_Path + "\\templates");
+                }
+
+                KeyValuePair<bool, string[]> _result = new lSerializados().ObtenerSerializados();
+            }
+
             oRootobject _Root = Assembler.LoadJson<oRootobject>($"{_Path}\\jsons\\Indices.json");
            
             Subtotales = _Root.Subtotales;
@@ -353,6 +379,30 @@ namespace ExcelAddIn1
         {
             List<oConcepto> Conceptos = new List<oConcepto>();
             string _Path = ExcelAddIn.Access.Configuration.Path;
+
+            if (Directory.Exists(_Path + "\\jsons") && Directory.Exists(_Path + "\\templates"))
+            {
+                if (!File.Exists(_Path + "\\jsons\\Indices.json"))
+                {
+                    MessageBox.Show("Los archivos base serán generados... Click en el botón Aceptar para continuar.", "Archivos Base", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    KeyValuePair<bool, string[]> _result = new lSerializados().ObtenerSerializados();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Los archivos base serán generados... Click en el botón Aceptar para continuar.", "Archivos Base", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (!Directory.Exists(_Path + "\\jsons"))
+                {
+                    Directory.CreateDirectory(_Path + "\\jsons");
+                }
+                if (!Directory.Exists(_Path + "\\templates"))
+                {
+                    Directory.CreateDirectory(_Path + "\\templates");
+                }
+
+                KeyValuePair<bool, string[]> _result = new lSerializados().ObtenerSerializados();
+            }
 
             oRootobject _Root = Assembler.LoadJson<oRootobject>($"{_Path}\\jsons\\Indices.json");
 

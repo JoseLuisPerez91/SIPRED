@@ -30,6 +30,11 @@ namespace ExcelAddIn.Access {
             return ExecuteScalar("[dbo].[spObtenerValidacionCruces]");
         }
 
+        protected KeyValuePair<KeyValuePair<bool, string>, object> ObtenerIndices()
+        {
+            return ExecuteScalar("[dbo].[spObtenerIndices]");
+        }
+
         protected KeyValuePair<KeyValuePair<bool, string>, object> ObtenerArchivoPlantilla(int _IdPlantilla) {
             SqlParameter[] _Parameters = new SqlParameter[] { new SqlParameter("@pIdPlantilla", _IdPlantilla) };
             return ExecuteScalar("[dbo].[spObtenerArchivoPlantilla]", _Parameters);

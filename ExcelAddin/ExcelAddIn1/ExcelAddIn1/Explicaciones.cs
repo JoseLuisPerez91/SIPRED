@@ -23,6 +23,7 @@ namespace ExcelAddIn1
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
+           
             string Mensaje = string.Empty;
             Excel.Range currentCell = (Excel.Range)Globals.ThisAddIn.Application.ActiveCell.Cells;
             Excel.Worksheet NewActiveWorksheet = Globals.ThisAddIn.Application.ActiveSheet;
@@ -38,7 +39,11 @@ namespace ExcelAddIn1
                   "Explicación índice", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogo == DialogResult.Yes)
                 {
+                    NewActiveWorksheet.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
+
                     Generales.InsertaExplicacion(NewActiveWorksheet, currentCell, TxtExplicacion.Text);
+
+                    NewActiveWorksheet.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true, true, true, true, true, true);
                     this.Close();
                 }
 

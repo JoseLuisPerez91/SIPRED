@@ -32,14 +32,28 @@ namespace ExcelAddIn.Logic {
                 KeyValuePair<bool, string[]> _Plantillas = ObtenerPlantillas();
                 KeyValuePair<bool, string[]> _Comprobaciones = ObtenerComprobaciones();
                 KeyValuePair<bool, string[]> _Validaciones = ObtenerValidacionCruces();
-                _Key = (!_TiposPlantillas.Key || !_Cruces.Key || !_Plantillas.Key || !_Comprobaciones.Key || !_Validaciones.Key);
+                KeyValuePair<bool, string[]> _Indices = ObtenerIndices();
+                _Key = (!_TiposPlantillas.Key || !_Cruces.Key || !_Plantillas.Key || !_Comprobaciones.Key || !_Validaciones.Key || !_Indices.Key);
                 _Messages.AddRange(_TiposPlantillas.Value);
                 _Messages.AddRange(_Cruces.Value);
                 _Messages.AddRange(_Plantillas.Value);
                 _Messages.AddRange(_Comprobaciones.Value);
                 _Messages.AddRange(_Validaciones.Value);
+                _Messages.AddRange(_Indices.Value);
             }
             return new KeyValuePair<bool, string[]>(_Key, _Messages.ToArray());
+        }
+        new KeyValuePair<bool, string[]> ObtenerIndices()
+        {
+            KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerIndices();
+            if (_result.Key.Key)
+            {
+                string _JsonData = (string)_result.Value;
+                File.WriteAllText($"{Access.Configuration.Path}\\jsons\\Indices.json", _JsonData);
+                return new KeyValuePair<bool, string[]>(true, new string[] { "Se generó correctamente el archivo json para los Índices." });
+            }
+            else { }
+            return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
 
         new KeyValuePair<bool, string[]> ObtenerValidacionCruces()

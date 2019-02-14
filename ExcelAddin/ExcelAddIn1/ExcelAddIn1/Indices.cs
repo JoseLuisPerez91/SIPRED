@@ -11,7 +11,6 @@ using Excel = Microsoft.Office.Interop.Excel;
 using Office = Microsoft.Office.Core;
 using Microsoft.Office.Tools.Excel;
 using Microsoft.Office.Core;
-using ExcelAddIn.Access;
 
 namespace ExcelAddIn1
 {
@@ -29,7 +28,7 @@ namespace ExcelAddIn1
         private void btnAccept_Click(object sender, EventArgs e)
         {
             int cantRows = 0;
-            
+           
             if (txtCantIndices.Text.Trim() != string.Empty)
             {
                 cantRows = Convert.ToInt32(txtCantIndices.Text);
@@ -43,6 +42,9 @@ namespace ExcelAddIn1
                     NewActiveWorksheet.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
 
                     Generales.InsertIndice(NewActiveWorksheet, cantRows, currentCell, ConFormula, NroPrincipal);
+
+                    NewActiveWorksheet.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true,true,true,true,true,true,true);
+
                     this.Close();
                 }
                 else

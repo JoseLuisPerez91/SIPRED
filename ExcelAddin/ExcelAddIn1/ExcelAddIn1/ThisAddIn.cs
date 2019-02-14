@@ -19,8 +19,16 @@ namespace ExcelAddIn1
             //myCustomTaskPane = this.CustomTaskPanes.Add(myUserControl1, "My Task Pane");
             //myCustomTaskPane.Visible = true;
             Globals.ThisAddIn.Application.SheetSelectionChange += new Excel.AppEvents_SheetSelectionChangeEventHandler(Application_SheetSelectionChange);
+            Globals.ThisAddIn.Application.SheetSelectionChange += new Excel.AppEvents_SheetSelectionChangeEventHandler(Application_SheetSelectionChange);
+            Globals.ThisAddIn.Application.SheetActivate += new Excel.AppEvents_SheetActivateEventHandler(app_SheetActivate);
         }
-
+        private void app_SheetActivate(object sheet)
+        {
+            if (Globals.ThisAddIn.Application.DisplayAlerts)
+            {
+                Globals.Ribbons.Ribbon2.MensageBloqueo((Excel.Worksheet)sheet);
+            }
+        }
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
         }
