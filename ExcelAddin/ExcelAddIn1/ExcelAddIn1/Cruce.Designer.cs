@@ -29,6 +29,7 @@
             this.btnAceptar = new System.Windows.Forms.Button();
             this.pgbCruces = new System.Windows.Forms.ProgressBar();
             this.oValidaCrucesBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.chksigno = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.oValidaCrucesBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,7 +46,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(271, 71);
+            this.btnCancelar.Location = new System.Drawing.Point(271, 96);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 4;
@@ -55,7 +56,7 @@
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(190, 71);
+            this.btnAceptar.Location = new System.Drawing.Point(190, 96);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(75, 23);
             this.btnAceptar.TabIndex = 5;
@@ -75,11 +76,23 @@
             // 
             this.oValidaCrucesBindingSource.DataSource = typeof(ExcelAddIn.Objects.oValidaCruces);
             // 
+            // chksigno
+            // 
+            this.chksigno.AutoSize = true;
+            this.chksigno.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chksigno.Location = new System.Drawing.Point(56, 73);
+            this.chksigno.Name = "chksigno";
+            this.chksigno.Size = new System.Drawing.Size(159, 17);
+            this.chksigno.TabIndex = 7;
+            this.chksigno.Text = "Validar información sin signo";
+            this.chksigno.UseVisualStyleBackColor = true;
+            // 
             // Cruce
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(539, 106);
+            this.ClientSize = new System.Drawing.Size(539, 131);
+            this.Controls.Add(this.chksigno);
             this.Controls.Add(this.pgbCruces);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.btnCancelar);
@@ -88,8 +101,10 @@
             this.Name = "Cruce";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Verificación de Cruces";
+            this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.oValidaCrucesBindingSource)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -100,5 +115,6 @@
         private System.Windows.Forms.Button btnAceptar;
         private System.Windows.Forms.BindingSource oValidaCrucesBindingSource;
         private System.Windows.Forms.ProgressBar pgbCruces;
+        private System.Windows.Forms.CheckBox chksigno;
     }
 }

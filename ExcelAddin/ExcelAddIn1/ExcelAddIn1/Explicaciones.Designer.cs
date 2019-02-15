@@ -91,7 +91,9 @@
             this.MinimizeBox = false;
             this.Name = "Explicaciones";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "x";
+            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

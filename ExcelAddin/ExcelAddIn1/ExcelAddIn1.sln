@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelAddIn.Access", "ExcelA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelAddIn.Logic", "ExcelAddIn.Logic\ExcelAddIn.Logic.csproj", "{9BA1A592-46CA-43D4-B0DA-D031B8F12BF2}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{234B2CC7-240F-470F-B118-DAEFEE42EC59}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,8 +33,6 @@ Global
 		{9BA1A592-46CA-43D4-B0DA-D031B8F12BF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BA1A592-46CA-43D4-B0DA-D031B8F12BF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BA1A592-46CA-43D4-B0DA-D031B8F12BF2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{234B2CC7-240F-470F-B118-DAEFEE42EC59}.Debug|Any CPU.ActiveCfg = Debug
-		{234B2CC7-240F-470F-B118-DAEFEE42EC59}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

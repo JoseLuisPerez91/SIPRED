@@ -25,13 +25,15 @@
         private void InitializeComponent() {
             this.lblTitle = new System.Windows.Forms.Label();
             this.gbTipo = new System.Windows.Forms.GroupBox();
-            this.cmbAnio = new System.Windows.Forms.ComboBox();
             this.cmbTipo = new System.Windows.Forms.ComboBox();
+            this.cmbAnio = new System.Windows.Forms.ComboBox();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnCrear = new System.Windows.Forms.Button();
             this.sfdTemplate = new System.Windows.Forms.SaveFileDialog();
             this.fbdTemplate = new System.Windows.Forms.FolderBrowserDialog();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.gbTipo.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -46,23 +48,13 @@
             // 
             // gbTipo
             // 
-            this.gbTipo.Controls.Add(this.cmbAnio);
             this.gbTipo.Controls.Add(this.cmbTipo);
             this.gbTipo.Location = new System.Drawing.Point(13, 36);
             this.gbTipo.Name = "gbTipo";
-            this.gbTipo.Size = new System.Drawing.Size(425, 56);
+            this.gbTipo.Size = new System.Drawing.Size(301, 56);
             this.gbTipo.TabIndex = 1;
             this.gbTipo.TabStop = false;
             this.gbTipo.Text = "Tipo";
-            // 
-            // cmbAnio
-            // 
-            this.cmbAnio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbAnio.FormattingEnabled = true;
-            this.cmbAnio.Location = new System.Drawing.Point(350, 20);
-            this.cmbAnio.Name = "cmbAnio";
-            this.cmbAnio.Size = new System.Drawing.Size(69, 21);
-            this.cmbAnio.TabIndex = 1;
             // 
             // cmbTipo
             // 
@@ -70,8 +62,17 @@
             this.cmbTipo.FormattingEnabled = true;
             this.cmbTipo.Location = new System.Drawing.Point(7, 20);
             this.cmbTipo.Name = "cmbTipo";
-            this.cmbTipo.Size = new System.Drawing.Size(338, 21);
+            this.cmbTipo.Size = new System.Drawing.Size(288, 21);
             this.cmbTipo.TabIndex = 0;
+            // 
+            // cmbAnio
+            // 
+            this.cmbAnio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbAnio.FormattingEnabled = true;
+            this.cmbAnio.Location = new System.Drawing.Point(6, 21);
+            this.cmbAnio.Name = "cmbAnio";
+            this.cmbAnio.Size = new System.Drawing.Size(107, 21);
+            this.cmbAnio.TabIndex = 1;
             // 
             // btnCancelar
             // 
@@ -93,11 +94,22 @@
             this.btnCrear.UseVisualStyleBackColor = true;
             this.btnCrear.Click += new System.EventHandler(this.btnCrear_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.cmbAnio);
+            this.groupBox1.Location = new System.Drawing.Point(320, 35);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(119, 56);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Año";
+            // 
             // Nuevo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(451, 129);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCrear);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.gbTipo);
@@ -106,7 +118,9 @@
             this.Name = "Nuevo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Nuevo";
+            this.TopMost = true;
             this.gbTipo.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -121,5 +135,6 @@
         private System.Windows.Forms.Button btnCrear;
         private System.Windows.Forms.SaveFileDialog sfdTemplate;
         private System.Windows.Forms.FolderBrowserDialog fbdTemplate;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

@@ -12,6 +12,7 @@ using System.IO;
 using Newtonsoft.Json;
 using ExcelAddIn.Objects;
 using ExcelAddIn.Logic;
+using ExcelAddIn.Access;
 
 namespace ExcelAddIn1
 {
@@ -19,9 +20,50 @@ namespace ExcelAddIn1
     {
         public LoadTemplate()
         {
+            string _Path = Configuration.Path;
             InitializeComponent();
-            FillTemplateType(cmbTipoPlantilla);
-            FillYears(cmbAnio);
+            
+            if (Directory.Exists(_Path + "\\jsons") && Directory.Exists(_Path + "\\templates"))
+            {
+                if (File.Exists(_Path + "\\jsons\\TiposPlantillas.json"))
+                {
+                    FillTemplateType(cmbTipoPlantilla);
+                    FillYears(cmbAnio);
+                }
+                else
+                {
+                    this.TopMost = false;
+                    this.Enabled = false;
+                    this.Hide();
+                    FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
+                    _FileJsonfrm._Form = this;
+                    _FileJsonfrm._Process = false;
+                    _FileJsonfrm._window = this.Text;
+                    _FileJsonfrm.Show();
+                    return;
+                }
+            }
+            else
+            {
+                if (!Directory.Exists(_Path + "\\jsons"))
+                {
+                    Directory.CreateDirectory(_Path + "\\jsons");
+                }
+                if (!Directory.Exists(_Path + "\\templates"))
+                {
+                    Directory.CreateDirectory(_Path + "\\templates");
+                }
+
+                this.TopMost = false;
+                this.Enabled = false;
+                this.Hide();
+                FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
+                _FileJsonfrm._Form = this;
+                _FileJsonfrm._Process = false;
+                _FileJsonfrm._window = this.Text;
+                _FileJsonfrm.Show();
+                return;
+            }
         }
 
         private void btnSeleccionar_Click(object sender, EventArgs e)
@@ -46,7 +88,7 @@ namespace ExcelAddIn1
                 MessageBox.Show(_Message, "Información Faltante", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>($"{ExcelAddIn.Access.Configuration.Path}\\jsons\\Plantillas.json");
+            oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>($"{Configuration.Path}\\jsons\\Plantillas.json");
             oPlantilla _Template = new oPlantilla("app_sipred")
             {
                 Anio = (int)cmbAnio.SelectedValue,

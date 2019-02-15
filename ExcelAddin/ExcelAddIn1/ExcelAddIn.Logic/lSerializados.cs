@@ -19,7 +19,7 @@ namespace ExcelAddIn.Logic {
             bool _Key= true;
             _Messages = new List<string>();
 
-            if (!CheckConnection("http://www.google.com"))
+            if (!CheckConnection(Configuration.UrlConnection))
             {
                 string[] input = { "No existe conexión con el servidor de datos... Contacte a un Administrador de Red para ver las opciones de conexión." };
                 _Messages.AddRange(input);
@@ -43,7 +43,7 @@ namespace ExcelAddIn.Logic {
             }
             return new KeyValuePair<bool, string[]>(_Key, _Messages.ToArray());
         }
-        new KeyValuePair<bool, string[]> ObtenerIndices()
+        public new KeyValuePair<bool, string[]> ObtenerIndices()
         {
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerIndices();
             if (_result.Key.Key)
@@ -56,7 +56,7 @@ namespace ExcelAddIn.Logic {
             return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
 
-        new KeyValuePair<bool, string[]> ObtenerValidacionCruces()
+        public new KeyValuePair<bool, string[]> ObtenerValidacionCruces()
         {
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerValidacionCruces();
             if (_result.Key.Key)
@@ -68,7 +68,7 @@ namespace ExcelAddIn.Logic {
             else { }
             return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
-        new KeyValuePair<bool, string[]> ObtenerTiposPlantillas() {
+        public new KeyValuePair<bool, string[]> ObtenerTiposPlantillas() {
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerTiposPlantillas();
             if(_result.Key.Key) {
                 string _JsonData = (string)_result.Value;
@@ -78,7 +78,7 @@ namespace ExcelAddIn.Logic {
             return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
 
-        new KeyValuePair<bool, string[]> ObtenerCruces() {
+        public new KeyValuePair<bool, string[]> ObtenerCruces() {
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerCruces();
             if(_result.Key.Key) {
                 string _JsonData = (string)_result.Value;
@@ -90,7 +90,7 @@ namespace ExcelAddIn.Logic {
             return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
 
-        new KeyValuePair<bool, string[]> ObtenerPlantillas() {
+        public new KeyValuePair<bool, string[]> ObtenerPlantillas() {
             _Messages = new List<string>();
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerPlantillas();
             if(_result.Key.Key) {
@@ -120,7 +120,7 @@ namespace ExcelAddIn.Logic {
             return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
 
-        new KeyValuePair<bool, string[]> ObtenerComprobaciones() {
+        public new KeyValuePair<bool, string[]> ObtenerComprobaciones() {
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerComprobaciones();
             if(_result.Key.Key) {
                 string _JsonData = (string)_result.Value, _FullPath = $"{Access.Configuration.Path}\\jsons\\Comprobaciones.json";
@@ -132,7 +132,7 @@ namespace ExcelAddIn.Logic {
             return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
 
-        string InicializarComprobaciones(oComprobacion[] _Comprobaciones) {
+        public string InicializarComprobaciones(oComprobacion[] _Comprobaciones) {
             oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>($"{Access.Configuration.Path}\\jsons\\Plantillas.json");
             foreach(oPlantilla _Template in _Templates) {
                 FileInfo _Excel = new FileInfo($"{Access.Configuration.Path}\\templates\\{_Template.Nombre}");

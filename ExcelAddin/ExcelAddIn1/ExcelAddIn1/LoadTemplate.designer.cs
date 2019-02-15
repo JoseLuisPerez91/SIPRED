@@ -26,14 +26,16 @@
             this.ofdTemplate = new System.Windows.Forms.OpenFileDialog();
             this.label1 = new System.Windows.Forms.Label();
             this.gbTipo = new System.Windows.Forms.GroupBox();
-            this.cmbAnio = new System.Windows.Forms.ComboBox();
             this.cmbTipoPlantilla = new System.Windows.Forms.ComboBox();
+            this.cmbAnio = new System.Windows.Forms.ComboBox();
             this.lblPlantilla = new System.Windows.Forms.Label();
             this.txtPlantilla = new System.Windows.Forms.TextBox();
             this.btnSeleccionar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnCargar = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.gbTipo.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // ofdTemplate
@@ -53,23 +55,13 @@
             // 
             // gbTipo
             // 
-            this.gbTipo.Controls.Add(this.cmbAnio);
             this.gbTipo.Controls.Add(this.cmbTipoPlantilla);
             this.gbTipo.Location = new System.Drawing.Point(12, 35);
             this.gbTipo.Name = "gbTipo";
-            this.gbTipo.Size = new System.Drawing.Size(426, 55);
+            this.gbTipo.Size = new System.Drawing.Size(309, 55);
             this.gbTipo.TabIndex = 2;
             this.gbTipo.TabStop = false;
             this.gbTipo.Text = "Tipo";
-            // 
-            // cmbAnio
-            // 
-            this.cmbAnio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbAnio.FormattingEnabled = true;
-            this.cmbAnio.Location = new System.Drawing.Point(351, 20);
-            this.cmbAnio.Name = "cmbAnio";
-            this.cmbAnio.Size = new System.Drawing.Size(69, 21);
-            this.cmbAnio.TabIndex = 1;
             // 
             // cmbTipoPlantilla
             // 
@@ -77,8 +69,17 @@
             this.cmbTipoPlantilla.FormattingEnabled = true;
             this.cmbTipoPlantilla.Location = new System.Drawing.Point(7, 20);
             this.cmbTipoPlantilla.Name = "cmbTipoPlantilla";
-            this.cmbTipoPlantilla.Size = new System.Drawing.Size(338, 21);
+            this.cmbTipoPlantilla.Size = new System.Drawing.Size(296, 21);
             this.cmbTipoPlantilla.TabIndex = 0;
+            // 
+            // cmbAnio
+            // 
+            this.cmbAnio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbAnio.FormattingEnabled = true;
+            this.cmbAnio.Location = new System.Drawing.Point(6, 20);
+            this.cmbAnio.Name = "cmbAnio";
+            this.cmbAnio.Size = new System.Drawing.Size(99, 21);
+            this.cmbAnio.TabIndex = 1;
             // 
             // lblPlantilla
             // 
@@ -127,11 +128,22 @@
             this.btnCargar.UseVisualStyleBackColor = true;
             this.btnCargar.Click += new System.EventHandler(this.btnCargar_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.cmbAnio);
+            this.groupBox1.Location = new System.Drawing.Point(327, 35);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(111, 55);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Año";
+            // 
             // LoadTemplate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(451, 183);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCargar);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnSeleccionar);
@@ -143,7 +155,9 @@
             this.Name = "LoadTemplate";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cargar Plantilla";
+            this.TopMost = true;
             this.gbTipo.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -161,5 +175,6 @@
         private System.Windows.Forms.Button btnSeleccionar;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Button btnCargar;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

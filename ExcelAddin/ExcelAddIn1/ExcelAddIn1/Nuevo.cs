@@ -12,15 +12,14 @@ using OfficeOpenXml;
 using Newtonsoft.Json;
 using ExcelAddIn.Objects;
 using ExcelAddIn.Logic;
-//using ExcelAddIn1.Assemblers;
+using ExcelAddIn.Access;
 
 namespace ExcelAddIn1 {
     public partial class Nuevo : Base {
         public Nuevo() {
-            string _Path = ExcelAddIn.Access.Configuration.Path;
+            string _Path = Configuration.Path;
             InitializeComponent();
-
-            Cursor = System.Windows.Forms.Cursors.WaitCursor;
+            
             if (Directory.Exists(_Path + "\\jsons") && Directory.Exists(_Path + "\\templates"))
             {
                 if (File.Exists(_Path + "\\jsons\\TiposPlantillas.json")) {
@@ -29,26 +28,18 @@ namespace ExcelAddIn1 {
                 }
                 else
                 {
-                    MessageBox.Show("Los archivos base serán generados... Click en el botón Aceptar para continuar.", "Archivos Base", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    KeyValuePair<bool, string[]> _result = new lSerializados().ObtenerSerializados();
-
-                    FillYears(cmbAnio);
-                    FillTemplateType(cmbTipo);
-                    /*
-                    if (!_result.Key)
-                    {
-                        MessageBox.Show(_result.Value[0], "Conexión de Red", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        FillYears(cmbAnio);
-                        FillTemplateType(cmbTipo);
-                    }*/
+                    this.TopMost = false;
+                    this.Enabled = false;
+                    this.Hide();
+                    FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
+                    _FileJsonfrm._Form = this;
+                    _FileJsonfrm._Process = false;
+                    _FileJsonfrm._window = this.Text;
+                    _FileJsonfrm.Show();
+                    return;
                 }
             }
             else{
-                MessageBox.Show("Los archivos base serán generados... Click en el botón Aceptar para continuar.", "Archivos Base", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 if (!Directory.Exists(_Path + "\\jsons")) {
                     Directory.CreateDirectory(_Path + "\\jsons");
                 }
@@ -56,29 +47,47 @@ namespace ExcelAddIn1 {
                     Directory.CreateDirectory(_Path + "\\templates");
                 }
 
-                KeyValuePair<bool, string[]> _result = new lSerializados().ObtenerSerializados();
-                FillYears(cmbAnio);
-                FillTemplateType(cmbTipo);
+                this.TopMost = false;
+                this.Enabled = false;
+                this.Hide();
+                FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
+                _FileJsonfrm._Form = this;
+                _FileJsonfrm._Process = false;
+                _FileJsonfrm._window = this.Text;
+                _FileJsonfrm.Show();
+                return;
             }
-            Cursor = System.Windows.Forms.Cursors.Default;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e) {
-            cmbAnio.SelectedIndex = 0;
-            cmbTipo.SelectedIndex = 0;
-            cmbTipo.Focus();
             this.Close();
         }
 
         private void btnCrear_Click(object sender, EventArgs e) {
-            string _Path = ExcelAddIn.Access.Configuration.Path;
+            string _Path = Configuration.Path;
             oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>($"{_Path}\\jsons\\Plantillas.json");
             int _IdTemplateType = (int)cmbTipo.SelectedValue, _Year = (int)cmbAnio.SelectedValue;
+            
+            if (_IdTemplateType == 0)
+            {
+                MessageBox.Show("Favor de seleccionar un Tipo de Plantilla.", "Tipo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.cmbTipo.Focus();
+                return;
+            }
+            if (_Year == 0)
+            {
+                MessageBox.Show("Favor de seleccionar el Año a Aplicar al Tipo de Plantilla.", "Año", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.cmbAnio.Focus();
+                return;
+            }
+            
             oPlantilla _Template = _Templates.FirstOrDefault(o => o.IdTipoPlantilla == _IdTemplateType && o.Anio == _Year);
-            if(_Template == null) {
+
+            if (_Template == null) {
                 MessageBox.Show("No existe una plantilla para el tipo seleccionado, favor de seleccionar otro tipo o contactar al administrador.", "Información Incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
+            
             fbdTemplate.ShowDialog();
             string _DestinationPath = fbdTemplate.SelectedPath;
             if(_DestinationPath == "") {
@@ -91,7 +100,7 @@ namespace ExcelAddIn1 {
         }
 
         protected void GenerarArchivo(oPlantilla _Template, string _DestinationPath, string _Tipo) {
-            string _Path = ExcelAddIn.Access.Configuration.Path;
+            string _Path = Configuration.Path;
             oComprobacion[] _Comprobaciones = Assembler.LoadJson<oComprobacion[]>($"{_Path}\\jsons\\Comprobaciones.json");
             FileInfo _Excel = new FileInfo($"{_Path}\\templates\\{_Template.Nombre}");
             using(ExcelPackage _package = new ExcelPackage(_Excel)) {

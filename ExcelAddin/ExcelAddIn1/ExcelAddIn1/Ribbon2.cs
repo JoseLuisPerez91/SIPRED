@@ -12,6 +12,7 @@ using iTextSharp.text.pdf;
 using iTextSharp.text;
 using System.IO;
 using ExcelAddIn.Logic;
+using ExcelAddIn.Access;
 
 namespace ExcelAddIn1 {
     public partial class Ribbon2
@@ -19,48 +20,46 @@ namespace ExcelAddIn1 {
         #region variable
             SaveFileDialog SaveFileDialog1 = new SaveFileDialog();
             string[,] HojasSPR = new string[,] {
-                                                    {"Contribuyente".ToUpper()          , "31"  ,"3"    ,""                     },
-                                                    {"Contador".ToUpper()               , "35"  ,"3"    ,""                     },
-                                                    {"Representante".ToUpper()          , "36"  ,"3"    ,""                     },
-                                                    {"Generales".ToUpper()              , "446" ,"3"    ,""                     },
-                                                    {"Anexo 1".ToUpper()                , "0"   ,"10"   ,""                     },
-                                                    {"Anexo 2".ToUpper()                , "0"   ,"9"    ,""                     },
-                                                    {"Anexo 3".ToUpper()                , "0"   ,"22"   ,""                     },
-                                                    {"Anexo 4".ToUpper()                , "0"   ,"5"    ,""                     },
-                                                    {"Anexo 5".ToUpper()                , "0"   ,"14"   ,""                     },
-                                                    {"Anexo 6".ToUpper()                , "0"   ,"5"    ,""                     },
-                                                    {"Anexo 7".ToUpper()                , "0"   ,"37"   ,""                     },
-                                                    {"Anexo 8".ToUpper()                , "0"   ,"9"    ,""                     },
-                                                    {"Anexo 9".ToUpper()                , "0"   ,"9"    ,""                     },
-                                                    {"Anexo 10".ToUpper()               , "0"   ,"15"   ,""                     },
-                                                    {"Anexo 11".ToUpper()               , "0"   ,"4"    ,""                     },
-                                                    {"Anexo 12".ToUpper()               , "0"   ,"13"   ,"Generales|C96"        },
-                                                    {"Anexo 13".ToUpper()               , "0"   ,"10"   ,"Generales|C97"        },
-                                                    {"Anexo 14".ToUpper()               , "0"   ,"12"   ,""                     },
-                                                    {"Anexo 15".ToUpper()               , "0"   ,"4"    ,""                     },
-                                                    {"Anexo 16".ToUpper()               , "0"   ,"11"   ,"Generales|C57"        },
-                                                    {"Anexo 17".ToUpper()               , "0"   ,"4"    ,"Generales|C57"        },
-                                                    {"Anexo 18".ToUpper()               , "0"   ,"4"    ,""                     },
-                                                    {"Anexo 19".ToUpper()               , "0"   ,"7"    ,"Generales|C98"        },
-                                                    {"Anexo 20".ToUpper()               , "0"   ,"9"    ,""                     },
-                                                    {"Anexo 21".ToUpper()               , "0"   ,"12"   ,"Generales|C100"       },
-                                                    {"Anexo 22".ToUpper()               , "0"   ,"25"   ,"Generales|C101"       },
-                                                    {"Anexo 23".ToUpper()               , "0"   ,"14"   ,"Generales|C61,C62"    },
-                                                    {"CDF".ToUpper()                    , "78"  ,"5"    ,""                     },
-                                                    {"MPT".ToUpper()                    , "111" ,"3"    ,""                     },
-                                                    {"Notas".ToUpper()                  , "48"  ,"1"    ,""                     },
-                                                    {"Declaratoria".ToUpper()           , "45"  ,"1"    ,""                     },
-                                                    {"Opinión".ToUpper()                , "45"  ,"1"    ,""                     },
-                                                    {"Informe".ToUpper()                , "45"  ,"1"    ,""                     },
-                                                    {"Información Adicional".ToUpper()  , "45"  ,"1"    ,""                     }
+                {"Contribuyente".ToUpper()          , "31"  ,"3"    ,""                     },
+                {"Contador".ToUpper()               , "35"  ,"3"    ,""                     },
+                {"Representante".ToUpper()          , "36"  ,"3"    ,""                     },
+                {"Generales".ToUpper()              , "446" ,"3"    ,""                     },
+                {"Anexo 1".ToUpper()                , "0"   ,"10"   ,""                     },
+                {"Anexo 2".ToUpper()                , "0"   ,"9"    ,""                     },
+                {"Anexo 3".ToUpper()                , "0"   ,"22"   ,""                     },
+                {"Anexo 4".ToUpper()                , "0"   ,"5"    ,""                     },
+                {"Anexo 5".ToUpper()                , "0"   ,"14"   ,""                     },
+                {"Anexo 6".ToUpper()                , "0"   ,"5"    ,""                     },
+                {"Anexo 7".ToUpper()                , "0"   ,"37"   ,""                     },
+                {"Anexo 8".ToUpper()                , "0"   ,"9"    ,""                     },
+                {"Anexo 9".ToUpper()                , "0"   ,"9"    ,""                     },
+                {"Anexo 10".ToUpper()               , "0"   ,"15"   ,""                     },
+                {"Anexo 11".ToUpper()               , "0"   ,"4"    ,""                     },
+                {"Anexo 12".ToUpper()               , "0"   ,"13"   ,"Generales|C96"        },
+                {"Anexo 13".ToUpper()               , "0"   ,"10"   ,"Generales|C97"        },
+                {"Anexo 14".ToUpper()               , "0"   ,"12"   ,""                     },
+                {"Anexo 15".ToUpper()               , "0"   ,"4"    ,""                     },
+                {"Anexo 16".ToUpper()               , "0"   ,"11"   ,"Generales|C57"        },
+                {"Anexo 17".ToUpper()               , "0"   ,"4"    ,"Generales|C57"        },
+                {"Anexo 18".ToUpper()               , "0"   ,"4"    ,""                     },
+                {"Anexo 19".ToUpper()               , "0"   ,"7"    ,"Generales|C98"        },
+                {"Anexo 20".ToUpper()               , "0"   ,"9"    ,""                     },
+                {"Anexo 21".ToUpper()               , "0"   ,"12"   ,"Generales|C100"       },
+                {"Anexo 22".ToUpper()               , "0"   ,"25"   ,"Generales|C101"       },
+                {"Anexo 23".ToUpper()               , "0"   ,"14"   ,"Generales|C61,C62"    },
+                {"CDF".ToUpper()                    , "78"  ,"5"    ,""                     },
+                {"MPT".ToUpper()                    , "111" ,"3"    ,""                     },
+                {"Notas".ToUpper()                  , "48"  ,"1"    ,""                     },
+                {"Declaratoria".ToUpper()           , "45"  ,"1"    ,""                     },
+                {"Opinión".ToUpper()                , "45"  ,"1"    ,""                     },
+                {"Informe".ToUpper()                , "45"  ,"1"    ,""                     },
+                {"Información Adicional".ToUpper()  , "45"  ,"1"    ,""                     }
             };
-
             String[] nombre;
         #endregion
         #region metodos
             public void MensageBloqueo(Excel.Worksheet Sh)
             {
-
                 String CondCad = "";
                 string[] arg;
                 string[] cond;
@@ -79,14 +78,9 @@ namespace ExcelAddIn1 {
                     {
                         //Capturo la condicion
                         CondCad = HojasSPR[ind, 3].Trim();
-
-
                         arg = CondCad.Split('|');
-
                         nom = arg[0].ToString().Trim();
                         ind = Array.IndexOf(nombre, nom.ToUpper());
-
-
                         cond = arg[1].ToString().Trim().Split(',');
 
                         foreach (string i in cond)
@@ -108,11 +102,9 @@ namespace ExcelAddIn1 {
                             MessageBox.Show("No es posible seleccionar el anexo debido a que se encuentra deshabilitado.", "SPRIND", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             ((Excel.Worksheet)Globals.ThisAddIn.Application.Worksheets[Sh.Index - 1]).Activate();
                         }
-
                     }
                 }
             }
-
             public void Cargararraynombre(string[,] val)
             {
                 int numf = (val.Length) / val.GetLength(1);
@@ -122,10 +114,8 @@ namespace ExcelAddIn1 {
                     nombre[k] = val[k, 0];
                 }
             }
-
             public void GuardarExcel()
             {
-
                 //guardar nuevo libro
                 object obj = Type.Missing;
                 Excel.Workbook libron = Globals.ThisAddIn.Application.ActiveWorkbook;
@@ -140,12 +130,10 @@ namespace ExcelAddIn1 {
                 {
                     libron.SaveAs(SaveFileDialog1.FileName, Excel.XlFileFormat.xlOpenXMLWorkbook, obj, obj, false, false, Excel.XlSaveAsAccessMode.xlNoChange, Excel.XlSaveConflictResolution.xlUserResolution, true, obj, obj, obj);
                 }
-                //libron.Close();
-
             }
         #endregion
 
-        bool cConexion = new lSerializados().CheckConnection("http://www.google.com.mx");
+        bool _Connection = new lSerializados().CheckConnection(Configuration.UrlConnection);
         string _Message = "No existe conexión con el servidor de datos... Contacte a un Administrador de Red para ver las opciones de conexión.";
         string _Title = "Conexión de Red";
         int NroFilaPrincipal = 0;
@@ -155,10 +143,9 @@ namespace ExcelAddIn1 {
         private void Ribbon2_Load(object sender, RibbonUIEventArgs e) {
 
         }
-
         private void btnNew_Click(object sender, RibbonControlEventArgs e)
         {
-            if (cConexion)
+            if (_Connection)
             {
                 Nuevo _New = new Nuevo();
                 _New.Show();
@@ -168,10 +155,9 @@ namespace ExcelAddIn1 {
                 MessageBox.Show(_Message, _Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void btnCruces_Click(object sender, RibbonControlEventArgs e)
         {
-            if (cConexion)
+            if (_Connection)
             {
                 Cruce _Cruce = new Cruce();
                 _Cruce.Show();
@@ -181,10 +167,9 @@ namespace ExcelAddIn1 {
                 MessageBox.Show(_Message, _Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void btnPlantilla_Click(object sender, RibbonControlEventArgs e)
         {
-            if (cConexion)
+            if (_Connection)
             {
                 LoadTemplate _Template = new LoadTemplate();
                 _Template.Show();
@@ -194,7 +179,6 @@ namespace ExcelAddIn1 {
                 MessageBox.Show(_Message, _Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void btnAgregarIndice_Click(object sender, RibbonControlEventArgs e)
         {
             Excel.Worksheet ActiveWorksheet = Globals.ThisAddIn.Application.ActiveSheet;
@@ -208,16 +192,13 @@ namespace ExcelAddIn1 {
             string IndicePrevio;
             tieneformula = false;
             string tag = "";
+
             try
             {
-
                 objRange = (Excel.Range)ActiveWorksheet.Cells[NroFilaPrincipal, 1];
                 IndicePrevio = objRange.get_Value(Type.Missing).ToString();
                 if (IndicePrevio.ToUpper().Trim() != "EXPLICACION")
                 {
-
-
-
                     foreach (Excel.Name item in wb.Names)
                     {
                         if (item.Name.Substring(0, 3) == "IA_")
@@ -234,7 +215,6 @@ namespace ExcelAddIn1 {
 
                                     while (k <= iTotalColumns)
                                     {
-
                                         if (RangeConFr.Cells[k].HasFormula)
                                         {
                                             tieneformula = true;
@@ -244,9 +224,8 @@ namespace ExcelAddIn1 {
                                         k = k + 1;
                                     }
                                 }
+
                                 puedeinsertar = true;
-
-
                                 break;
                             }
                         }
@@ -255,7 +234,6 @@ namespace ExcelAddIn1 {
                     {
                         Indices NewIndices = new Indices(NroFilaPrincipal, tieneformula);
                         NewIndices.ShowDialog();
-
                     }
                     else
                     {
@@ -264,13 +242,11 @@ namespace ExcelAddIn1 {
                         List<oConcepto> ConceptVal = new List<oConcepto>();
                         ConceptVal = Generales.DameConceptosValidos();
                         bool CncValido = false;
-
                         string indicex = "";
+
                         if (ConceptoPrevio != null)
                         {
                             ConceptoPrevio = ConceptoPrevio.ToString();
-
-
                             CncValido = Generales.EsConceptoValido(ConceptoPrevio);
 
                             if (CncValido)
@@ -279,7 +255,6 @@ namespace ExcelAddIn1 {
                                 NroColPrincipal = objRange.Column;
                                 if ((NroFilaPrincipal - 1) > 0)
                                 {
-
                                     var RangeConFr = ActiveWorksheet.get_Range(string.Format("{0}:{0}", NroFilaPrincipal - 1, Type.Missing));
                                     objRange = (Excel.Range)ActiveWorksheet.Cells[NroFilaPrincipal - 1, 1];
                                     if (objRange.get_Value(Type.Missing) != null)
@@ -291,7 +266,6 @@ namespace ExcelAddIn1 {
 
                                         while (k <= iTotalColumns)
                                         {
-
                                             if (RangeConFr.Cells[k].HasFormula)
                                             {
                                                 tieneformula = true;
@@ -318,16 +292,12 @@ namespace ExcelAddIn1 {
                 {
                     MessageBox.Show("No es posible agregar índices debajo del índice EXPLICACION", "Agregar índice", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show("No es posible agregar índices en la fila seleccionada", "Agregar índice", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-
             }
         }
-
         private void btnPrellenar_Click(object sender, RibbonControlEventArgs e)
         {
             string _Path = ExcelAddIn.Access.Configuration.Path;
@@ -345,9 +315,9 @@ namespace ExcelAddIn1 {
             // Abrimos el archivo
             doc.Open();
             PdfPTable tabla = new PdfPTable(3);
+
             for (int i = 0; i < 15; i++)
             {
-
                 tabla.AddCell("A " + i);
                 tabla.AddCell("B " + i);
             }
@@ -356,10 +326,8 @@ namespace ExcelAddIn1 {
             doc.Close();
             writer.Close();
         }
-
         private void btnEliminarIndice_Click(object sender, RibbonControlEventArgs e)
         {
-
             Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
             Worksheet sheetControl = Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveWorkbook.ActiveSheet);
             Excel.Worksheet sheet = Globals.ThisAddIn.Application.ActiveSheet;
@@ -375,18 +343,13 @@ namespace ExcelAddIn1 {
             bool tienedif = false;
             Excel.Range objRange = null;
             Excel.Range currentCell = (Excel.Range)Globals.ThisAddIn.Application.Selection; // filas seleccionadas
-
-
+            
             try
             {
-
                 foreach (Excel.Range cell in currentCell.Cells)
                 {
-
                     try
                     {
-
-
                         foreach (Excel.Name item1 in wb.Names)
                         {
                             // comparo la direccion de la celda con la del nombre del rango
@@ -405,12 +368,10 @@ namespace ExcelAddIn1 {
 
                         if (!FilaPadre.Contains(FilapadreAux))
                             FilaPadre.Add(FilapadreAux);
-
-
+                        
                         objRange = (Excel.Range)sheet.Cells[cell.Row, 1];
                         IndiceActivo = objRange.Value2;
-
-
+                        
                         if (IndiceActivo.ToUpper().Trim() == "EXPLICACION")
                         {
                             MessageBox.Show("No es posible eliminar el índice EXPLICACION.", "Eliminar índice", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -426,30 +387,22 @@ namespace ExcelAddIn1 {
                         else
                         {
                             Eliminar = true;
-
                             NombreRangosDEL.Add("IA_" + IndiceActivo);
                         }
-
-
                     }
                     catch (Exception ex)
                     {
-
                         //MessageBox.Show(ex.Message);
-
                     }
-
                 }
 
                 if (Eliminar)
                 {
-
                     sheet.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
                     currentCell = (Excel.Range)Globals.ThisAddIn.Application.Selection;
-
-
                     objRange = (Excel.Range)sheet.Cells[currentCell.Cells.Row + 1, 1];
                     IndiceSiguiente = objRange.Value2;
+
                     if (IndiceSiguiente != null)
                         if (IndiceSiguiente.ToUpper().Trim() == "EXPLICACION")
                             objRange.EntireRow.Delete(Excel.XlDeleteShiftDirection.xlShiftUp);
@@ -458,6 +411,7 @@ namespace ExcelAddIn1 {
                     NombreRangosDEL.Sort();
                     string NM = NombreRangosDEL.FirstOrDefault();
                     sheetControl.Controls.Remove(NM);
+
                     foreach (Excel.Name item2 in wb.Names)
                     {
                         if (item2.Name.Substring(0, 3) == "IA_")
@@ -465,12 +419,14 @@ namespace ExcelAddIn1 {
                             NombreRangos.Add(item2.Name);
                         }
                     }
+
                     string[] split = NM.Split('_');
                     NM = split[1];
                     // foreach (string Nm in NombreRangosDEL)
                     long NamedRng = Convert.ToInt64(NM) + 100;
                     string IndiceSig = "0" + Convert.ToString(NamedRng);
                     string IndiceAnt = "";
+
                     while (NombreRangos.Contains("IA_" + IndiceSig))
                     {
                         sheetControl.Controls.Remove("IA_" + IndiceSig);
@@ -478,24 +434,28 @@ namespace ExcelAddIn1 {
                         NamedRng = Convert.ToInt64(IndiceSig) + 100;
                         IndiceSig = "0" + Convert.ToString(NamedRng);
                     }
+
                     FilaPadre.Sort();
                     int row = FilaPadre.FirstOrDefault();
 
                     objRange = (Excel.Range)sheet.Cells[row, 1];
+
                     if (objRange.get_Value(Type.Missing) != null)
                         IndiceActivo = objRange.get_Value(Type.Missing).ToString();
 
                     objRange = (Excel.Range)sheet.Cells[row - 1, 1];
+
                     if (objRange.get_Value(Type.Missing) != null)
                         IndiceAnt = objRange.get_Value(Type.Missing).ToString();
+                    
                     //me salto la explciacion
                     if (IndiceAnt.Trim() == "EXPLICACION")
                     {
-
                         objRange = (Excel.Range)sheet.Cells[row - 2, 1];
                         if (objRange.get_Value(Type.Missing) != null)
                             IndiceAnt = objRange.get_Value(Type.Missing).ToString();
                     }
+
                     while (NombreRangos.Contains("IA_" + IndiceActivo))
                     {
                         tienedif = false;
@@ -503,7 +463,6 @@ namespace ExcelAddIn1 {
                         dif = Convert.ToInt64(IndiceActivo) - Convert.ToInt64(IndiceAnt);
                         while (dif != 100)
                         {
-
                             IndiceAnt = "0" + Convert.ToString(Convert.ToInt64(IndiceActivo) - 100);
                             IndiceActivo = IndiceAnt;
 
@@ -517,61 +476,45 @@ namespace ExcelAddIn1 {
 
                         if (tienedif)
                             Generales.AddNamedRange(row, 1, "IA_" + Convert.ToString(IndiceAnt));
+                        
                         //busco el siguiente activo
                         row++;
                         objRange = (Excel.Range)sheet.Cells[row, 1];
+
                         if (objRange.get_Value(Type.Missing) != null)
                             IndiceActivo = objRange.get_Value(Type.Missing).ToString();
                         else
                             break;
-
                     }
 
-
                     row = Generales.DameRangoPrincipal(FilaPadre.FirstOrDefault(), sheet);// busco el numero de fila OTRO para agregarle luego la sumatoria de los indices nuevos
-
-
                     Excel.Range objRangeJ = ((Excel.Range)sheet.Cells[FilaPadre[0], 1]);
                     objRangeJ.Select();
+
                     try
                     { // limpio si hay error en la formula
-
-
                         Excel.Range objRangeI = ((Excel.Range)sheet.Cells[row, 1]).SpecialCells(Excel.XlCellType.xlCellTypeFormulas, Excel.XlSpecialCellsValue.xlErrors);//obten las celdas con errores
-                        List<oSubtotal> ColumnasST = Generales.DameColumnasST();
+                        string NombreHoja = sheet.Name.ToUpper().Replace(" ", "");
+                        List<oSubtotal> ColumnasST = Generales.DameColumnasST(NombreHoja);
+
                         foreach (oSubtotal ST in ColumnasST)
                         {
-                            if (ST.Hoja == sheet.Name)
-                            {
-                                objRangeI = sheet.get_Range(ST.Columna + row.ToString(), ST.Columna + row.ToString());
-                                objRangeI.Clear();
-
-                            }
+                            objRangeI = sheet.get_Range(ST.Columna + row.ToString(), ST.Columna + row.ToString());
+                            objRangeI.Clear();
                         }
                     }
                     catch (Exception ex)
                     {
-
                     }
 
-
-                    sheet.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true, true, true, true, true, true);
+                    sheet.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true, false, true, true, true, true, false, false, false, false, false, false, true, false);
                 }
-
-
-
             }
             catch (Exception ex)
             {
-
                 //  MessageBox.Show(ex.Message);
-
             }
-
-
-
         }
-
         private void btnAgregarExplicacion_Click(object sender, RibbonControlEventArgs e)
         {
             try
@@ -614,20 +557,15 @@ namespace ExcelAddIn1 {
                         }
                         else
                             MessageBox.Show("Debe haber una respuesta afirmativa en la columna ' EXPLICAR VARIACION ' para agregar una explicación en el índice " + Indice.ToString(), "Agregar Explicación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-
                     }
                     else
                         MessageBox.Show("Debe haber una respuesta afirmativa en la columna ' EXPLICAR VARIACION ' para agregar una explicación en el índice " + Indice.ToString(), "Agregar Explicación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
                 }
                 else
                     MessageBox.Show("El índice no es válido ", "Agregar Explicación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
             }
             catch { }
         }
-
         public static void CargaFormulario(string Indice, string Concepto)
         {
             Explicaciones NewExplicacion = new Explicaciones();
@@ -637,11 +575,13 @@ namespace ExcelAddIn1 {
 
             NewExplicacion.ShowDialog();
         }
-
         private void btnEliminaeExplicacion_Click(object sender, RibbonControlEventArgs e)
         {
             Excel.Range currentCell = (Excel.Range)Globals.ThisAddIn.Application.ActiveCell;
+            int NroRow = currentCell.Row;
             Excel.Worksheet NewActiveWorksheet = Globals.ThisAddIn.Application.ActiveSheet;
+            currentCell = (Excel.Range)NewActiveWorksheet.Cells[NroRow, 1];
+
             string indice = currentCell.Value2;
             if (indice.ToUpper().Trim() == "EXPLICACION")
             {
@@ -649,15 +589,17 @@ namespace ExcelAddIn1 {
 
                 currentCell.EntireRow.Delete(Excel.XlDeleteShiftDirection.xlShiftUp);
 
-                NewActiveWorksheet.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true, true, true, true, true, true);
+                NewActiveWorksheet.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true, false, true, true, true, true, false, false, false, false, false, false, true, false);
             }
             else
                 MessageBox.Show("La fila seleccionada no es una explicación ", "Eliminar Explicación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
-
         private void btnConvertir_Click(object sender, RibbonControlEventArgs e)
         {
-            if (cConexion)
+        }
+        private void btnTransferir_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (_Connection)
             {
                 frmCarga form = new frmCarga();
                 form.ShowDialog();

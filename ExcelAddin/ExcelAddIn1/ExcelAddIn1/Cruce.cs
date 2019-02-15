@@ -273,7 +273,11 @@ namespace ExcelAddIn1 {
                             formula = _Cruce.FormulaExcel.Split('=');
                             Test_Range = (Range)xlSht.get_Range("A3");
                             ValorAnterior = Test_Range.get_Value(Type.Missing);
-                            Test_Range.Formula = "=ABS(" + formula[0] + ")-ABS(" + formula[1] + ")";
+                            if (chksigno.Checked)
+                                Test_Range.Formula = "=ABS(" + formula[0] + ")-ABS(" + formula[1] + ")";
+                            else
+                                Test_Range.Formula = "=(" + formula[0]+" - " +formula[1] + ")";
+
                             _Cruce.Diferencia = Test_Range.get_Value(Type.Missing).ToString();
                             xlSht.Cells[3, 1] = ValorAnterior;// restauro
                         }

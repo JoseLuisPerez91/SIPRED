@@ -43,7 +43,7 @@ namespace ExcelAddIn1
 
                     Generales.InsertaExplicacion(NewActiveWorksheet, currentCell, TxtExplicacion.Text);
 
-                    NewActiveWorksheet.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true, true, true, true, true, true);
+                    NewActiveWorksheet.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true, false, true, true, true, true, false, false, false, false, false, false, true, false);
                     this.Close();
                 }
 
@@ -51,7 +51,11 @@ namespace ExcelAddIn1
             else
                 if (TxtExplicacion.Text.Length >= 100)
                 {
+                    NewActiveWorksheet.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
+
                     Generales.InsertaExplicacion(NewActiveWorksheet, currentCell, TxtExplicacion.Text);
+
+                    NewActiveWorksheet.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true, false, true, true, true, true, false, false, false, false, false, false, true, false);
                     this.Close();
                }
 

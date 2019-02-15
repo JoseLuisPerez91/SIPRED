@@ -33,16 +33,16 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>C:\DSAT\Setup\</PublishUrl>
     <InstallUrl />
-    <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.4</ApplicationVersion>
-    <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
+    <TargetCulture>es</TargetCulture>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <AutoIncrementApplicationRevision>false</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
-    <ProductName>ExcelAddIn1</ProductName>
-    <PublisherName />
-    <SupportUrl />
-    <FriendlyName>ExcelAddIn1</FriendlyName>
+    <ProductName>DSAT©</ProductName>
+    <PublisherName>GSB Solutions©</PublisherName>
+    <SupportUrl>http://www.gsb.lat</SupportUrl>
+    <FriendlyName>DSAT</FriendlyName>
     <OfficeApplicationDescription />
     <LoadBehavior>3</LoadBehavior>
   </PropertyGroup>
@@ -142,6 +142,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -222,11 +223,11 @@
     <Compile Include="Indices.Designer.cs">
       <DependentUpon>Indices.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoadTemplates.cs">
+    <Compile Include="FileJsonTemplate.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoadTemplates.Designer.cs">
-      <DependentUpon>LoadTemplates.cs</DependentUpon>
+    <Compile Include="FileJsonTemplate.Designer.cs">
+      <DependentUpon>FileJsonTemplate.cs</DependentUpon>
     </Compile>
     <Compile Include="LoadTemplate.cs">
       <SubType>Form</SubType>
@@ -262,8 +263,8 @@
     <EmbeddedResource Include="LoadTemplate.resx">
       <DependentUpon>LoadTemplate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoadTemplates.resx">
-      <DependentUpon>LoadTemplates.cs</DependentUpon>
+    <EmbeddedResource Include="FileJsonTemplate.resx">
+      <DependentUpon>FileJsonTemplate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Nuevo.resx">
       <DependentUpon>Nuevo.cs</DependentUpon>

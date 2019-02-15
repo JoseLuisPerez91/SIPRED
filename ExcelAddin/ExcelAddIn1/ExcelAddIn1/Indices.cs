@@ -29,11 +29,12 @@ namespace ExcelAddIn1
         {
             int cantRows = 0;
            
+
             if (txtCantIndices.Text.Trim() != string.Empty)
             {
                 cantRows = Convert.ToInt32(txtCantIndices.Text);
                 Excel.Worksheet NewActiveWorksheet = Globals.ThisAddIn.Application.ActiveSheet;
-
+                
                 if ((cantRows > 0) && (cantRows <= NewActiveWorksheet.Rows.Count))
                 {
 
@@ -43,7 +44,10 @@ namespace ExcelAddIn1
 
                     Generales.InsertIndice(NewActiveWorksheet, cantRows, currentCell, ConFormula, NroPrincipal);
 
-                    NewActiveWorksheet.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true,true,true,true,true,true,true);
+                    NewActiveWorksheet.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true, false, true, true, true, true, false, false, false, false, false, false, true, false);
+
+                  
+
 
                     this.Close();
                 }

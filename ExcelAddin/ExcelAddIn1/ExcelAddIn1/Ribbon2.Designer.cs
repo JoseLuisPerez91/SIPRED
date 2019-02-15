@@ -238,6 +238,7 @@
             this.btnTransferir.ScreenTip = "Transferir información";
             this.btnTransferir.ShowImage = true;
             this.btnTransferir.SuperTip = "Transfiere la información a la plantilla .xspr";
+            this.btnTransferir.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnTransferir_Click);
             // 
             // group4
             // 
