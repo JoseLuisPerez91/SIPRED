@@ -18,7 +18,7 @@ namespace ExcelAddIn1 {
     public partial class Ribbon2
     {
         #region variable
-            SaveFileDialog SaveFileDialog1 = new SaveFileDialog();
+        SaveFileDialog SaveFileDialog1 = new SaveFileDialog();
             string[,] HojasSPR = new string[,] {
                 {"Contribuyente".ToUpper()          , "31"  ,"3"    ,""                     },
                 {"Contador".ToUpper()               , "35"  ,"3"    ,""                     },
@@ -132,7 +132,7 @@ namespace ExcelAddIn1 {
                 }
             }
         #endregion
-
+        
         bool _Connection = new lSerializados().CheckConnection(Configuration.UrlConnection);
         string _Message = "No existe conexión con el servidor de datos... Contacte a un Administrador de Red para ver las opciones de conexión.";
         string _Title = "Conexión de Red";

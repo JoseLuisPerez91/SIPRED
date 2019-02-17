@@ -39,6 +39,7 @@
             this.pgb_proceso.Location = new System.Drawing.Point(12, 29);
             this.pgb_proceso.Name = "pgb_proceso";
             this.pgb_proceso.Size = new System.Drawing.Size(572, 30);
+            this.pgb_proceso.Step = 2;
             this.pgb_proceso.TabIndex = 0;
             // 
             // label1
@@ -84,6 +85,8 @@
             this.Name = "frmCarga";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmCarga";
+            this.TopMost = true;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmCarga_FormClosed);
             this.Load += new System.EventHandler(this.frmCarga_Load);
             this.Shown += new System.EventHandler(this.frmCarga_Shown);
             this.ResumeLayout(false);

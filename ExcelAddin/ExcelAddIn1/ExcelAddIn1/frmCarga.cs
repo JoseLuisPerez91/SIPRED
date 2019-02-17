@@ -11,59 +11,78 @@ using System.Text.RegularExpressions;
 using Microsoft.VisualBasic;
 using Microsoft.Office.Interop.Excel;
 using Excel = Microsoft.Office.Interop.Excel;
+using ExcelAddIn.Objects;
+using ExcelAddIn.Logic;
+using ExcelAddIn.Access;
+using System.IO;
 
 namespace ExcelAddIn1
 {
     public partial class frmCarga : Form
     {
+        public bool _ProcessJson;
         public frmCarga()
         {
             InitializeComponent();
         }
-
-
-        Boolean _bol_carga_datos = true;
-        Boolean _b_background_w = true;
-
-        private System.Threading.Thread threadProceso;
-        private System.Threading.Thread threadProgress;
+        
 
         private void frmCarga_Load(object sender, EventArgs e)
         {
-            if (threadProceso == null)
+            string _Path = Configuration.Path;
+            this._ProcessJson = false;
+            this.Visible = true;
+            
+            if (Directory.Exists(_Path + "\\jsons") && Directory.Exists(_Path + "\\templates"))
             {
-                threadProceso = new System.Threading.Thread(QuitarFormulas);
-                threadProceso.Start();
-            }
-            if (threadProgress == null)
-            {
-                threadProgress = new System.Threading.Thread(Restar);
-                threadProgress.Start();
-            }
-        }
-
-        private void Restar()
-        {
-            for (int i = 0; i < 90; i++)
-            {
-                if (pgb_proceso.Value== pgb_proceso.Maximum) {
-                    i = pgb_proceso.Maximum;
-                    break;
+                if (!File.Exists(_Path + "\\jsons\\TiposPlantillas.json"))
+                {
+                    this._ProcessJson = true;
+                    this.TopMost = false;
+                    this.Enabled = false;
+                    this.Hide();
+                    FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
+                    _FileJsonfrm._Form = this;
+                    _FileJsonfrm._Process = false;
+                    _FileJsonfrm._window = this.Text;
+                    _FileJsonfrm.Show();
+                    return;
                 }
-                this.RefrescarProgress(i);
-                System.Threading.Thread.Sleep(1500);
             }
-            threadProgress = null;
+            else
+            {
+                if (!Directory.Exists(_Path + "\\jsons"))
+                {
+                    Directory.CreateDirectory(_Path + "\\jsons");
+                }
+                if (!Directory.Exists(_Path + "\\templates"))
+                {
+                    Directory.CreateDirectory(_Path + "\\templates");
+                }
+
+                this._ProcessJson = true;
+                this.TopMost = false;
+                this.Enabled = false;
+                this.Hide();
+                FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
+                _FileJsonfrm._Form = this;
+                _FileJsonfrm._Process = false;
+                _FileJsonfrm._window = this.Text;
+                _FileJsonfrm.Show();
+                return;
+            }
+
+            FileInfo _Excel = new FileInfo(Globals.ThisAddIn.Application.ActiveWorkbook.FullName);
+            
+            if(_Excel.Extension != ".xlsm")
+            {
+                MessageBox.Show("Archivo no válido, favor de generar el archivo mediante el AddIn D.SAT", "Información Incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+                return;
+            }
+
+            QuitarFormulas();
         }
-
-        public void RefrescarProgress(int valor)
-        {
-            if (this == null) return;
-            Invoke(new System.Action(() => this.pgb_proceso.Value = valor));
-
-        }
-
-        
         private void frmCarga_Shown(object sender, EventArgs e)
         {
             //_f_run_background();
@@ -71,14 +90,10 @@ namespace ExcelAddIn1
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            Close();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Ribbon2 a = new Ribbon2();
-            a.GuardarExcel();
-            Close();
         }
 
         #region Variables
@@ -190,6 +205,9 @@ namespace ExcelAddIn1
                 //Barra de progreso
                 if (this == null) return;
                 Invoke(new System.Action(() => this.label1.Text = "Trabajando Hoja : [" + (Globals.ThisAddIn.Application.ActiveSheet).Name + "] .........."));
+                if (this == null) return;
+                Invoke(new System.Action(() => pgb_proceso.Value = pgb_proceso.Value + pgb_proceso.Step));
+                
                 //////////////////////////
 
                 //pasamos los datos
@@ -310,6 +328,7 @@ namespace ExcelAddIn1
                         //Barra de progreso
                         if (this == null) return;
                         Invoke(new System.Action(() => this.label1.Text = "Trabajando Hoja : [" + (Globals.ThisAddIn.Application.ActiveSheet).Name + "] .........."));
+                        
                         //////////////////////////
 
                         if (ind != -1)
@@ -728,7 +747,7 @@ namespace ExcelAddIn1
                     {
                         ind++;
                         libron.Sheets[i].Activate();
-                        ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Protect(psw, true);
+                        ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Protect(ExcelAddIn.Access.Configuration.PwsExcel, true);
 
                     }
                 }
@@ -745,12 +764,12 @@ namespace ExcelAddIn1
 
             if (this == null) return;
             Invoke(new System.Action(() => this.pgb_proceso.Value = this.pgb_proceso.Maximum));
+            Invoke(new System.Action(() => this.label1.Text = "Proceso Terminado."));
 
-            if (this == null) return;
-            Invoke(new System.Action(() => this.Size = new System.Drawing.Size(594, 105)));
-
-            if (this == null) return;
-            Invoke(new System.Action(() => this.label1.Text ="Proceso Terminado."));
+            GuardarExcel();
+            Invoke(new System.Action(() => this.Visible = false));
+            //this.Visible = false;
+            Invoke(new System.Action(() => this.Close()));
 
         }
 
@@ -766,7 +785,6 @@ namespace ExcelAddIn1
 
         public void GuardarExcel()
         {
-
             //guardar nuevo libro
             object obj = Type.Missing;
             Excel.Workbook libron = Globals.ThisAddIn.Application.ActiveWorkbook;
@@ -781,8 +799,6 @@ namespace ExcelAddIn1
             {
                 libron.SaveAs(SaveFileDialog1.FileName, Excel.XlFileFormat.xlOpenXMLWorkbook, obj, obj, false, false, Excel.XlSaveAsAccessMode.xlNoChange, Excel.XlSaveConflictResolution.xlUserResolution, true, obj, obj, obj);
             }
-            //libron.Close();
-
         }
         public String ValidarString(object val)
         {
@@ -852,7 +868,16 @@ namespace ExcelAddIn1
                 }
             }
         }
-        
+        private void frmCarga_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            //if (this._ProcessJson == false)
+            //{
+            //    GuardarExcel();
+            //    //Ribbon2 ai = new Ribbon2();
 
+            //    //ai._Form = this;
+            //    //ai.GuardarExcel();
+            //}
+        }
     }
 }

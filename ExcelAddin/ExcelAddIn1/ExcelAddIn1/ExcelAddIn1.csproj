@@ -216,7 +216,9 @@
     <Compile Include="frmCarga.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmCarga.Designer.cs" />
+    <Compile Include="frmCarga.Designer.cs">
+      <DependentUpon>frmCarga.cs</DependentUpon>
+    </Compile>
     <Compile Include="Indices.cs">
       <SubType>Form</SubType>
     </Compile>
