@@ -9,7 +9,7 @@ using System.Security;
 [assembly: AssemblyTitle("ExcelAddIn1")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("GSB Solutions R. L. DE C. V.")]
 [assembly: AssemblyProduct("ExcelAddIn1")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]

@@ -25,8 +25,6 @@ namespace ExcelAddIn1
         {
             InitializeComponent();
         }
-        
-
         private void frmCarga_Load(object sender, EventArgs e)
         {
             string _Path = Configuration.Path;
@@ -87,60 +85,54 @@ namespace ExcelAddIn1
         {
             //_f_run_background();
         }
-
         private void btnAccept_Click(object sender, EventArgs e)
         {
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
         }
-
         #region Variables
         SaveFileDialog SaveFileDialog1 = new SaveFileDialog();
 
         string[,] HojasSPR = new string[,] {
-                                                {"Contribuyente".ToUpper()          , "31"  ,"3"    ,""                     },
-                                                {"Contador".ToUpper()               , "35"  ,"3"    ,""                     },
-                                                {"Representante".ToUpper()          , "36"  ,"3"    ,""                     },
-                                                {"Generales".ToUpper()              , "446" ,"3"    ,""                     },
-                                                {"Anexo 1".ToUpper()                , "0"   ,"10"   ,""                     },
-                                                {"Anexo 2".ToUpper()                , "0"   ,"9"    ,""                     },
-                                                {"Anexo 3".ToUpper()                , "0"   ,"22"   ,""                     },
-                                                {"Anexo 4".ToUpper()                , "0"   ,"5"    ,""                     },
-                                                {"Anexo 5".ToUpper()                , "0"   ,"14"   ,""                     },
-                                                {"Anexo 6".ToUpper()                , "0"   ,"5"    ,""                     },
-                                                {"Anexo 7".ToUpper()                , "0"   ,"37"   ,""                     },
-                                                {"Anexo 8".ToUpper()                , "0"   ,"9"    ,""                     },
-                                                {"Anexo 9".ToUpper()                , "0"   ,"9"    ,""                     },
-                                                {"Anexo 10".ToUpper()               , "0"   ,"15"   ,""                     },
-                                                {"Anexo 11".ToUpper()               , "0"   ,"4"    ,""                     },
-                                                {"Anexo 12".ToUpper()               , "0"   ,"13"   ,"Generales|C96"        },
-                                                {"Anexo 13".ToUpper()               , "0"   ,"10"   ,"Generales|C97"        },
-                                                {"Anexo 14".ToUpper()               , "0"   ,"12"   ,""                     },
-                                                {"Anexo 15".ToUpper()               , "0"   ,"4"    ,""                     },
-                                                {"Anexo 16".ToUpper()               , "0"   ,"11"   ,"Generales|C57"        },
-                                                {"Anexo 17".ToUpper()               , "0"   ,"4"    ,"Generales|C57"        },
-                                                {"Anexo 18".ToUpper()               , "0"   ,"4"    ,""                     },
-                                                {"Anexo 19".ToUpper()               , "0"   ,"7"    ,"Generales|C98"        },
-                                                {"Anexo 20".ToUpper()               , "0"   ,"9"    ,""                     },
-                                                {"Anexo 21".ToUpper()               , "0"   ,"12"   ,"Generales|C100"       },
-                                                {"Anexo 22".ToUpper()               , "0"   ,"25"   ,"Generales|C101"       },
-                                                {"Anexo 23".ToUpper()               , "0"   ,"14"   ,"Generales|C61,C62"    },
-                                                {"CDF".ToUpper()                    , "78"  ,"5"    ,""                     },
-                                                {"MPT".ToUpper()                    , "111" ,"3"    ,""                     },
-                                                {"Notas".ToUpper()                  , "48"  ,"1"    ,""                     },
-                                                {"Declaratoria".ToUpper()           , "45"  ,"1"    ,""                     },
-                                                {"Opinión".ToUpper()                , "45"  ,"1"    ,""                     },
-                                                {"Informe".ToUpper()                , "45"  ,"1"    ,""                     },
-                                                {"Información Adicional".ToUpper()  , "45"  ,"1"    ,""                     }
+            {"Contribuyente".ToUpper()          , "31"  ,"3"    ,""                     },
+            {"Contador".ToUpper()               , "35"  ,"3"    ,""                     },
+            {"Representante".ToUpper()          , "36"  ,"3"    ,""                     },
+            {"Generales".ToUpper()              , "446" ,"3"    ,""                     },
+            {"Anexo 1".ToUpper()                , "0"   ,"10"   ,""                     },
+            {"Anexo 2".ToUpper()                , "0"   ,"9"    ,""                     },
+            {"Anexo 3".ToUpper()                , "0"   ,"22"   ,""                     },
+            {"Anexo 4".ToUpper()                , "0"   ,"5"    ,""                     },
+            {"Anexo 5".ToUpper()                , "0"   ,"14"   ,""                     },
+            {"Anexo 6".ToUpper()                , "0"   ,"5"    ,""                     },
+            {"Anexo 7".ToUpper()                , "0"   ,"37"   ,""                     },
+            {"Anexo 8".ToUpper()                , "0"   ,"9"    ,""                     },
+            {"Anexo 9".ToUpper()                , "0"   ,"9"    ,""                     },
+            {"Anexo 10".ToUpper()               , "0"   ,"15"   ,""                     },
+            {"Anexo 11".ToUpper()               , "0"   ,"4"    ,""                     },
+            {"Anexo 12".ToUpper()               , "0"   ,"13"   ,"Generales|C96"        },
+            {"Anexo 13".ToUpper()               , "0"   ,"10"   ,"Generales|C97"        },
+            {"Anexo 14".ToUpper()               , "0"   ,"12"   ,""                     },
+            {"Anexo 15".ToUpper()               , "0"   ,"4"    ,""                     },
+            {"Anexo 16".ToUpper()               , "0"   ,"11"   ,"Generales|C57"        },
+            {"Anexo 17".ToUpper()               , "0"   ,"4"    ,"Generales|C57"        },
+            {"Anexo 18".ToUpper()               , "0"   ,"4"    ,""                     },
+            {"Anexo 19".ToUpper()               , "0"   ,"7"    ,"Generales|C98"        },
+            {"Anexo 20".ToUpper()               , "0"   ,"9"    ,""                     },
+            {"Anexo 21".ToUpper()               , "0"   ,"12"   ,"Generales|C100"       },
+            {"Anexo 22".ToUpper()               , "0"   ,"25"   ,"Generales|C101"       },
+            {"Anexo 23".ToUpper()               , "0"   ,"14"   ,"Generales|C61,C62"    },
+            {"CDF".ToUpper()                    , "78"  ,"5"    ,""                     },
+            {"MPT".ToUpper()                    , "111" ,"3"    ,""                     },
+            {"Notas".ToUpper()                  , "48"  ,"1"    ,""                     },
+            {"Declaratoria".ToUpper()           , "45"  ,"1"    ,""                     },
+            {"Opinión".ToUpper()                , "45"  ,"1"    ,""                     },
+            {"Informe".ToUpper()                , "45"  ,"1"    ,""                     },
+            {"Información Adicional".ToUpper()  , "45"  ,"1"    ,""                     }
         };
 
         String[] nombre;
-
-
         #endregion
-
         public void QuitarFormulas()
         {
             //objeto vacio
@@ -161,31 +153,23 @@ namespace ExcelAddIn1
 
             //Nuevo Excel
             Excel.Application exceln = new Excel.Application();
-
             //libro abierto
             Excel.Workbook libro = Globals.ThisAddIn.Application.ActiveWorkbook;
             //nuevo libro
             //Excel.Workbook libron = exceln.Workbooks.Add(obj);
             Excel.Workbook libron = libro;
-
             //obtenemos el numero de hojas
             numhojas = libro.Sheets.Count;
-
-
             //cargar array de nombres
             Cargararraynombre(HojasSPR);
-
             //seleccionamos instanci hoja
             Excel.Worksheet hoja = libro.Sheets[1];
             //Creamos instancia nueva hoja
             Excel.Worksheet hojan = new Excel.Worksheet();
-
             int[] hojas = new int[numhojas];
-
             //Contraseña
             psw = "AAAABABABAAG";
             //LENARHOJAS
-
             Globals.ThisAddIn.Application.DisplayAlerts = false;
             for (int i = 1; i <= numhojas; i++)
             {
@@ -200,31 +184,18 @@ namespace ExcelAddIn1
 
                 nom = libron.Worksheets[i].Name.ToString().Trim();
                 ind = Array.IndexOf(nombre, libron.Worksheets[i].Name.ToString().Trim().ToUpper());
-                //label1.Text = "Trabajando Hoja : [" + (Globals.ThisAddIn.Application.ActiveSheet).Name + "] ..........";
-
                 //Barra de progreso
                 if (this == null) return;
                 Invoke(new System.Action(() => this.label1.Text = "Trabajando Hoja : [" + (Globals.ThisAddIn.Application.ActiveSheet).Name + "] .........."));
                 if (this == null) return;
                 Invoke(new System.Action(() => pgb_proceso.Value = pgb_proceso.Value + pgb_proceso.Step));
                 
-                //////////////////////////
-
                 //pasamos los datos
                 EspacioFilas = 0;
                 fila = 1;
                 columna = 1;
-                /////////////////////////////////////////
-                //////////////desproteger hoja///////////
-                /////////////////////////////////////////
-                //if (psw == "")
-                //{
-                //    psw = Interaction.InputBox("El archivo " + SaveFileDialog1.FileName + " está protegido.", "Contraseña", "Contraseña");
-                //}
-                //int aui = ExcelAddIn.Access.Configuration.PwsExcel;
                 hojan.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
-                //hojan.Unprotect(psw);
-                // Comments comentarios = ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Comments;
+
                 do
                 {
                     //Eliminar Comentarios
@@ -271,7 +242,6 @@ namespace ExcelAddIn1
                             }
                         }
 
-
                         if (ValidarString(hoja.Cells[fila, columna].Value).Trim().Length == 0)
                         {
                             EspacioColumnas++;
@@ -296,21 +266,12 @@ namespace ExcelAddIn1
                     }
                     fila++;
 
-
                     if (EspacioFilas == 12 && ind != -1)
                     {
                         HojasSPR[ind, 1] = (fila - 12).ToString().Trim();
                     }
-
-
-
-
                 } while (EspacioFilas < 12);//Si existen mas de 12 espacios en blanco ya no genera mas filas
-
             }
-
-
-
             //Ordenar Hojas Excel
 
             //deactivar mensajes alerta que genera al eliminar
@@ -323,14 +284,10 @@ namespace ExcelAddIn1
                     {
                         nom = libron.Worksheets[i].Name.ToString().Trim();
                         ind = Array.IndexOf(nombre, libron.Worksheets[i].Name.ToString().Trim().ToUpper());
-
-
                         //Barra de progreso
                         if (this == null) return;
                         Invoke(new System.Action(() => this.label1.Text = "Trabajando Hoja : [" + (Globals.ThisAddIn.Application.ActiveSheet).Name + "] .........."));
                         
-                        //////////////////////////
-
                         if (ind != -1)
                         {
                             ind++;
@@ -390,7 +347,6 @@ namespace ExcelAddIn1
                     }
                 }
             }
-
 
             //Agregar Hojas
             for (int i = 0; i < 5; i++)
@@ -559,9 +515,6 @@ namespace ExcelAddIn1
                     range.EntireColumn.ColumnWidth = 100;
                     range.Borders.LineStyle = XlLineStyle.xlContinuous;
                     range.Borders.Weight = XlBorderWeight.xlThin;
-
-
-
                     range = HN.Range[HN.Cells[1, 1], HN.Cells[1, 1]];
                     range.HorizontalAlignment = XlHAlign.xlHAlignCenter;
                     range = HN.Range[HN.Cells[3, 1], HN.Cells[3, 1]];
@@ -693,10 +646,6 @@ namespace ExcelAddIn1
                     range.EntireColumn.ColumnWidth = 100;
                     range.Borders.LineStyle = XlLineStyle.xlContinuous;
                     range.Borders.Weight = XlBorderWeight.xlThin;
-
-
-
-
                     range = HN.Range[HN.Cells[1, 1], HN.Cells[1, 1]];
                     range.HorizontalAlignment = XlHAlign.xlHAlignCenter;
                     range = HN.Range[HN.Cells[3, 1], HN.Cells[3, 1]];
@@ -759,8 +708,6 @@ namespace ExcelAddIn1
 
             //activar mensajes alerta
             Globals.ThisAddIn.Application.DisplayAlerts = true;
-            
-
 
             if (this == null) return;
             Invoke(new System.Action(() => this.pgb_proceso.Value = this.pgb_proceso.Maximum));
@@ -770,9 +717,7 @@ namespace ExcelAddIn1
             Invoke(new System.Action(() => this.Visible = false));
             //this.Visible = false;
             Invoke(new System.Action(() => this.Close()));
-
         }
-
         public void Cargararraynombre(string[,] val)
         {
             int numf = (val.Length) / val.GetLength(1);
@@ -782,7 +727,6 @@ namespace ExcelAddIn1
                 nombre[k] = val[k, 0];
             }
         }
-
         public void GuardarExcel()
         {
             //guardar nuevo libro
@@ -805,16 +749,13 @@ namespace ExcelAddIn1
             try { return Convert.ToString(val); }
             catch { return ""; }
         }
-
         public int ValidarInt(object val)
         {
             try { return Convert.ToInt32(val); }
             catch { return 0; }
         }
-
         public void MensageBloqueo(Excel.Worksheet Sh)
         {
-
             String CondCad = "";
             string[] arg;
             string[] cond;
@@ -836,14 +777,9 @@ namespace ExcelAddIn1
                 {
                     //Capturo la condicion
                     CondCad = HojasSPR[ind, 3].Trim();
-
-
                     arg = CondCad.Split('|');
-
                     nom = arg[0].ToString().Trim();
                     ind = Array.IndexOf(nombre, nom.ToUpper());
-
-
                     cond = arg[1].ToString().Trim().Split(',');
 
                     foreach (string i in cond)

@@ -58,11 +58,9 @@ namespace ExcelAddIn1 {
                 return;
             }
         }
-
         private void btnCancelar_Click(object sender, EventArgs e) {
             this.Close();
         }
-
         private void btnCrear_Click(object sender, EventArgs e) {
             string _Path = Configuration.Path;
             oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>($"{_Path}\\jsons\\Plantillas.json");
@@ -98,7 +96,6 @@ namespace ExcelAddIn1 {
             GenerarArchivo(_Template, _newTemplate, ((oTipoPlantilla)cmbTipo.SelectedItem).Clave);
             this.Close();
         }
-
         protected void GenerarArchivo(oPlantilla _Template, string _DestinationPath, string _Tipo) {
             string _Path = Configuration.Path;
             oComprobacion[] _Comprobaciones = Assembler.LoadJson<oComprobacion[]>($"{_Path}\\jsons\\Comprobaciones.json");

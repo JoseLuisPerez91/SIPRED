@@ -284,14 +284,18 @@
       <DependentUpon>Ribbon2.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
-    <None Include="bin.zip" />
     <None Include="bin\Debug\ExcelAddIn1.dll.config" />
     <None Include="bin\Debug\ExcelAddIn1.dll.manifest" />
     <None Include="bin\Debug\ExcelAddIn1.vsto" />
     <None Include="ExcelAddIn1_TemporaryKey.pfx" />
     <None Include="jsons\Comprobaciones.json" />
+    <None Include="jsons\Cruces.json" />
+    <None Include="jsons\Indices.json" />
+    <None Include="jsons\Plantillas.json" />
     <None Include="jsons\Templates.json" />
     <None Include="jsons\TemplatesTypes.json" />
+    <None Include="jsons\TiposPlantillas.json" />
+    <None Include="jsons\ValidacionCruces.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

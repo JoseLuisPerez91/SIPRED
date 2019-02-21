@@ -9,7 +9,6 @@ namespace ExcelAddIn.Objects {
     public class oCruce {
         Regex regex = new Regex(@"\[.*?\]");
         public oCruce() { }
-
         public int IdCruce { get; set; }
         public int IdTipoPlantilla { get; set; }
         public string Concepto { get; set; }
@@ -24,7 +23,6 @@ namespace ExcelAddIn.Objects {
         public string Diferencia { get; set; }
         public string Grupo1 { get; set; }
         public string Grupo2 { get; set; }
-
         public void setCeldas() {
             List<oCelda> _cFormulas = new List<oCelda>();
             List<oCeldaCondicion> _cCondicion = new List<oCeldaCondicion>();
@@ -35,7 +33,6 @@ namespace ExcelAddIn.Objects {
             CeldasFormula = _cFormulas.ToArray();
             CeldasCondicion = _cCondicion.ToArray();
         }
-
         public void setFormulaExcel() {
             FormulaExcel = CeldasFormula.ToString(Formula, true);
             CondicionExcel = (CeldasCondicion.Count() > 0 && CeldasCondicion.Where(o => o.Fila == -1).Count() == 0) ? CeldasCondicion.ToString(Condicion, true) : "";

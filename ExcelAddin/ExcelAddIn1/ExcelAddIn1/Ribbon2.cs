@@ -139,7 +139,6 @@ namespace ExcelAddIn1 {
         int NroFilaPrincipal = 0;
         int NroColPrincipal = 0;
         bool tieneformula = false;
-
         private void Ribbon2_Load(object sender, RibbonUIEventArgs e) {
 
         }
@@ -282,10 +281,7 @@ namespace ExcelAddIn1 {
                             }
                             else
                                 MessageBox.Show("No es posible agregar índices debajo del índice " + IndicePrevio, "Agregar índice", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
                         }
-
-
                     }
                 }
                 else

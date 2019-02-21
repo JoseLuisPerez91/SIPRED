@@ -8,6 +8,10 @@ using System.Data;
 using System.Xml;
 
 namespace ExcelAddIn.Access {
+        /// <summary>Enumerador para el Tipo de Ejecución de SQL Server.
+        /// <para>Enumerador de Tipo: DataSet, DataTable, NonQuery, Scalar, Reader, XmlReader. Referencia: <see cref="ExecutionType"/></para>
+        /// <seealso cref="ExecutionType"/>
+        /// </summary>
     internal enum ExecutionType {
         DataSet,
         DataTable,
@@ -16,14 +20,16 @@ namespace ExcelAddIn.Access {
         Reader,
         XmlReader
     }
-
     public class Connection {
         string _ConnectionString => string.Format(Configuration.ConnectionString, Configuration.Server, Configuration.DataBase, Configuration.User, Configuration.Password);
 
         protected List<string> _Messages = new List<string>();
 
         public Connection() { }
-
+        /// <summary>Función Execute que regresa la variable de tipo Objeto.
+        /// <para>Ejecutar el SP según el tipo invocado y parámetros. Referencia: <see cref="Execute(string, ExecutionType, SqlParameter[])"/> se agrega la referencia ExcelAddIn.Access para invocarla.</para>
+        /// <seealso cref="Execute(string, ExecutionType, SqlParameter[])"/>
+        /// </summary>
         object Execute(string _Store, ExecutionType _Type, params SqlParameter[] _Parameters) {
             object _result = null;
             using(SqlConnection _Cnx = new SqlConnection(_ConnectionString)) {
@@ -77,7 +83,10 @@ namespace ExcelAddIn.Access {
             }
             return _result;
         }
-
+        /// <summary>Función Execute que regresa la variable de tipo NonQuery.
+        /// <para>Ejecutar el SP con parámetros para el tipo NonQuery. Referencia: <see cref="ExecuteNonQuery(string, SqlParameter[])"/> se agrega la referencia ExcelAddIn.Access para invocarla.</para>
+        /// <seealso cref="ExecuteNonQuery(string, SqlParameter[])"/>
+        /// </summary>
         internal KeyValuePair<KeyValuePair<bool, string>, int> ExecuteNonQuery(string _Store, params SqlParameter[] _Parameters) {
             KeyValuePair<bool, string> _result = new KeyValuePair<bool, string>(true, "Se proceso correctamente la información");
             int _executeResult = 0;
@@ -90,7 +99,10 @@ namespace ExcelAddIn.Access {
             }
             return new KeyValuePair<KeyValuePair<bool, string>, int>(_result, _executeResult);
         }
-
+        /// <summary>Función Execute que regresa la variable de tipo DataSet.
+        /// <para>Ejecutar el SP con parámetros para el tipo DataSet. Referencia: <see cref="ExecuteDataSet(string, SqlParameter[])"/> se agrega la referencia ExcelAddIn.Access para invocarla.</para>
+        /// <seealso cref="ExecuteDataSet(string, SqlParameter[])"/>
+        /// </summary>
         internal KeyValuePair<KeyValuePair<bool, string>, DataSet> ExecuteDataSet(string _Store, params SqlParameter[] _Parameters) {
             KeyValuePair<bool, string> _result = new KeyValuePair<bool, string>(true, "");
             DataSet _executeResult = null;
@@ -103,7 +115,10 @@ namespace ExcelAddIn.Access {
             }
             return new KeyValuePair<KeyValuePair<bool, string>, DataSet>(_result, _executeResult);
         }
-
+        /// <summary>Función Execute que regresa la variable de tipo DataTable.
+        /// <para>Ejecutar el SP con parámetros para el tipo DataTable. Referencia: <see cref="ExecuteTable(string, SqlParameter[])"/> se agrega la referencia ExcelAddIn.Access para invocarla.</para>
+        /// <seealso cref="ExecuteTable(string, SqlParameter[])"/>
+        /// </summary>
         internal KeyValuePair<KeyValuePair<bool, string>, DataTable> ExecuteTable(string _Store, params SqlParameter[] _Parameters) {
             KeyValuePair<bool, string> _result = new KeyValuePair<bool, string>(true, "");
             DataTable _executeResult = null;
@@ -116,7 +131,10 @@ namespace ExcelAddIn.Access {
             }
             return new KeyValuePair<KeyValuePair<bool, string>, DataTable>(_result, _executeResult);
         }
-
+        /// <summary>Función Execute que regresa la variable de tipo Scalar.
+        /// <para>Ejecutar el SP con parámetros para el tipo Scalar. Referencia: <see cref="ExecuteScalar(string, SqlParameter[])"/> se agrega la referencia ExcelAddIn.Access para invocarla.</para>
+        /// <seealso cref="ExecuteScalar(string, SqlParameter[])"/>
+        /// </summary>
         internal KeyValuePair<KeyValuePair<bool, string>, object> ExecuteScalar(string _Store, params SqlParameter[] _Parameters) {
             KeyValuePair<bool, string> _result = new KeyValuePair<bool, string>(true, "");
             object _executeResult = null;
@@ -129,7 +147,10 @@ namespace ExcelAddIn.Access {
             }
             return new KeyValuePair<KeyValuePair<bool, string>, object>(_result, _executeResult);
         }
-
+        /// <summary>Función Execute que regresa la variable de tipo Reader.
+        /// <para>Ejecutar el SP con parámetros para el tipo Reader. Referencia: <see cref="ExecuteReader(string, SqlParameter[])"/> se agrega la referencia ExcelAddIn.Access para invocarla.</para>
+        /// <seealso cref="ExecuteReader(string, SqlParameter[])"/>
+        /// </summary>
         internal KeyValuePair<KeyValuePair<bool, string>, SqlDataReader> ExecuteReader(string _Store, params SqlParameter[] _Parameters) {
             KeyValuePair<bool, string> _result = new KeyValuePair<bool, string>(true, "");
             SqlDataReader _executeResult = null;
@@ -142,7 +163,10 @@ namespace ExcelAddIn.Access {
             }
             return new KeyValuePair<KeyValuePair<bool, string>, SqlDataReader>(_result, _executeResult);
         }
-
+        /// <summary>Función Execute que regresa la variable de tipo XlmReader.
+        /// <para>Ejecutar el SP con parámetros para el tipo XlmReader. Referencia: <see cref="ExecuteXlmReader(string, SqlParameter[])"/> se agrega la referencia ExcelAddIn.Access para invocarla.</para>
+        /// <seealso cref="ExecuteXlmReader(string, SqlParameter[])"/>
+        /// </summary>
         internal KeyValuePair<KeyValuePair<bool, string>, XmlReader> ExecuteXmlReader(string _Store, params SqlParameter[] _Parameters) {
             KeyValuePair<bool, string> _result = new KeyValuePair<bool, string>(true, "");
             XmlReader _executeResult = null;

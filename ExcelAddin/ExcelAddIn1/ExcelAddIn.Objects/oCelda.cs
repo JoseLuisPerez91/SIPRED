@@ -14,7 +14,6 @@ namespace ExcelAddIn.Objects {
             Indice = _Expression.Replace("[", "").Replace("]", "").Split(',')[1];
             Columna = int.Parse(_Expression.Replace("[", "").Replace("]", "").Split(',')[2]);
         }
-
         public string Original { get; set; }
         public string Anexo { get; set; }
         public string Indice { get; set; }
@@ -28,7 +27,6 @@ namespace ExcelAddIn.Objects {
             Anexo = _Cell.Worksheet.Name;
             CeldaExcel = (Anexo == _Anexo || _Anexo == "") ? _Cell.Address : _Cell.FullAddress;
         }
-
         public void setFullAddressCeldaExcel(ExcelRange _Cell)
         {
            CeldaExcel = _Cell.FullAddress;

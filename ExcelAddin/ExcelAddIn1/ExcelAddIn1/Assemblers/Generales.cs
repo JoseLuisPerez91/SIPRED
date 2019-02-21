@@ -18,7 +18,10 @@ namespace ExcelAddIn1
 {
     public class Generales
     {
-
+        /// <summary>Función para Insertar el Indice.
+        /// <para>Inserta el Indice en el archivo de Excel. Referencia: <see cref="InsertIndice(Excel.Worksheet, int, Excel.Range, bool, int)"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
+        /// <seealso cref="InsertIndice(Excel.Worksheet, int, Excel.Range, bool, int)"/>
+        /// </summary>
         public static void InsertIndice(Excel.Worksheet xlSht, int CantReg, Excel.Range currentCell, bool ConFormula, int NroPrincipal)
         {
             Worksheet sheet = Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveWorkbook.ActiveSheet);
@@ -156,6 +159,10 @@ namespace ExcelAddIn1
             Sum_Range = xlSht.get_Range("B" + (NroPrincipal).ToString(), "B" + (NroPrincipal).ToString());
             Sum_Range.Select();
         }
+        /// <summary>Función para Insertar la Explicación.
+        /// <para>Inserta la Explicación en el archivo de Excel. Referencia: <see cref="InsertaExplicacion(Excel.Worksheet, Excel.Range, string)"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
+        /// <seealso cref="InsertaExplicacion(Excel.Worksheet, Excel.Range, string)"/>
+        /// </summary>
         public static void InsertaExplicacion(Excel.Worksheet xlSht, Excel.Range currentCell, string Explicacion)
         {
             var rangej = xlSht.get_Range(string.Format("{0}:{0}", currentCell.Row + 1, Type.Missing));
@@ -182,6 +189,10 @@ namespace ExcelAddIn1
                 k++;
             }
         }
+        /// <summary>Función para Agregar Rango con Nombre.
+        /// <para>Agrega el Rango con Nombre en el archivo de Excel. Referencia: <see cref="AddNamedRange(int, int, string)"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
+        /// <seealso cref="AddNamedRange(int, int, string)"/>
+        /// </summary>
         public static void AddNamedRange(int row, int col, string myrango)
         {
             Microsoft.Office.Tools.Excel.NamedRange NamedRange1;
@@ -198,6 +209,10 @@ namespace ExcelAddIn1
 
             }
         }
+        /// <summary>Función para obtener el Rango Principal.
+        /// <para>Obtiene el Rango Principal en el archivo de Excel. Referencia: <see cref="DameRangoPrincipal(int, Excel.Worksheet)"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
+        /// <seealso cref="DameRangoPrincipal(int, Excel.Worksheet)"/>
+        /// </summary>
         public static int DameRangoPrincipal(int NroPrincipal, Excel.Worksheet xlSht)
         {
             int NroPrincipalAux = NroPrincipal;
@@ -258,6 +273,10 @@ namespace ExcelAddIn1
             }
             return NroPrincipalAux;
         }
+        /// <summary>Función que valida si el Concepto es Valido.
+        /// <para>Obtiene Verdadero o Falso en el archivo de Excel. Referencia: <see cref="EsConceptoValido(string)"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
+        /// <seealso cref="EsConceptoValido(string)"/>
+        /// </summary>
         public static bool EsConceptoValido(string Concepto)
         {
             bool CncValido = false;
@@ -277,6 +296,10 @@ namespace ExcelAddIn1
             }
             return CncValido;
         }
+        /// <summary>Función que obtiene los Sub Totales.
+        /// <para>Obtiene los Sub Totales en el archivo de Json. Referencia: <see cref="DameColumnasST(string)"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
+        /// <seealso cref="DameColumnasST(string)"/>
+        /// </summary>
         public static List<oSubtotal> DameColumnasST(string Hoja)
         {
             List<oSubtotal> Subtotales = new List<oSubtotal>();
@@ -316,7 +339,10 @@ namespace ExcelAddIn1
 
             return Subtotales.Where(x => x.Hoja == Hoja.Trim()).ToList();
         }
-
+        /// <summary>Función para obtener los Conceptos Validos.
+        /// <para>Obtiene los Conceptos Validos en el archivo de Json. Referencia: <see cref="DameConceptosValidos()"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
+        /// <seealso cref="DameConceptosValidos()"/>
+        /// </summary>
         public static List<oConcepto> DameConceptosValidos()
         {
             List<oConcepto> Conceptos = new List<oConcepto>();

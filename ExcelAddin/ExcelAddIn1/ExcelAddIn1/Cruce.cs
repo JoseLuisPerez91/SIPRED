@@ -64,7 +64,6 @@ namespace ExcelAddIn1
                 return;
             }
         }
-
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             //this.Hide();
@@ -118,7 +117,6 @@ namespace ExcelAddIn1
                     string indice;
                     string DetalleFr;
 
-
                     ////////
                     foreach (oCruce _Cruce in _Cruces.Where(o => o.IdTipoPlantilla == _TemplateType.IdTipoPlantilla))
                     {
@@ -131,33 +129,25 @@ namespace ExcelAddIn1
                             lblTitle.Text = "Verificando " + _Celda.Anexo;
                             if (_workSheet != null)
                             {
-
-
                                 xlSht = (Worksheet)wb.Worksheets.get_Item(_Celda.Anexo);
-
                                 int _maxValue = xlSht.UsedRange.SpecialCells(XlCellType.xlCellTypeLastCell).Row;
-
                                 currentCell = (Range)xlSht.get_Range("A1", "A" + (_maxValue).ToString());
-
-
                                 currentFind = currentCell.Find(_Celda.Indice, Type.Missing, XlFindLookIn.xlValues, XlLookAt.xlPart,
                                    XlSearchOrder.xlByRows, XlSearchDirection.xlNext, false,
                                     Type.Missing, Type.Missing);
+
                                 if (currentFind != null)
                                 {
                                     _Celda.Fila = currentFind.Row;
-
                                     _Celda.setFullAddressCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna]);
                                     _Celda.Concepto = _workSheet.Cells[_Celda.Fila, 2].Text;
-
                                     currentCell = (Range)xlSht.Cells[_Celda.Fila, _Celda.Columna];
                                     if (currentCell.get_Value(Type.Missing) != null)
                                         _Celda.Valor = currentCell.get_Value(Type.Missing).ToString();
                                     else
                                         _Celda.Valor = "0";
-
-
                                 }
+
                                 int j = 0;
                                 if (_Cruce.Formula.Contains(":") && _Cruce.Formula.Contains("SUM"))
                                 {
@@ -187,7 +177,6 @@ namespace ExcelAddIn1
                                             {
                                                 oRng = (Range)xlSht.Cells[r, 1];
 
-
                                                 if (oRng.get_Value(Type.Missing) != null)
                                                 {
                                                     indice = oRng.get_Value(Type.Missing).ToString();
@@ -216,51 +205,42 @@ namespace ExcelAddIn1
                                             }
                                         }
                                         else
-                                             if ((_Cruce.CeldasFormula[j].Fila == _Cruce.CeldasFormula[j + 1].Fila && _Cruce.CeldasFormula[j].Fila != -1) && (_Cruce.CeldasFormula[j].Columna != _Cruce.CeldasFormula[j + 1].Columna))
                                         {
-                                            Worksheet xlShtAnx = (Worksheet)wb.Worksheets.get_Item(_Cruce.CeldasFormula[j].Anexo);
-                                            CeldaNws = new List<oCelda>();
-                                            if (CeldaNws.Count() == 0)
-                                                CeldaNws = _Cruce.CeldasFormula.ToList();
-                                            for (int r = _Cruce.CeldasFormula[j].Columna; r < _Cruce.CeldasFormula[j + 1].Columna; r++)
+                                            if ((_Cruce.CeldasFormula[j].Fila == _Cruce.CeldasFormula[j + 1].Fila && _Cruce.CeldasFormula[j].Fila != -1) && (_Cruce.CeldasFormula[j].Columna != _Cruce.CeldasFormula[j + 1].Columna))
                                             {
-
-                                                if (_Cruce.CeldasFormula[j].Columna != r && _Cruce.CeldasFormula[j + 1].Columna != r)
+                                                Worksheet xlShtAnx = (Worksheet)wb.Worksheets.get_Item(_Cruce.CeldasFormula[j].Anexo);
+                                                CeldaNws = new List<oCelda>();
+                                                if (CeldaNws.Count() == 0)
+                                                    CeldaNws = _Cruce.CeldasFormula.ToList();
+                                                for (int r = _Cruce.CeldasFormula[j].Columna; r < _Cruce.CeldasFormula[j + 1].Columna; r++)
                                                 {
-                                                    oCelda CeldaNw = new oCelda();
-                                                    CeldaNw.Fila = _Cruce.CeldasFormula[j].Fila;
-                                                    CeldaNw.Indice = _Cruce.CeldasFormula[j].Indice;
-                                                    CeldaNw.Columna = r;
-                                                    CeldaNw.Anexo = _Cruce.CeldasFormula[j].Anexo;
-                                                    CeldaNw.Original = "";
-                                                    CeldaNw.Grupo = j;
-                                                    CeldaNw.Concepto = _Cruce.CeldasFormula[j].Concepto;
-                                                    vlrange = (Range)xlShtAnx.Cells[_Cruce.CeldasFormula[j].Fila, r];
-                                                    if (vlrange.get_Value(Type.Missing) != null)
-                                                        CeldaNw.Valor = vlrange.get_Value(Type.Missing).ToString();
-                                                    else
-                                                        CeldaNw.Valor = "0";
-                                                    CeldaNw.setFullAddressCeldaExcel(_workSheetAnx.Cells[CeldaNw.Fila, CeldaNw.Columna]);
-                                                    if (!CeldaNws.Contains(CeldaNw))
-                                                        CeldaNws.Add(CeldaNw);
+
+                                                    if (_Cruce.CeldasFormula[j].Columna != r && _Cruce.CeldasFormula[j + 1].Columna != r)
+                                                    {
+                                                        oCelda CeldaNw = new oCelda();
+                                                        CeldaNw.Fila = _Cruce.CeldasFormula[j].Fila;
+                                                        CeldaNw.Indice = _Cruce.CeldasFormula[j].Indice;
+                                                        CeldaNw.Columna = r;
+                                                        CeldaNw.Anexo = _Cruce.CeldasFormula[j].Anexo;
+                                                        CeldaNw.Original = "";
+                                                        CeldaNw.Grupo = j;
+                                                        CeldaNw.Concepto = _Cruce.CeldasFormula[j].Concepto;
+                                                        vlrange = (Range)xlShtAnx.Cells[_Cruce.CeldasFormula[j].Fila, r];
+                                                        if (vlrange.get_Value(Type.Missing) != null)
+                                                            CeldaNw.Valor = vlrange.get_Value(Type.Missing).ToString();
+                                                        else
+                                                            CeldaNw.Valor = "0";
+                                                        CeldaNw.setFullAddressCeldaExcel(_workSheetAnx.Cells[CeldaNw.Fila, CeldaNw.Columna]);
+                                                        if (!CeldaNws.Contains(CeldaNw))
+                                                            CeldaNws.Add(CeldaNw);
+                                                    }
                                                 }
-
-
                                             }
-
-
-
                                         }
-
-
                                     }
-
                                 }
                             }
-
-
                         }
-
 
                         pgbCruces.Value = progress;
                         foreach (oCeldaCondicion _Celda in _Cruce.CeldasCondicion)
@@ -268,12 +248,9 @@ namespace ExcelAddIn1
                             ExcelWorksheet _workSheet = _package.Workbook.Worksheets[_Celda.Anexo];
                             if (_workSheet != null)
                             {
-
                                 xlSht = (Worksheet)wb.Worksheets.get_Item(_Celda.Anexo);
                                 int _maxValue = xlSht.UsedRange.SpecialCells(XlCellType.xlCellTypeLastCell).Row;
                                 currentCell = (Range)xlSht.get_Range("A1", "A" + (_maxValue).ToString());
-
-
                                 currentFind = currentCell.Find(_Celda.Indice, Type.Missing, XlFindLookIn.xlValues, XlLookAt.xlPart,
                                    XlSearchOrder.xlByRows, XlSearchDirection.xlNext, false,
                                     Type.Missing, Type.Missing);
@@ -283,30 +260,21 @@ namespace ExcelAddIn1
                                     _Celda.setFullAddressCeldaExcel(_workSheet.Cells[_Celda.Fila, _Celda.Columna]);
                                     _Celda.Concepto = _workSheet.Cells[_Celda.Fila, 2].Text;
                                 }
-
-
                             }
                         }
-
 
                         _Cruce.setFormulaExcel();
                         try
                         {
                             if (CeldaNws.Count() > 0)
                                 _Cruce.CeldasFormula = CeldaNws.OrderBy(x => x.Indice).ToArray();
-
-
+                            
                             xlSht = (Worksheet)wb.Worksheets.get_Item("SIPRED");
                             Range Test_Range = (Range)xlSht.get_Range("A1");
                             string ValorAnterior = Test_Range.get_Value(Type.Missing);
                             string[] formula;
-
-
-
                             Test_Range.Formula = "=" + _Cruce.FormulaExcel;
-
                             _Cruce.ResultadoFormula = Test_Range.get_Value(Type.Missing).ToString();
-
                             xlSht.Cells[1, 1] = ValorAnterior;// restauro
 
                             if (_Cruce.FormulaExcel.Contains("="))
@@ -323,8 +291,6 @@ namespace ExcelAddIn1
                                 xlSht.Cells[3, 1] = ValorAnterior;// restauro
                             }
 
-
-
                             if (_Cruce.CondicionExcel != "")
                             {
                                 Test_Range = (Range)xlSht.get_Range("A2");
@@ -332,13 +298,8 @@ namespace ExcelAddIn1
                                 Test_Range.Formula = "=" + _Cruce.CondicionExcel;
                                 _Cruce.ResultadoCondicion = Test_Range.get_Value(Type.Missing).ToString();
                                 xlSht.Cells[2, 1] = ValorAnterior;// restauro
-
-
-
                                 _Cruce.Condicion = "[" + _Cruce.Condicion + "] = " + _Cruce.ResultadoCondicion;
                             }
-
-
 
                             if (_Cruce.ResultadoFormula.ToLower() == "false")
                             {
@@ -346,11 +307,9 @@ namespace ExcelAddIn1
                                     _Cruce.Diferencia = "0";
                                 if (_Cruce.Diferencia != "0") // puede ser negativa
                                 {
-
                                     //calculo la diferencia
                                     if (_Cruce.FormulaExcel.Contains("="))
                                     {
-
                                         if (_Cruce.FormulaExcel.Contains("="))
                                         {
                                             formula = _Cruce.FormulaExcel.Split('=');
@@ -359,14 +318,12 @@ namespace ExcelAddIn1
                                             Test_Range.Formula = "=" + formula[0];
                                             _Cruce.Grupo1 = Test_Range.get_Value(Type.Missing).ToString();
                                             xlSht.Cells[4, 1] = ValorAnterior;// restauro
-
                                             Test_Range = (Range)xlSht.get_Range("A5");
                                             ValorAnterior = Test_Range.get_Value(Type.Missing);
                                             Test_Range.Formula = "=" + formula[1];
                                             _Cruce.Grupo2 = Test_Range.get_Value(Type.Missing).ToString();
                                             xlSht.Cells[5, 1] = ValorAnterior;// restauro
                                         }
-
                                     }
                                     _result.Add(_Cruce);
                                 }
@@ -384,17 +341,15 @@ namespace ExcelAddIn1
                     }
 
                     progress += 5;
-
                     pgbCruces.Value = progress;
                 }
                 else if (_TemplateType == null)
                     MessageBox.Show("Archivo no válido, favor de generar el archivo mediante el AddIn D.SAT", "Información Incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-
             progress += 15;
-
             pgbCruces.Value = progress;
+
             if (_result.Count > 0)
                 CreatePDF(_result.ToArray(), _Cruces, _Path, _Excel.Name);
             else
@@ -402,7 +357,6 @@ namespace ExcelAddIn1
 
             this.Hide();
         }
-
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -418,8 +372,6 @@ namespace ExcelAddIn1
             if (mod == 0) { mod = 26; div--; }
             return ColumnAdress(div) + ColumnAdress(mod);
         }
-
-
         private void CreatePDF(oCruce[] _result, oCruce[] cruces, string path, string NombreLibro)
         {
             var fecha = DateTime.Now;
@@ -526,6 +478,7 @@ namespace ExcelAddIn1
             tblHeader.AddCell(col6);
             tblHeader.AddCell(col7);
             doc.Add(Chunk.NEWLINE);
+
             foreach (var item in _result)
             {
                 PdfPCell cellid = new PdfPCell(new Phrase(item.IdCruce.ToString(), titlefont));
@@ -622,43 +575,6 @@ namespace ExcelAddIn1
                     valor++;
                 }
 
-                //foreach (var gen in item.CeldasCondicion)
-                //{
-                //    var color = Color.LightGray;
-
-                //    if ((valor % 2) == 0)
-                //        color = Color.White;
-
-                //    PdfPCell cellgs = new PdfPCell(new Phrase(gen.Anexo, _standardFont));
-                //    cellgs.BorderWidth = 0;
-                //    cellgs.BackgroundColor = new BaseColor(color);
-
-                //    PdfPCell cellgi = new PdfPCell(new Phrase(gen.Indice, _standardFont));
-                //    cellgi.BorderWidth = 0;
-                //    cellgi.BackgroundColor = new BaseColor(color);
-
-                //    PdfPCell cellgcol = new PdfPCell(new Phrase(gen.Columna.ToString(), _standardFont));
-                //    cellgcol.BorderWidth = 0;
-                //    cellgcol.BackgroundColor = new BaseColor(color);
-
-                //    PdfPCell cellgconc = new PdfPCell(new Phrase(gen.Concepto == null ? " " : gen.Concepto, _standardFont));
-                //    cellgconc.BorderWidth = 0;
-                //    cellgconc.BackgroundColor = new BaseColor(color);
-                //    cellconc.Colspan = 3;
-
-                //    PdfPCell cellgv = new PdfPCell(new Phrase(gen.Valor == null ? " " : gen.Valor, _standardFont));
-                //    cellgv.BorderWidth = 0;
-                //    cellgv.BackgroundColor = new BaseColor(color);
-
-                //    tblHeader.AddCell(cellgs);
-                //    tblHeader.AddCell(cellgi);
-                //    tblHeader.AddCell(cellgcol);
-                //    tblHeader.AddCell(cellgconc);
-                //    tblHeader.AddCell(cellgv);
-
-                //    valor++;
-                //}
-
                 PdfPCell cellcalc = new PdfPCell(new Phrase("Cálculos", _standardFontbold));
                 cellcalc.BorderWidth = 0;
                 cellcalc.HorizontalAlignment = Element.ALIGN_RIGHT;
@@ -703,10 +619,7 @@ namespace ExcelAddIn1
             writer.Close();
 
             Process.Start(filepath);
-            //WebBrowser wb = new WebBrowser();
-            //wb.Navigate(filepath);
         }
-
         public static bool ValidaCruces(oValidaCruces[] _ValidCruces)
         {
             FileInfo _Excel = new FileInfo(Globals.ThisAddIn.Application.ActiveWorkbook.FullName);
@@ -726,14 +639,12 @@ namespace ExcelAddIn1
                     xlSht = (Worksheet)wb.Worksheets.get_Item(_F.Hoja);
                     if (xlSht != null)
                     {
-
                         _maxValue = xlSht.UsedRange.Count + 1;
                         currentCell = (Range)xlSht.get_Range("A1", "A" + (_maxValue).ToString());
-
-
                         currentFind = currentCell.Find(_F.Indice, Type.Missing, XlFindLookIn.xlValues, XlLookAt.xlPart,
                            XlSearchOrder.xlByRows, XlSearchDirection.xlNext, false,
                             Type.Missing, Type.Missing);
+
                         if (currentFind != null)
                         {
                             currentCell = (Range)xlSht.Cells[currentFind.Row, 3];
@@ -748,14 +659,12 @@ namespace ExcelAddIn1
 
                                 _Result.Add(_F);
                             }
-
                         }
                     }
-
                 }
+
                 if (_Result.Count() > 0)
                 {
-
                     MessageBox.Show("Para que la verificación se realice correctamente es necesario completar o revisar respuestas en " + _Hojas.TrimEnd(',') + " de los índices relacionados a continuación", "Información Correcta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
 
@@ -766,7 +675,6 @@ namespace ExcelAddIn1
                 MessageBox.Show("Archivo no válido, favor de generar el archivo mediante el AddIn D.SAT", "Información Incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-
         }
     }
 }

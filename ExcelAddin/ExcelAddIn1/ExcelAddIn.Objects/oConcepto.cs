@@ -10,6 +10,5 @@ namespace ExcelAddIn.Objects
     {
         public string Descripcion;
         public int Caracteres;
-
     }
 }

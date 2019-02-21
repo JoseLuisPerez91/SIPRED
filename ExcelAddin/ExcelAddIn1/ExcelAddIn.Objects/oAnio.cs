@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace ExcelAddIn.Objects {
     public class oAnio {
         public oAnio() { }
-
         public int Id { get; set; } = 0;
         public string Concepto { get; set; } = "";
     }

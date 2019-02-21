@@ -10,7 +10,10 @@ namespace ExcelAddIn.Access {
     public class aPlantilla : Connection {
         protected oPlantilla Template = new oPlantilla("");
         public aPlantilla(oPlantilla _Template) : base() { }
-
+        /// <summary>Cargar el archivo Template.
+        /// <para>Ejecutar el SP dbo.spLoadTemplate. Referencia: <see cref="base.Add()"/> se agrega la referencia ExcelAddIn.Access para invocarla.</para>
+        /// <seealso cref="base.Add()"/>
+        /// </summary>
         protected KeyValuePair<KeyValuePair<bool, string>, int> Add() {
             KeyValuePair<bool, string> _result = new KeyValuePair<bool, string>(true, "Se procesó corectamente la información.");
             SqlParameter[] _Parameters = {

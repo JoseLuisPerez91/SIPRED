@@ -32,26 +32,14 @@ namespace ExcelAddIn1
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
         }
-        //protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
-        //{
-        //    return new Ribbon1();
-        //}
-
-
         void Application_SheetSelectionChange(object Sh, Excel.Range Target)
         {
-            
-
             Globals.Ribbons.Ribbon2.btnAgregarIndice.Enabled = (!Target.AddressLocal.Contains(":"));
             Globals.Ribbons.Ribbon2.btnAgregarExplicacion.Enabled = (!Target.AddressLocal.Contains(":"));
             Globals.Ribbons.Ribbon2.btnEliminarIndice.Enabled = (!Target.AddressLocal.Contains(";"));// si  selecciona celdas intercaladas
             Globals.Ribbons.Ribbon2.btnEliminaeExplicacion.Enabled = (!Target.AddressLocal.Contains(";"));// si  selecciona celdas intercaladas
-
         }
-
-
         #region VSTO generated code
-
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -61,7 +49,6 @@ namespace ExcelAddIn1
             this.Startup += new System.EventHandler(ThisAddIn_Startup);
             this.Shutdown += new System.EventHandler(ThisAddIn_Shutdown);
         }
-        
         #endregion
     }
 }

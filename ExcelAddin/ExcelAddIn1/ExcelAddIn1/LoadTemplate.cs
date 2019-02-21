@@ -65,19 +65,15 @@ namespace ExcelAddIn1
                 return;
             }
         }
-
         private void btnSeleccionar_Click(object sender, EventArgs e)
         {
             DialogResult _Result = ofdTemplate.ShowDialog();
         }
-
         private void ofdTemplate_FileOk(object sender, CancelEventArgs e) { txtPlantilla.Text = ofdTemplate.FileName; }
-
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void btnCargar_Click(object sender, EventArgs e)
         {
             string _Message = (cmbTipoPlantilla.SelectedIndex == 0) ? "- Debe seleccionar un tipo." : "";

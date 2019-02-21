@@ -10,7 +10,6 @@ namespace ExcelAddIn.Objects {
     public class oValidaCruces
     {
         public oValidaCruces() { }
-
         public string  Hoja { get; set; }
         public string Indice { get; set; }
         public string Concepto { get; set; } = "";

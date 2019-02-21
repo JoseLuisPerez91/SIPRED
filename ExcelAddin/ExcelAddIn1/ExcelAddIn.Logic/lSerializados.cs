@@ -14,7 +14,10 @@ using System.Net;
 namespace ExcelAddIn.Logic {
     public class lSerializados : aSerializados {
         public lSerializados() { }
-
+        /// <summary>Función para obtener los archivos Jsons y Templates.
+        /// <para>Ejecuta la creación de los archivos Jsons y Template del Proyecto. Referencia: <see cref="ObtenerSerializados()"/> se agrega la referencia ExcelAddIn.Logic para invocarla.</para>
+        /// <seealso cref="ObtenerSerializados()"/>
+        /// </summary>
         public KeyValuePair<bool, string[]> ObtenerSerializados() {
             bool _Key= true;
             _Messages = new List<string>();
@@ -43,6 +46,10 @@ namespace ExcelAddIn.Logic {
             }
             return new KeyValuePair<bool, string[]>(_Key, _Messages.ToArray());
         }
+        /// <summary>Función para obtener el archivo Json.
+        /// <para>Ejecuta la creación del archivo Json de Indices. Referencia: <see cref="ObtenerIndices()"/> se agrega la referencia ExcelAddIn.Logic para invocarla.</para>
+        /// <seealso cref="ObtenerIndices()"/>
+        /// </summary>
         public new KeyValuePair<bool, string[]> ObtenerIndices()
         {
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerIndices();
@@ -55,7 +62,10 @@ namespace ExcelAddIn.Logic {
             else { }
             return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
-
+        /// <summary>Función para obtener el archivo Json.
+        /// <para>Ejecuta la creación del archivo Json de Validación de Cruces. Referencia: <see cref="ObtenerValidacionCruces()"/> se agrega la referencia ExcelAddIn.Logic para invocarla.</para>
+        /// <seealso cref="ObtenerValidacionCruces()"/>
+        /// </summary>
         public new KeyValuePair<bool, string[]> ObtenerValidacionCruces()
         {
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerValidacionCruces();
@@ -68,6 +78,10 @@ namespace ExcelAddIn.Logic {
             else { }
             return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
+        /// <summary>Función para obtener el archivo Json.
+        /// <para>Ejecuta la creación del archivo Json de Tipos de Plantillas. Referencia: <see cref="ObtenerTiposPlantillas()"/> se agrega la referencia ExcelAddIn.Logic para invocarla.</para>
+        /// <seealso cref="ObtenerTiposPlantillas()"/>
+        /// </summary>
         public new KeyValuePair<bool, string[]> ObtenerTiposPlantillas() {
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerTiposPlantillas();
             if(_result.Key.Key) {
@@ -77,7 +91,10 @@ namespace ExcelAddIn.Logic {
             } else { }
             return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
-
+        /// <summary>Función para obtener el archivo Json.
+        /// <para>Ejecuta la creación del archivo Json de Cruces. Referencia: <see cref="ObtenerCruces()"/> se agrega la referencia ExcelAddIn.Logic para invocarla.</para>
+        /// <seealso cref="ObtenerCruces()"/>
+        /// </summary>
         public new KeyValuePair<bool, string[]> ObtenerCruces() {
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerCruces();
             if(_result.Key.Key) {
@@ -89,7 +106,10 @@ namespace ExcelAddIn.Logic {
             }
             return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
-
+        /// <summary>Función para obtener el archivo Json.
+        /// <para>Ejecuta la creación del archivo Json de Plantillas. Referencia: <see cref="ObtenerPlantillas()"/> se agrega la referencia ExcelAddIn.Logic para invocarla.</para>
+        /// <seealso cref="ObtenerPlantillas()"/>
+        /// </summary>
         public new KeyValuePair<bool, string[]> ObtenerPlantillas() {
             _Messages = new List<string>();
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerPlantillas();
@@ -119,7 +139,10 @@ namespace ExcelAddIn.Logic {
             }
             return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
-
+        /// <summary>Función para obtener el archivo Json.
+        /// <para>Ejecuta la creación del archivo Json de Comprobaciones. Referencia: <see cref="ObtenerComprobaciones()"/> se agrega la referencia ExcelAddIn.Logic para invocarla.</para>
+        /// <seealso cref="ObtenerComprobaciones()"/>
+        /// </summary>
         public new KeyValuePair<bool, string[]> ObtenerComprobaciones() {
             KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerComprobaciones();
             if(_result.Key.Key) {
@@ -131,7 +154,10 @@ namespace ExcelAddIn.Logic {
             }
             return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
-
+        /// <summary>Función para Inicializar las Comprobaciones.
+        /// <para>Inicializa las Comprobaciones del archivo Json de Plantillas. Referencia: <see cref="InicializarComprobaciones(oComprobacion[])"/> se agrega la referencia ExcelAddIn.Logic para invocarla.</para>
+        /// <seealso cref="InicializarComprobaciones(oComprobacion[])"/>
+        /// </summary>
         public string InicializarComprobaciones(oComprobacion[] _Comprobaciones) {
             oPlantilla[] _Templates = Assembler.LoadJson<oPlantilla[]>($"{Access.Configuration.Path}\\jsons\\Plantillas.json");
             foreach(oPlantilla _Template in _Templates) {
@@ -208,6 +234,10 @@ namespace ExcelAddIn.Logic {
             }
             return JsonConvert.SerializeObject(_Comprobaciones);
         }
+        /// <summary>Función para verificar la Conexión con el servidor de Deloitte.
+        /// <para>Verifica la Conexión de Internet con el servidor de Deloitte. Referencia: <see cref="CheckConnection(string)"/> se agrega la referencia ExcelAddIn.Logic para invocarla.</para>
+        /// <seealso cref="CheckConnection(string)"/>
+        /// </summary>
         public bool CheckConnection(String URL)
         {
             try
