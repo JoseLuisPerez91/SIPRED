@@ -6,13 +6,13 @@ using System.Security;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ExcelAddIn1")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("DSAT©")]
+[assembly: AssemblyDescription("Sistema para la administración SAT")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("GSB Solutions R. L. DE C. V.")]
-[assembly: AssemblyProduct("ExcelAddIn1")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyProduct("DSAT©")]
+[assembly: AssemblyCopyright("Copyright ©  2018 - 2028")]
+[assembly: AssemblyTrademark("DSAT©")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

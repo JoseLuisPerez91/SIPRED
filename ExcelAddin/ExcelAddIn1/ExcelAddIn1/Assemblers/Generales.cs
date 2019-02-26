@@ -36,9 +36,7 @@ namespace ExcelAddIn1
                     Excel.Worksheet xlSht = wb.Worksheets[f];
                     if (!accion)
                     {
-
                         xlSht.Unprotect(Configuration.PwsExcel);
-
                     }
                     else
                     {

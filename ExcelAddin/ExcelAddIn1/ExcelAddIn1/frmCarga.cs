@@ -171,6 +171,9 @@ namespace ExcelAddIn1
             psw = "AAAABABABAAG";
             //LENARHOJAS
             Globals.ThisAddIn.Application.DisplayAlerts = false;
+
+            Generales.Proteccion(false);
+
             for (int i = 1; i <= numhojas; i++)
             {
                 //seleccionamos la hoja de orden i
@@ -194,7 +197,7 @@ namespace ExcelAddIn1
                 EspacioFilas = 0;
                 fila = 1;
                 columna = 1;
-                hojan.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
+                //hojan.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
 
                 do
                 {
@@ -343,6 +346,7 @@ namespace ExcelAddIn1
                     }
                     catch (Exception e)
                     {
+                        Generales.Proteccion(true);
                         MessageBox.Show(e.Message);
                     }
                 }
@@ -686,25 +690,27 @@ namespace ExcelAddIn1
                 }
             }
 
-            for (int i = 1; i <= numhojas; i++)
-            {
-                try
-                {
-                    nom = libron.Worksheets[i].Name.ToString().Trim();
-                    ind = Array.IndexOf(nombre, libron.Worksheets[i].Name.ToString().Trim().ToUpper());
-                    if (ind != -1)
-                    {
-                        ind++;
-                        libron.Sheets[i].Activate();
-                        ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Protect(ExcelAddIn.Access.Configuration.PwsExcel, true);
+            //for (int i = 1; i <= numhojas; i++)
+            //{
+            //    try
+            //    {
+            //        nom = libron.Worksheets[i].Name.ToString().Trim();
+            //        ind = Array.IndexOf(nombre, libron.Worksheets[i].Name.ToString().Trim().ToUpper());
+            //        if (ind != -1)
+            //        {
+            //            ind++;
+            //            libron.Sheets[i].Activate();
+            //            //((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Protect(ExcelAddIn.Access.Configuration.PwsExcel, true);
 
-                    }
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.Message);
-                }
-            }
+            //        }
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Generales.Proteccion(true);
+            //        MessageBox.Show(e.Message);
+            //    }
+            //}
+            Generales.Proteccion(true);
 
             //activar mensajes alerta
             Globals.ThisAddIn.Application.DisplayAlerts = true;

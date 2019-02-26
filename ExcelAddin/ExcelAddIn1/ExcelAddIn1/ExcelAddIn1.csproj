@@ -378,6 +378,9 @@
   <PropertyGroup>
     <ManifestCertificateThumbprint>3FFC9282031995F1108E00A947F5C54146B664DA</ManifestCertificateThumbprint>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- Include additional build rules for an Office application add-in. -->
