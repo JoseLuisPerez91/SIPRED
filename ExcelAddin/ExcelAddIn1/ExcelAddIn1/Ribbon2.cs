@@ -19,7 +19,7 @@ namespace ExcelAddIn1 {
     {
         #region variable
         SaveFileDialog SaveFileDialog1 = new SaveFileDialog();
-            string[,] HojasSPR = new string[,] {
+        string[,] HojasSPR = new string[,] {
                 {"Contribuyente".ToUpper()          , "31"  ,"3"    ,""                     },
                 {"Contador".ToUpper()               , "35"  ,"3"    ,""                     },
                 {"Representante".ToUpper()          , "36"  ,"3"    ,""                     },
@@ -29,7 +29,7 @@ namespace ExcelAddIn1 {
                 {"Anexo 3".ToUpper()                , "0"   ,"22"   ,""                     },
                 {"Anexo 4".ToUpper()                , "0"   ,"5"    ,""                     },
                 {"Anexo 5".ToUpper()                , "0"   ,"14"   ,""                     },
-                {"Anexo 6".ToUpper()                , "0"   ,"5"    ,""                     },
+                {"Anexo 6".ToUpper()                , "0"   ,"5"    ,"Generales|C34"        },
                 {"Anexo 7".ToUpper()                , "0"   ,"37"   ,""                     },
                 {"Anexo 8".ToUpper()                , "0"   ,"9"    ,""                     },
                 {"Anexo 9".ToUpper()                , "0"   ,"9"    ,""                     },
@@ -55,57 +55,57 @@ namespace ExcelAddIn1 {
                 {"Informe".ToUpper()                , "45"  ,"1"    ,""                     },
                 {"Información Adicional".ToUpper()  , "45"  ,"1"    ,""                     }
             };
-            String[] nombre;
+        String[] nombre;
         #endregion
         #region metodos
-            public void MensageBloqueo(Excel.Worksheet Sh)
+        public void MensageBloqueo(Excel.Worksheet Sh)
+        {
+            String CondCad = "";
+            string[] arg;
+            string[] cond;
+            Boolean res = true;
+            String Vcon = "";
+            //cargar array de nombres
+            Cargararraynombre(HojasSPR);
+
+            String nom = Sh.Name.ToString().Trim();
+            int ind = Array.IndexOf(nombre, Sh.Name.ToString().Trim().ToUpper());
+            if (ind != -1)
             {
-                String CondCad = "";
-                string[] arg;
-                string[] cond;
-                Boolean res = true;
-                String Vcon = "";
-                //cargar array de nombres
-                Cargararraynombre(HojasSPR);
-
-                String nom = Sh.Name.ToString().Trim();
-                int ind = Array.IndexOf(nombre, Sh.Name.ToString().Trim().ToUpper());
-                if (ind != -1)
+                //ind++;
+                Sh.Activate();
+                if (HojasSPR[ind, 3].Trim().Length > 0)
                 {
-                    //ind++;
-                    Sh.Activate();
-                    if (HojasSPR[ind, 3].Trim().Length > 0)
+                    //Capturo la condicion
+                    CondCad = HojasSPR[ind, 3].Trim();
+                    arg = CondCad.Split('|');
+                    nom = arg[0].ToString().Trim();
+                    ind = Array.IndexOf(nombre, nom.ToUpper());
+                    cond = arg[1].ToString().Trim().Split(',');
+
+                    foreach (string i in cond)
                     {
-                        //Capturo la condicion
-                        CondCad = HojasSPR[ind, 3].Trim();
-                        arg = CondCad.Split('|');
-                        nom = arg[0].ToString().Trim();
-                        ind = Array.IndexOf(nombre, nom.ToUpper());
-                        cond = arg[1].ToString().Trim().Split(',');
+                        Vcon = ((Excel.Worksheet)Globals.ThisAddIn.Application.Worksheets["Generales"]).Range[i].Formula;
 
-                        foreach (string i in cond)
+                        if (Vcon.Trim().ToUpper().Contains("SI"))
                         {
-                            Vcon = ((Excel.Worksheet)Globals.ThisAddIn.Application.Worksheets["Generales"]).Range[i].Formula;
-
-                            if (Vcon == "SI" || Vcon == "si")
-                            {
-                                res = false;
-                                break;
-                            }
-                            if (Vcon == "NO" || Vcon == "no")
-                            {
-                                res = true;
-                            }
+                            res = false;
+                            break;
                         }
-                        if (res)
+                        if (Vcon.Trim().ToUpper().Contains("NO"))
                         {
-                            MessageBox.Show("No es posible seleccionar el anexo debido a que se encuentra deshabilitado.", "SPRIND", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            ((Excel.Worksheet)Globals.ThisAddIn.Application.Worksheets[Sh.Index - 1]).Activate();
+                            res = true;
                         }
+                    }
+                    if (res)
+                    {
+                        MessageBox.Show("No es posible seleccionar el anexo debido a que se encuentra deshabilitado.", "SPRIND", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        ((Excel.Worksheet)Globals.ThisAddIn.Application.Worksheets[Sh.Index - 1]).Activate();
                     }
                 }
             }
-            public void Cargararraynombre(string[,] val)
+        }
+        public void Cargararraynombre(string[,] val)
             {
                 int numf = (val.Length) / val.GetLength(1);
                 nombre = new String[numf];

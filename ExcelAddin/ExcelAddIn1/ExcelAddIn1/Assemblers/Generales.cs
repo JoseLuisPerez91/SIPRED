@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
 using Office = Microsoft.Office.Core;
 using Microsoft.Office.Tools.Excel;
+using OfficeOpenXml;
 using System.IO;
 using Newtonsoft.Json;
 using System.Windows.Forms;
@@ -18,6 +19,34 @@ namespace ExcelAddIn1
 {
     public class Generales
     {
+        /// <summary>Función para Proteger y Desproteger las hojas de un archivo de Excel.
+        /// <para>Desprotege y Protege un archivo de Excel. Referencia: <see cref="Proteccion(bool)"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
+        /// <seealso cref="Proteccion(bool)"/>
+        /// </summary>
+        public static void Proteccion(bool accion)
+        {
+            int f;
+            FileInfo _Excel = new FileInfo(Globals.ThisAddIn.Application.ActiveWorkbook.FullName);
+            Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+
+            using (ExcelPackage _package = new ExcelPackage(_Excel))
+            {
+                for (f = 1; f <= _package.Workbook.Worksheets.Count(); f++)
+                {
+                    Excel.Worksheet xlSht = wb.Worksheets[f];
+                    if (!accion)
+                    {
+
+                        xlSht.Unprotect(Configuration.PwsExcel);
+
+                    }
+                    else
+                    {
+                        xlSht.Protect(Configuration.PwsExcel, true, true, false, true, true, true, true, false, false, false, false, false, false, true, false);
+                    }
+                }
+            }
+        }
         /// <summary>Función para Insertar el Indice.
         /// <para>Inserta el Indice en el archivo de Excel. Referencia: <see cref="InsertIndice(Excel.Worksheet, int, Excel.Range, bool, int)"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
         /// <seealso cref="InsertIndice(Excel.Worksheet, int, Excel.Range, bool, int)"/>
