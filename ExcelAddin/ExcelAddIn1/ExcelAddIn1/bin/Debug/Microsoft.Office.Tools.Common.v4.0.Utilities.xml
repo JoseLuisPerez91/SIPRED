@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>Microsoft.Office.Tools.Common.v4.0.Utilities</name>
+  </assembly>
+  <members>
+    <member name="T:Microsoft.Office.Tools.AddIn">
+      <summary>Define la funcionalidad básica de los complementos que se crean usando las herramientas desarrollo de Office incluidas en Visual Studio.</summary>
+    </member>
+    <member name="M:Microsoft.Office.Tools.AddIn._VtblGap1_1"></member>
+    <member name="E:Microsoft.Office.Tools.AddIn.BindingContextChanged"></member>
+    <member name="P:Microsoft.Office.Tools.AddIn.DataHost"></member>
+    <member name="P:Microsoft.Office.Tools.AddIn.DefaultExtension">
+      <summary>Obtiene la extensión predeterminada de este objeto <see cref="T:Microsoft.Office.Tools.AddIn" />.</summary>
+      <returns>Extensión predeterminada de este objeto <see cref="T:Microsoft.Office.Tools.AddIn" />.</returns>
+    </member>
+    <member name="P:Microsoft.Office.Tools.AddIn.HostContext"></member>
+    <member name="P:Microsoft.Office.Tools.AddIn.ItemProvider"></member>
+    <member name="E:Microsoft.Office.Tools.AddIn.Shutdown">
+      <summary>Se produce cuando el complemento está a punto de descargarse. </summary>
+    </member>
+    <member name="E:Microsoft.Office.Tools.AddIn.Startup">
+      <summary>Se produce cuando se carga el complemento, después de ejecutar todo el código de inicialización del ensamblado. </summary>
+    </member>
+    <member name="P:Microsoft.Office.Tools.AddIn.Tag"></member>
+    <member name="T:Microsoft.Office.Tools.AddInBase">
+      <summary>Proporciona la clase base de la clase ThisAddIn de los complementos en el nivel de la aplicación que se crean usando Visual Studio.</summary>
+    </member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.#ctor(Microsoft.Office.Tools.Factory,System.IServiceProvider,System.String,System.String)"></member>
+    <member name="P:Microsoft.Office.Tools.AddInBase.Base">
+      <summary>Obtiene el objeto <see cref="T:Microsoft.Office.Tools.AddIn" /> que este objeto <see cref="T:Microsoft.Office.Tools.AddInBase" /> extiende.</summary>
+      <returns>Objeto que este objeto <see cref="T:Microsoft.Office.Tools.AddInBase" /> extiende.</returns>
+    </member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.BeginInit"></member>
+    <member name="P:Microsoft.Office.Tools.AddInBase.BindingContext"></member>
+    <member name="E:Microsoft.Office.Tools.AddInBase.BindingContextChanged"></member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.CreateRibbonExtensibilityObject">
+      <summary>Devuelve un objeto que implementa la interfaz Microsoft.Office.Core.IRibbonExtensibility.</summary>
+      <returns>Objeto que implementa la interfaz Microsoft.Office.Core.IRibbonExtensibility.</returns>
+    </member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.CreateRibbonObjects">
+      <summary>Devuelve una matriz de objetos <see cref="T:Microsoft.Office.Tools.Ribbon.IRibbonExtension" /> al método <see cref="M:Microsoft.Office.Tools.AddInBase.CreateRibbonExtensibilityObject" />.Los objetos representan las cintas de opciones que se van a mostrar en tiempo de ejecución.</summary>
+      <returns>Matriz de objetos <see cref="T:Microsoft.Office.Tools.Ribbon.IRibbonExtension" /> que representan las cintas de opciones que se mostrarán en tiempo de ejecución.</returns>
+    </member>
+    <member name="P:Microsoft.Office.Tools.AddInBase.DataBindings"></member>
+    <member name="P:Microsoft.Office.Tools.AddInBase.DataHost">
+      <returns>Devuelva <see cref="T:Microsoft.Office.Tools.ICachedDataProvider" />.</returns>
+    </member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.Dispose">
+      <summary>Libera los recursos utilizados por <see cref="T:Microsoft.Office.Tools.AddInBase" />.</summary>
+    </member>
+    <member name="E:Microsoft.Office.Tools.AddInBase.Disposed"></member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.EndInit"></member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.FinishInitialization"></member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.GetHostItem``1(System.Type,System.String)">
+      <returns>Devuelva <see cref="T:Microsoft.Office.Tools.Ribbon.IRibbonExtension" />.</returns>
+      <typeparam name="T"></typeparam>
+    </member>
+    <member name="P:Microsoft.Office.Tools.AddInBase.HostContext">
+      <returns>Devuelva <see cref="T:System.IServiceProvider" />.</returns>
+    </member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.Initialize"></member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.InitializeDataBindings"></member>
+    <member name="P:Microsoft.Office.Tools.AddInBase.ItemProvider">
+      <returns>Devuelva <see cref="T:Microsoft.Office.Tools.IHostItemProvider" />.</returns>
+    </member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.Microsoft#Office#Tools#EntryPoint#BeginInit"></member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.Microsoft#Office#Tools#EntryPoint#EndInit"></member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.Microsoft#Office#Tools#EntryPoint#FinishInitialization"></member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.Microsoft#Office#Tools#EntryPoint#Initialize"></member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.Microsoft#Office#Tools#EntryPoint#InitializeDataBindings"></member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.Microsoft#Office#Tools#EntryPoint#OnShutdown"></member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.Microsoft#Office#Tools#EntryPoint#OnStartup"></member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.Microsoft#Office#Tools#IAddInExtension#CreateRibbonExtensibilityObject"></member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.Microsoft#Office#Tools#IAddInExtension#CreateRibbonObjects">
+      <returns>Devuelva <see cref="T:Microsoft.Office.Tools.Ribbon.IRibbonExtension" />.</returns>
+    </member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.Microsoft#Office#Tools#IAddInExtension#RequestComAddInAutomationService">
+      <returns>Devuelva <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.Microsoft#Office#Tools#IAddInExtension#RequestService(System.Guid)">
+      <returns>Devuelva <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="P:Microsoft.Office.Tools.AddInBase.Microsoft#Office#Tools#IExtension#ExtensionBase">
+      <returns>Devuelva <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.OnShutdown"></member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.OnStartup"></member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.RequestComAddInAutomationService">
+      <summary>Devuelve en el complemento un objeto que otras soluciones pueden utilizar.</summary>
+      <returns>Objeto que se desea exponer a otras soluciones.</returns>
+    </member>
+    <member name="M:Microsoft.Office.Tools.AddInBase.RequestService(System.Guid)">
+      <summary>Devuelve un objeto que extiende una característica de una aplicación de Microsoft Office.</summary>
+      <returns>Objeto que implementa la interfaz de extensibilidad identificada por <paramref name="serviceGuid" />.</returns>
+      <param name="serviceGuid">
+        <see cref="T:System.Guid" /> que identifica una interfaz de extensibilidad compatible con las aplicaciones de Microsoft Office.</param>
+    </member>
+    <member name="E:Microsoft.Office.Tools.AddInBase.Shutdown">
+      <summary>Se produce cuando el complemento está a punto de descargarse. </summary>
+    </member>
+    <member name="P:Microsoft.Office.Tools.AddInBase.Site"></member>
+    <member name="E:Microsoft.Office.Tools.AddInBase.Startup">
+      <summary>Se produce cuando se carga el complemento, después de ejecutar todo el código de inicialización del ensamblado. </summary>
+    </member>
+    <member name="P:Microsoft.Office.Tools.AddInBase.Tag"></member>
+    <member name="T:Microsoft.Office.Tools.CustomTaskPane">
+      <summary>Representa un panel de tareas personalizado en una aplicación de Microsoft Office.</summary>
+    </member>
+    <member name="T:Microsoft.Office.Tools.DesignTimeConstants"></member>
+    <member name="F:Microsoft.Office.Tools.DesignTimeConstants.DesignerAssembly"></member>
+    <member name="F:Microsoft.Office.Tools.DesignTimeConstants.FormRegionTypeCodeDomSerializer"></member>
+    <member name="F:Microsoft.Office.Tools.DesignTimeConstants.RibbonTypeSerializer"></member>
+    <member name="F:Microsoft.Office.Tools.DesignTimeConstants.TypeCodeDomSerializer"></member>
+    <member name="F:Microsoft.Office.Tools.DesignTimeConstants.Version"></member>
+    <member name="M:Microsoft.Office.Tools.Factory._VtblGap1_1"></member>
+    <member name="T:Microsoft.Office.Tools.Ribbon.OfficeRibbon">
+      <summary>Representa una personalización de la cinta de opciones de Microsoft Office que se crea mediante el diseñador de dicha cinta en un proyecto de Office en Visual Studio.</summary>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.OfficeRibbon._VtblGap1_2"></member>
+    <member name="E:Microsoft.Office.Tools.Ribbon.OfficeRibbon.Close">
+      <summary>Se produce cuando se cierra esta instancia de <see cref="T:Microsoft.Office.Tools.Ribbon.OfficeRibbon" />.</summary>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.OfficeRibbon.Context">
+      <summary>Obtiene la ventana del inspector o explorador de Outlook, que está asociada a esta cinta.</summary>
+      <returns>
+        <see cref="T:System.Object" /> que representa la ventana del inspector o explorador que está asociada a este objeto <see cref="T:Microsoft.Office.Tools.Ribbon.OfficeRibbon" />.</returns>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.OfficeRibbon.Global">
+      <summary>Obtiene o establece un valor que determina si este objeto <see cref="T:Microsoft.Office.Tools.Ribbon.OfficeRibbon" /> puede usarse simultáneamente en varios contextos.</summary>
+      <returns>Es true si este objeto <see cref="T:Microsoft.Office.Tools.Ribbon.OfficeRibbon" /> se usa en varios contextos; de lo contrario, es false.De manera predeterminada, es true.</returns>
+    </member>
+    <member name="E:Microsoft.Office.Tools.Ribbon.OfficeRibbon.Load">
+      <summary>Se produce cuando se carga <see cref="T:Microsoft.Office.Tools.Ribbon.OfficeRibbon" /> en la aplicación de Microsoft Office. </summary>
+    </member>
+    <member name="E:Microsoft.Office.Tools.Ribbon.OfficeRibbon.LoadImage">
+      <summary>Se produce cuando se carga <see cref="T:Microsoft.Office.Tools.Ribbon.OfficeRibbon" /> si la propiedad ImageName está establecida para uno o varios controles. </summary>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.OfficeRibbon.OfficeMenu">
+      <summary>Obtiene un objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonOfficeMenu" /> que representa la personalización del menú de Microsoft Office.</summary>
+      <returns>
+        <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonOfficeMenu" /> que representa la personalización del menú de Microsoft Office.</returns>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.OfficeRibbon.RibbonId">
+      <summary>Obtiene el identificador de cinta que se usó para crear esta instancia del objeto <see cref="T:Microsoft.Office.Tools.Ribbon.OfficeRibbon" />.</summary>
+      <returns>Identificador de cinta que se usó para crear esta instancia de la interfaz <see cref="T:Microsoft.Office.Tools.Ribbon.OfficeRibbon" />.</returns>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.OfficeRibbon.RibbonType">
+      <summary>Obtiene una lista de identificadores de cinta separados por comas que están asociados a esta instancia de <see cref="T:Microsoft.Office.Tools.Ribbon.OfficeRibbon" />.</summary>
+      <returns>Lista de identificadores de la cinta de opciones separados por comas que están asociados a esta instancia de <see cref="T:Microsoft.Office.Tools.Ribbon.OfficeRibbon" />.</returns>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.OfficeRibbon.StartFromScratch">
+      <summary>Obtiene o establece un valor que indica si se van a ocultar todas las fichas integradas de la cinta de opciones y la mayoría de los comandos del menú de Microsoft Office y si se van a mostrar únicamente las personalizaciones definidas en este elemento de cinta. </summary>
+      <returns>Es true si en la cinta de opciones se muestran únicamente las personalizaciones definidas en este elemento de cinta; de lo contrario, es false.El valor predeterminado es false.</returns>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.OfficeRibbon.Tabs">
+      <summary>Obtiene una colección de los objetos <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonTab" /> de <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonOfficeMenu" />.</summary>
+      <returns>Colección de los objetos <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonTab" /> de <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonOfficeMenu" />.</returns>
+    </member>
+    <member name="T:Microsoft.Office.Tools.Ribbon.RibbonBase">
+      <summary>Actúa como clase base para las personalizaciones de la cinta de opciones de Microsoft Office.</summary>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonBase.#ctor(Microsoft.Office.Tools.Ribbon.RibbonFactory)">
+      <summary>Inicializa una nueva instancia de la clase <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" />.</summary>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonBase.Base">
+      <summary>Obtiene el objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" /> que este objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" /> extiende.</summary>
+      <returns>Objeto que este objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" /> extiende.</returns>
+    </member>
+    <member name="E:Microsoft.Office.Tools.Ribbon.RibbonBase.Close">
+      <summary>Se produce cuando se cierra esta instancia de <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" />.</summary>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonBase.Context">
+      <summary>Obtiene la ventana del inspector o explorador de Outlook, que está asociada a esta cinta.</summary>
+      <returns>
+        <see cref="T:System.Object" /> que representa la ventana del inspector o explorador que está asociada a este objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" />.</returns>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonBase.Dispose(System.Boolean)">
+      <summary>Libera los recursos no administrados utilizados por la clase <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" /> y, de forma opcional, libera los recursos administrados. </summary>
+      <param name="disposing">
+              Es true si se van a liberar los recursos administrados y no administrados; es false si se van a liberar únicamente los recursos no administrados. </param>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonBase.Factory">
+      <summary>Obtiene o establece el generador de cintas asociado a este <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" />.</summary>
+      <returns>Objeto que implementa la interfaz <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonFactory" />.</returns>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonBase.Global">
+      <summary>Obtiene o establece un valor que determina si este objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" /> puede usarse simultáneamente en varios contextos.</summary>
+      <returns>Es true si este objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" /> se usa en varios contextos; de lo contrario, es false.De manera predeterminada, es true.</returns>
+    </member>
+    <member name="E:Microsoft.Office.Tools.Ribbon.RibbonBase.Load">
+      <summary>Se produce cuando se carga <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" /> en la aplicación de Microsoft Office. </summary>
+    </member>
+    <member name="E:Microsoft.Office.Tools.Ribbon.RibbonBase.LoadImage">
+      <summary>Se produce cuando se carga <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" /> si la propiedad ImageName está establecida para uno o varios controles. </summary>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonBase.Microsoft#Office#Tools#IExtension#ExtensionBase"></member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonBase.Name">
+      <summary>Obtiene o establece el nombre de este objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" />.</summary>
+      <returns>Cadena que contiene el nombre de este objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" />.</returns>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonBase.OfficeMenu">
+      <summary>Obtiene un objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonOfficeMenu" /> que representa la personalización del menú de Microsoft Office.</summary>
+      <returns>
+        <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonOfficeMenu" /> que representa la personalización del menú de Microsoft Office.</returns>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonBase.Parent">
+      <summary>Obtiene un objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonComponent" /> que representa el elemento primario del <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonComponent" /> de este objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" />.</summary>
+      <returns>
+        <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonComponent" /> que representa el elemento primario del <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonComponent" /> de este objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" />.</returns>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonBase.PerformDynamicLayout">
+      <summary>Llama al método Microsoft.Office.Core.IRibbonUI.InvalidateControl del control primario si el <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonComponent" /> de <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" /> tiene un elemento primario dinámico, como un menú dinámico, y no se suspende el diseño.</summary>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonBase.PerformLayout">
+      <summary>Actualiza la interfaz de usuario de la cinta de opciones.</summary>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonBase.ResumeLayout">
+      <summary>Invierte el efecto del método <see cref="M:Microsoft.Office.Tools.Ribbon.RibbonBase.SuspendLayout" />.</summary>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonBase.ResumeLayout(System.Boolean)">
+      <summary>Invierte el efecto del método <see cref="M:Microsoft.Office.Tools.Ribbon.RibbonBase.SuspendLayout" />.</summary>
+      <param name="performLayout">
+              Es true para llamar al método <see cref="M:Microsoft.Office.Tools.Ribbon.RibbonBase.PerformLayout" />. Es false para permitir las actualizaciones de la interfaz de usuario sin llamar a <see cref="M:Microsoft.Office.Tools.Ribbon.RibbonBase.PerformLayout" />.</param>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonBase.RibbonId">
+      <summary>Obtiene el identificador de cinta que se usó para crear esta instancia de la clase <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" />.</summary>
+      <returns>Identificador de la cinta de opciones que se utilizó para crear esta instancia de la clase <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" />.</returns>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonBase.RibbonType">
+      <summary>Obtiene una lista de identificadores de cinta separados por comas que están asociados a esta instancia de <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" />.</summary>
+      <returns>Lista de identificadores de la cinta de opciones separados por comas que están asociados a esta instancia de <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" />.</returns>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonBase.RibbonUI">
+      <summary>Obtiene la instancia de IRibbonUI que la aplicación de Microsoft Office proporciona al código de extensibilidad de la cinta.</summary>
+      <returns>Instancia de IRibbonUI que la aplicación de Office proporciona al código de extensibilidad de la cinta.</returns>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonBase.StartFromScratch">
+      <summary>Obtiene o establece un valor que indica si se van a ocultar todas las fichas integradas de la cinta de opciones y la mayoría de los comandos del menú de Microsoft Office y si se van a mostrar únicamente las personalizaciones definidas en este elemento de cinta.</summary>
+      <returns>Es true si en la cinta de opciones se muestran únicamente las personalizaciones definidas en este elemento de cinta; de lo contrario, es false.De manera predeterminada, es false.</returns>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonBase.SuspendLayout">
+      <summary>Evita que la aplicación de Microsoft Office actualice el estado de los controles de la cinta de opciones.</summary>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonBase.Tabs">
+      <summary>Obtiene una colección de los objetos <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonTab" /> de <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonOfficeMenu" />.</summary>
+      <returns>Colección de los objetos <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonTab" /> de <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonOfficeMenu" />.</returns>
+    </member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonBase.Tag">
+      <summary>Obtiene o establece los datos específicos de la aplicación que están asociados a este objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" />.</summary>
+      <returns>System.Object que representa los datos específicos de la aplicación que están asociados a este objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonBase" />.</returns>
+    </member>
+    <member name="T:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase">
+      <summary>Proporciona acceso a los objetos de <see cref="T:Microsoft.Office.Tools.Ribbon.IRibbonExtension" /> en una personalización de cinta.</summary>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.#ctor(Microsoft.Office.Tools.Ribbon.RibbonFactory)"></member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.Base">
+      <summary>Obtiene una colección <see cref="T:System.Collections.Generic.IList`1" /> de objetos <see cref="T:Microsoft.Office.Tools.Ribbon.IRibbonExtension" /> de <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase" />.</summary>
+      <returns>Colección <see cref="T:System.Collections.Generic.IList`1" /> de objetos <see cref="T:Microsoft.Office.Tools.Ribbon.IRibbonExtension" /> de <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase" />.</returns>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.GetRibbon``1">
+      <typeparam name="TRibbon"></typeparam>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.GetRibbon(System.Type)"></member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.GetRibbonContextCollection``1(System.Object)">
+      <typeparam name="TRibbonCollection"></typeparam>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.GetRibbonContextCollection(System.Object,System.Type)"></member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.Microsoft#Office#Tools#IExtension#ExtensionBase"></member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.System#Collections#Generic#ICollection{T}#Add(Microsoft.Office.Tools.Ribbon.IRibbonExtension)"></member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.System#Collections#Generic#ICollection{T}#Clear"></member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.System#Collections#Generic#ICollection{T}#Contains(Microsoft.Office.Tools.Ribbon.IRibbonExtension)"></member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.System#Collections#Generic#ICollection{T}#CopyTo(Microsoft.Office.Tools.Ribbon.IRibbonExtension[],System.Int32)"></member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.System#Collections#Generic#ICollection{T}#Count"></member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.System#Collections#Generic#ICollection{T}#IsReadOnly"></member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.System#Collections#Generic#ICollection{T}#Remove(Microsoft.Office.Tools.Ribbon.IRibbonExtension)"></member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.System#Collections#Generic#IEnumerable{T}#GetEnumerator"></member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.System#Collections#Generic#IList{T}#IndexOf(Microsoft.Office.Tools.Ribbon.IRibbonExtension)"></member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.System#Collections#Generic#IList{T}#Insert(System.Int32,Microsoft.Office.Tools.Ribbon.IRibbonExtension)"></member>
+    <member name="P:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.System#Collections#Generic#IList{T}#Item(System.Int32)"></member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.System#Collections#Generic#IList{T}#RemoveAt(System.Int32)"></member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonCollectionBase.System#Collections#IEnumerable#GetEnumerator"></member>
+    <member name="T:Microsoft.Office.Tools.Ribbon.RibbonFactory">
+      <summary>Proporciona métodos que puede usar para crear controles de cinta para una personalización de la cinta de Microsoft Office.</summary>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonFactory._VtblGap1_19"></member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonFactory.CreateOfficeRibbon(Microsoft.Office.Tools.Ribbon.IRibbonExtension)">
+      <summary>Crea un objeto <see cref="T:Microsoft.Office.Tools.Ribbon.OfficeRibbon" /> que representa una personalización de la cinta.</summary>
+      <returns>Personalización de la cinta.</returns>
+      <param name="extension">Instancia de una clase que implementa la interfaz <see cref="T:Microsoft.Office.Tools.Ribbon.IRibbonExtension" />.</param>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonFactory.CreateRibbonReadOnlyCollection">
+      <summary>Crea un objeto <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonMenu" /> que proporciona acceso a los objetos <see cref="T:Microsoft.Office.Tools.Ribbon.IRibbonExtension" /> en una personalización de la cinta.</summary>
+      <returns>Objeto que proporciona acceso a los objetos <see cref="T:Microsoft.Office.Tools.Ribbon.IRibbonExtension" /> en una personalización de la cinta.</returns>
+    </member>
+    <member name="T:Microsoft.Office.Tools.Ribbon.RibbonLoadImageEventHandler">
+      <summary>Representa el método que controlará el evento <see cref="E:Microsoft.Office.Tools.Ribbon.OfficeRibbon.LoadImage" /> de <see cref="T:Microsoft.Office.Tools.Ribbon.OfficeRibbon" />.</summary>
+      <param name="sender">Origen del evento.</param>
+      <param name="e">Los datos para el evento. </param>
+    </member>
+    <member name="T:Microsoft.Office.Tools.Ribbon.RibbonReadOnlyCollection">
+      <summary>Proporciona acceso a los objetos de <see cref="T:Microsoft.Office.Tools.Ribbon.IRibbonExtension" /> en una personalización de cinta.</summary>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonReadOnlyCollection.GetRibbon(System.Type)">
+      <summary>Devuelve una instancia de <see cref="T:Microsoft.Office.Tools.Ribbon.IRibbonExtension" /> del tipo especificado, si existe en esta <see cref="T:Microsoft.Office.Tools.Ribbon.RibbonReadOnlyCollection" />.</summary>
+    </member>
+    <member name="M:Microsoft.Office.Tools.Ribbon.RibbonReadOnlyCollection.GetRibbonContextCollection(System.Object,System.Type)">
+      <summary>Devuelve una colección de objetos <see cref="T:Microsoft.Office.Tools.Ribbon.IRibbonExtension" /> que están asociados a una clase de mensaje o aplicación especificadas.</summary>
+    </member>
+    <member name="T:Microsoft.Office.Tools.Ribbon.RibbonTab">
+      <summary>Contiene uno o varios grupos de controles de la cinta de opciones. </summary>
+    </member>
+  </members>
+</doc>
