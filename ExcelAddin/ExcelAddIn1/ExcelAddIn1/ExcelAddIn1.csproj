@@ -363,6 +363,19 @@
     <Content Include="Images\Icons\Printer.png" />
     <Content Include="Images\Icons\Transfer.png" />
     <Content Include="Images\Icons\Upload.png" />
+    <Content Include="SQL\DataBase\1. Crear_DB_DSAT.sql" />
+    <Content Include="SQL\StoredProcedures\10. spObtenerIndices.sql" />
+    <Content Include="SQL\StoredProcedures\11. spObtenerPlantillas.sql" />
+    <Content Include="SQL\StoredProcedures\12. spObtenerTiposPlantillas.sql" />
+    <Content Include="SQL\StoredProcedures\13. spObtenerValidacionCruces.sql" />
+    <Content Include="SQL\Tables\2. tbl_Comprobaciones.sql" />
+    <Content Include="SQL\Tables\3. tbl_Cruces.sql" />
+    <Content Include="SQL\Tables\4. tbl_Plantillas.sql" />
+    <Content Include="SQL\Tables\5. tbl_TiposPlantillas.sql" />
+    <Content Include="SQL\StoredProcedures\6. spLoadTemplate.sql" />
+    <Content Include="SQL\StoredProcedures\7. spObtenerArchivoPlantilla.sql" />
+    <Content Include="SQL\StoredProcedures\8. spObtenerComprobaciones.sql" />
+    <Content Include="SQL\StoredProcedures\9. spObtenerCruces.sql" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
