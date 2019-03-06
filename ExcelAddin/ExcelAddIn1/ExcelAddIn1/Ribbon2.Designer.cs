@@ -180,6 +180,7 @@
             this.btnImprimir.ScreenTip = "Imprimir información";
             this.btnImprimir.ShowImage = true;
             this.btnImprimir.SuperTip = "Identifica los anexos que tienen información generando una vista de impresión.";
+            this.btnImprimir.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnImprimir_Click);
             // 
             // group2
             // 
@@ -268,6 +269,7 @@
             this.btnCrucesAdmin.ScreenTip = "Administrar cruces";
             this.btnCrucesAdmin.ShowImage = true;
             this.btnCrucesAdmin.SuperTip = "Permite crear, adecuar o eliminar los cruces definidos en el sistema.";
+            this.btnCrucesAdmin.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCrucesAdmin_Click);
             // 
             // btnComprobacionesAdmin
             // 
@@ -279,6 +281,7 @@
             this.btnComprobacionesAdmin.ShowImage = true;
             this.btnComprobacionesAdmin.SuperTip = "Permite crear, adecuar o eliminar las comprobaciones aritméticas definidas en el " +
     "sistema.";
+            this.btnComprobacionesAdmin.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnComprobacionesAdmin_Click);
             // 
             // Ribbon2
             // 

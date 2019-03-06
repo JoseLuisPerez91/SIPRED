@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICrearIndices.cs" />
+    <Compile Include="lComprobacionesAdmin.cs" />
+    <Compile Include="lCrucesAdmin.cs" />
     <Compile Include="lPlantilla.cs" />
     <Compile Include="lSerializados.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

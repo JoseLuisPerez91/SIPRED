@@ -10,6 +10,7 @@ namespace ExcelAddIn.Objects {
         Regex regex = new Regex(@"\[.*?\]");
 
         public oComprobacion() { }
+
         public int IdComprobacion { get; set; }
         public int IdTipoPlantilla { get; set; }
         public string Concepto { get; set; }
@@ -19,8 +20,12 @@ namespace ExcelAddIn.Objects {
         public oCelda[] Celdas { get; set; }
         public oCelda[] CeldasCondicion { get; set; }
         public string FormulaExcel { get; set; }
+        public string  Nota { get; set; }
+        public int AdmiteCambios { get; set; }
         public bool EsFormula() => Celdas.Count() > 0 || CeldasCondicion.Count() > 0;
+
         public bool EsValida() => Celdas.Where(o => o.Fila == -1).Count() == 0 && CeldasCondicion.Where(o => o.Fila == -1).Count() == 0;
+
         public void setCeldas() {
             List<oCelda> _cells = new List<oCelda>();
             List<oCelda> _cCells = new List<oCelda>();
@@ -32,6 +37,7 @@ namespace ExcelAddIn.Objects {
             Celdas = _cells.ToArray();
             CeldasCondicion = _cCells.ToArray();
         }
+
         public void setFormulaExcel() {
             if(EsValida() && EsFormula()) FormulaExcel = (CeldasCondicion.Count() > 0) ? $"IF({CeldasCondicion.ToString(Condicion, true)},{Celdas.ToString(Formula)},0)" : Celdas.ToString(Formula);
             if(EsValida() && !EsFormula()) FormulaExcel = Formula.Split('=')[1];

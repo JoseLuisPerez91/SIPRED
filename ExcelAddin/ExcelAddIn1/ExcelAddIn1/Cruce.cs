@@ -22,24 +22,75 @@ namespace ExcelAddIn1
 {
     public partial class Cruce : Base
     {
+        int _TotalValidaciones;
         public Cruce()
         {
             string _Path = Configuration.Path;
+            bool _Connection = new lSerializados().CheckConnection(Configuration.UrlConnection);
+            string _Message = "No existe conexión con el servidor de datos... Contacte a un Administrador de Red para ver las opciones de conexión.";
             InitializeComponent();
 
             if (Directory.Exists(_Path + "\\jsons") && Directory.Exists(_Path + "\\templates"))
             {
-                if (!File.Exists(_Path + "\\jsons\\TiposPlantillas.json"))
+                if (File.Exists(_Path + "\\jsons\\TiposPlantillas.json"))
                 {
-                    this.TopMost = false;
-                    this.Enabled = false;
-                    this.Hide();
-                    FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
-                    _FileJsonfrm._Form = this;
-                    _FileJsonfrm._Process = false;
-                    _FileJsonfrm._window = this.Text;
-                    _FileJsonfrm.Show();
-                    return;
+                    if (_Connection)
+                    {
+                        KeyValuePair<bool, System.Data.DataTable> _TipoPlantilla = new lSerializados().ObtenerUpdate();
+
+                        foreach (DataRow _Row in _TipoPlantilla.Value.Rows)
+                        {
+                            string _IdTipoPlantilla = _Row["IdTipoPlantilla"].ToString();
+                            string _Fecha_Modificacion = _Row["Fecha_Modificacion"].ToString();
+                            string _Linea = null;
+
+                            if (File.Exists(_Path + "\\jsons\\Update" + _IdTipoPlantilla + ".txt"))
+                            {
+                                StreamReader sw = new StreamReader(_Path + "\\Jsons\\Update" + _IdTipoPlantilla + ".txt");
+                                _Linea = sw.ReadLine();
+                                sw.Close();
+
+                                if (_Linea != null)
+                                {
+                                    if (_Linea != _Fecha_Modificacion)
+                                    {
+                                        this.TopMost = false;
+                                        this.Enabled = false;
+                                        this.Hide();
+                                        FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
+                                        _FileJsonfrm._Form = this;
+                                        _FileJsonfrm._Process = false;
+                                        _FileJsonfrm._Update = true;
+                                        _FileJsonfrm._window = this.Text;
+                                        _FileJsonfrm.Show();
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (!_Connection)
+                    {
+                        MessageBox.Show(_Message.Replace("...", ", para crear los archivos base..."), "Creación de Archivos Base", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        this.btnAceptar.Enabled = false;
+                        return;
+                    }
+                    else
+                    {
+                        this.TopMost = false;
+                        this.Enabled = false;
+                        this.Hide();
+                        FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
+                        _FileJsonfrm._Form = this;
+                        _FileJsonfrm._Process = false;
+                        _FileJsonfrm._Update = false;
+                        _FileJsonfrm._window = this.Text;
+                        _FileJsonfrm.Show();
+                        return;
+                    }
                 }
             }
             else
@@ -59,13 +110,15 @@ namespace ExcelAddIn1
                 FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
                 _FileJsonfrm._Form = this;
                 _FileJsonfrm._Process = false;
+                _FileJsonfrm._Update = false;
                 _FileJsonfrm._window = this.Text;
                 _FileJsonfrm.Show();
                 return;
             }
         }
-        private void btnAceptar_Click(object sender, EventArgs e)
+        public void btnAceptar_Click(object sender, EventArgs e)
         {
+            Globals.ThisAddIn._result.Clear();
             string _Path = ExcelAddIn.Access.Configuration.Path;
 
             oValidaCruces[] _ValidaCruces = Assembler.LoadJson<oValidaCruces[]>($"{_Path}\\jsons\\ValidacionCruces.json");
@@ -88,7 +141,9 @@ namespace ExcelAddIn1
             oTipoPlantilla[] _TemplateTypes = Assembler.LoadJson<oTipoPlantilla[]>($"{_Path}\\jsons\\TiposPlantillas.json");
             oCruce[] _Cruces = Assembler.LoadJson<oCruce[]>($"{_Path}\\jsons\\Cruces.json");
 
-            List<oCruce> _result = new List<oCruce>();
+            _TotalValidaciones = _Cruces.Count();
+
+            //List<oCruce> _result = new List<oCruce>();
             FileInfo _Excel = new FileInfo(Globals.ThisAddIn.Application.ActiveWorkbook.FullName);
 
             progress += 10;
@@ -358,7 +413,7 @@ namespace ExcelAddIn1
                                             xlSht.Cells[5, 1] = ValorAnterior;// restauro
                                         }
                                     }
-                                    _result.Add(_Cruce);
+                                    Globals.ThisAddIn._result.Add(_Cruce);
                                 }
                             }
 
@@ -389,9 +444,11 @@ namespace ExcelAddIn1
 
             progress += 15;
             pgbCruces.Value = progress;
-            if (_result.Count > 0)
+            if (Globals.ThisAddIn._result.Count > 0)
             {
-                CreatePDF(_result.ToArray(), _Cruces, _Path, _Excel.Name);
+                Globals.ThisAddIn.TaskPane.Visible = true;
+                FIllValidacionDeCruceUC(Globals.ThisAddIn._result.ToArray());
+                CreatePDF(Globals.ThisAddIn._result.ToArray(), _Cruces, _Path, _Excel.Name);
             }
             else
             {
@@ -402,17 +459,6 @@ namespace ExcelAddIn1
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Hide();
-        }
-        public static string ColumnAdress(int col)
-        {
-            if (col <= 26)
-            {
-                return Convert.ToChar(col + 64).ToString();
-            }
-            int div = col / 26;
-            int mod = col % 26;
-            if (mod == 0) { mod = 26; div--; }
-            return ColumnAdress(div) + ColumnAdress(mod);
         }
         private void CreatePDF(oCruce[] _result, oCruce[] cruces, string path, string NombreLibro)
         {
@@ -570,7 +616,7 @@ namespace ExcelAddIn1
                     PdfPCell cellindice = new PdfPCell(new Phrase(detail.Indice, _standardFont));
                     cellindice.BorderWidth = 0;
                     cellindice.BackgroundColor = new BaseColor(color);
-                    PdfPCell cellcolumna = new PdfPCell(new Phrase(ColumnAdress(detail.Columna), _standardFont));
+                    PdfPCell cellcolumna = new PdfPCell(new Phrase(Generales.ColumnAdress(detail.Columna), _standardFont));
                     cellcolumna.BorderWidth = 0;
                     cellcolumna.BackgroundColor = new BaseColor(color);
                     PdfPCell cellconceptodet = new PdfPCell(new Phrase(detail.Concepto, _standardFont));
@@ -717,6 +763,94 @@ namespace ExcelAddIn1
                 MessageBox.Show("Archivo no válido, favor de generar el archivo mediante el AddIn D.SAT", "Información Incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+        }
+        /// <summary>
+        /// 
+        /// Método que llena las tablas, textbox y lista del panel de valiadacion de los cruces
+        /// El parámetro "_result" ya viene con todas las validaciones hechas.
+        /// 
+        /// </summary>
+        /// <param name="_result"></param>
+        private void FIllValidacionDeCruceUC(oCruce[] _result)
+        {
+            string _Anexo, _IdCruce, _Concepto, _Condicion, _Diferencia, _Formula, _IndiceGpo, _ConceptoGpo, _ColumnaGpo, _DatoGpo;
+            int _BanGpo;
+
+            if (Globals.ThisAddIn.TaskPane.Visible == true)
+            {
+                Globals.ThisAddIn.vdcUserControl.lst_Anexos.Items.Clear();
+                Globals.ThisAddIn.vdcUserControl.dgv_DiferenciasEnCruces.DataSource = null;
+                Globals.ThisAddIn.vdcUserControl.dgv_DiferenciasEnCruces.Rows.Clear();
+                Globals.ThisAddIn.vdcUserControl.dgv_LadoDerechoDeFormula.DataSource = null;
+                Globals.ThisAddIn.vdcUserControl.dgv_LadoDerechoDeFormula.Rows.Clear();
+                Globals.ThisAddIn.vdcUserControl.dgv_LadoIzquierdoDeFormula.DataSource = null;
+                Globals.ThisAddIn.vdcUserControl.dgv_LadoIzquierdoDeFormula.DataSource = null;
+                Globals.ThisAddIn.vdcUserControl.txt_CrucesConDiferencia.Text = "0";
+                Globals.ThisAddIn.vdcUserControl.txt_SumTotalLadoDerecho.Text = "0";
+                Globals.ThisAddIn.vdcUserControl.txt_SumTotalLadoDerecho.Text = "0";
+                Globals.ThisAddIn.vdcUserControl.txt_SumTotalLadoIzquierdo.Text = "0";
+                Globals.ThisAddIn.vdcUserControl.txt_Formula.Text = "";
+
+            }
+
+            var _TodosLosAnexos = (from items in _result
+                                   from details in items.CeldasFormula
+                                   orderby Int16.Parse(details.Anexo.Substring(6))
+                                   select details.Anexo)
+                                   .Distinct().ToList();
+
+            foreach (var a in _TodosLosAnexos)
+            {
+                Globals.ThisAddIn.vdcUserControl.lst_Anexos.Items.Add(a);
+            }
+
+            if (Globals.ThisAddIn.vdcUserControl.lst_Anexos.Items.Count > 0)
+            {
+                Globals.ThisAddIn.vdcUserControl.lst_Anexos.SelectedIndex = 0;
+            }
+
+            Globals.ThisAddIn.vdcUserControl.txt_CrucesConDiferencia.Text = Globals.ThisAddIn._result.Count().ToString();
+            Globals.ThisAddIn.vdcUserControl.txt_TotalCruces.Text = _TotalValidaciones.ToString();
+            
+            foreach (var item in _result)
+            {
+                _Concepto = item.Concepto;
+                _Diferencia = item.Diferencia;
+                _IdCruce = item.IdCruce.ToString();
+
+                Globals.ThisAddIn.vdcUserControl.dgv_DiferenciasEnCruces.Rows.Add(_IdCruce, "", _Concepto, _Diferencia);
+
+                foreach (var detail in item.CeldasFormula)
+                {
+                    _Anexo = detail.Anexo;
+                    _Condicion = item.Condicion;
+                    _Formula = item.Formula;
+                    _IndiceGpo = detail.Indice;
+                    _ConceptoGpo = detail.Concepto;
+                    _ColumnaGpo = detail.Columna.ToString();
+                    _BanGpo = detail.Grupo;
+
+                    var _match = Globals.ThisAddIn.vdcUserControl.lst_Anexos.FindString(_Anexo);
+                    if (_match == -1)
+                    {
+                        Globals.ThisAddIn.vdcUserControl.lst_Anexos.Items.Add(_Anexo);
+                    }
+
+                    if (_BanGpo == 0)
+                    {
+                        _DatoGpo = item.Grupo1;
+                        Globals.ThisAddIn.vdcUserControl.dgv_LadoIzquierdoDeFormula.Rows.Add(_IndiceGpo, _ConceptoGpo, _ColumnaGpo, _DatoGpo);
+                    }
+                    else
+                    {
+                        _DatoGpo = item.Grupo2;
+                        Globals.ThisAddIn.vdcUserControl.dgv_LadoDerechoDeFormula.Rows.Add(_IndiceGpo, _ConceptoGpo, _ColumnaGpo, _DatoGpo);
+                    }
+                }
+
+                Globals.ThisAddIn.vdcUserControl.lst_Anexos.Sorted = true;
+            }
+
         }
     }
 }

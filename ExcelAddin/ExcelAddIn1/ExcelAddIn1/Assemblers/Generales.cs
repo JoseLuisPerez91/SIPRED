@@ -11,6 +11,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Data;
 using ExcelAddIn.Objects;
 using ExcelAddIn.Logic;
 using ExcelAddIn.Access;
@@ -332,15 +333,58 @@ namespace ExcelAddIn1
             List<oSubtotal> Subtotales = new List<oSubtotal>();
           
             string _Path = Configuration.Path;
-            
+            bool _Connection = new lSerializados().CheckConnection(Configuration.UrlConnection);
+            string _Message = "No existe conexión con el servidor de datos... Contacte a un Administrador de Red para ver las opciones de conexión.";
+
             if (Directory.Exists(_Path + "\\jsons") && Directory.Exists(_Path + "\\templates"))
             {
-                if (!File.Exists(_Path + "\\jsons\\Indices.json"))
+                if (File.Exists(_Path + "\\jsons\\Indices.json"))
                 {
-                    FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
-                    _FileJsonfrm._Process = true;
-                    _FileJsonfrm._window = "";
-                    _FileJsonfrm.Show();
+                    if (_Connection)
+                    {
+                        KeyValuePair<bool, System.Data.DataTable> _TipoPlantilla = new lSerializados().ObtenerUpdate();
+
+                        foreach (DataRow _Row in _TipoPlantilla.Value.Rows)
+                        {
+                            string _IdTipoPlantilla = _Row["IdTipoPlantilla"].ToString();
+                            string _Fecha_Modificacion = _Row["Fecha_Modificacion"].ToString();
+                            string _Linea = null;
+
+                            if (File.Exists(_Path + "\\jsons\\Update" + _IdTipoPlantilla + ".txt"))
+                            {
+                                StreamReader sw = new StreamReader(_Path + "\\Jsons\\Update" + _IdTipoPlantilla + ".txt");
+                                _Linea = sw.ReadLine();
+                                sw.Close();
+
+                                if (_Linea != null)
+                                {
+                                    if (_Linea != _Fecha_Modificacion)
+                                    {
+                                        FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
+                                        _FileJsonfrm._Process = true;
+                                        _FileJsonfrm._Update = true;
+                                        _FileJsonfrm._window = "";
+                                        _FileJsonfrm.Show();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (!_Connection)
+                    {
+                        MessageBox.Show(_Message.Replace("...", ", para crear los archivos base..."), "Creación de Archivos Base", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return null;
+                    }
+                    else
+                    {
+                        FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
+                        _FileJsonfrm._Process = true;
+                        _FileJsonfrm._window = "";
+                        _FileJsonfrm.Show();
+                    }
                 }
             }
             else
@@ -353,11 +397,18 @@ namespace ExcelAddIn1
                 {
                     Directory.CreateDirectory(_Path + "\\templates");
                 }
-
-                FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
-                _FileJsonfrm._Process = true;
-                _FileJsonfrm._window = "";
-                _FileJsonfrm.Show();
+                if (!_Connection)
+                {
+                    MessageBox.Show(_Message.Replace("...", ", para crear los archivos base..."), "Creación de Archivos Base", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return null;
+                }
+                else
+                {
+                    FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
+                    _FileJsonfrm._Process = true;
+                    _FileJsonfrm._window = "";
+                    _FileJsonfrm.Show();
+                }
             }
 
             oRootobject _Root = Assembler.LoadJson<oRootobject>($"{_Path}\\jsons\\Indices.json");
@@ -405,6 +456,21 @@ namespace ExcelAddIn1
             oRootobject _Root = Assembler.LoadJson<oRootobject>($"{_Path}\\jsons\\Indices.json");
             Conceptos = _Root.Conceptos;
             return Conceptos;
+        }
+        /// <summary>Función para convertir de numero a letras.
+        /// <para>Convierte de número a letras en el campo específico. Referencia: <see cref="ColumnAdress(int)"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
+        /// <seealso cref="ColumnAdress(int)"/>
+        /// </summary>
+        public static string ColumnAdress(int col)
+        {
+            if (col <= 26)
+            {
+                return Convert.ToChar(col + 64).ToString();
+            }
+            int div = col / 26;
+            int mod = col % 26;
+            if (mod == 0) { mod = 26; div--; }
+            return ColumnAdress(div) + ColumnAdress(mod);
         }
     }
 }

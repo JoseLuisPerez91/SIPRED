@@ -21,26 +21,73 @@ namespace ExcelAddIn1
         public LoadTemplate()
         {
             string _Path = Configuration.Path;
+            bool _Connection = new lSerializados().CheckConnection(Configuration.UrlConnection);
+            string _Message = "No existe conexión con el servidor de datos... Contacte a un Administrador de Red para ver las opciones de conexión.";
             InitializeComponent();
             
             if (Directory.Exists(_Path + "\\jsons") && Directory.Exists(_Path + "\\templates"))
             {
                 if (File.Exists(_Path + "\\jsons\\TiposPlantillas.json"))
                 {
+                    if (_Connection)
+                    {
+                        KeyValuePair<bool, System.Data.DataTable> _TipoPlantilla = new lSerializados().ObtenerUpdate();
+
+                        foreach (DataRow _Row in _TipoPlantilla.Value.Rows)
+                        {
+                            string _IdTipoPlantilla = _Row["IdTipoPlantilla"].ToString();
+                            string _Fecha_Modificacion = _Row["Fecha_Modificacion"].ToString();
+                            string _Linea = null;
+
+                            if (File.Exists(_Path + "\\jsons\\Update" + _IdTipoPlantilla + ".txt"))
+                            {
+                                StreamReader sw = new StreamReader(_Path + "\\Jsons\\Update" + _IdTipoPlantilla + ".txt");
+                                _Linea = sw.ReadLine();
+                                sw.Close();
+
+                                if (_Linea != null)
+                                {
+                                    if (_Linea != _Fecha_Modificacion)
+                                    {
+                                        this.TopMost = false;
+                                        this.Enabled = false;
+                                        this.Hide();
+                                        FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
+                                        _FileJsonfrm._Form = this;
+                                        _FileJsonfrm._Process = false;
+                                        _FileJsonfrm._Update = true;
+                                        _FileJsonfrm._window = this.Text;
+                                        _FileJsonfrm.Show();
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }
                     FillTemplateType(cmbTipoPlantilla);
                     FillYears(cmbAnio);
                 }
                 else
                 {
-                    this.TopMost = false;
-                    this.Enabled = false;
-                    this.Hide();
-                    FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
-                    _FileJsonfrm._Form = this;
-                    _FileJsonfrm._Process = false;
-                    _FileJsonfrm._window = this.Text;
-                    _FileJsonfrm.Show();
-                    return;
+                    if (!_Connection)
+                    {
+                        MessageBox.Show(_Message.Replace("...", ", para crear los archivos base..."), "Creación de Archivos Base", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        this.btnCargar.Enabled = false;
+                        return;
+                    }
+                    else
+                    {
+                        this.TopMost = false;
+                        this.Enabled = false;
+                        this.Hide();
+                        FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
+                        _FileJsonfrm._Form = this;
+                        _FileJsonfrm._Process = false;
+                        _FileJsonfrm._Update = false;
+                        _FileJsonfrm._window = this.Text;
+                        _FileJsonfrm.Show();
+                        return;
+                    }
                 }
             }
             else

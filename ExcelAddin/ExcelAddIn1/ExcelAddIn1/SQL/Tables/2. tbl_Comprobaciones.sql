@@ -5,6 +5,16 @@
 \*****************************************/
 USE [DSAT]
 GO
+IF  EXISTS (SELECT * FROM sysobjects WHERE name = 'DF_tbl_Comprobaciones_Nota')
+  BEGIN
+    ALTER TABLE [dbo].[tbl_Comprobaciones] DROP CONSTRAINT [DF_tbl_Comprobaciones_Nota]
+  END
+GO
+IF  EXISTS (SELECT * FROM sysobjects WHERE name = '[DF_tbl_Comprobaciones_AdmiteCambios]')
+  BEGIN
+    ALTER TABLE [dbo].[tbl_Comprobaciones] DROP CONSTRAINT [DF_tbl_Comprobaciones_AdmiteCambios]
+  END
+GO
 /****** Object:  Table [dbo].[tbl_Comprobaciones] ******/
 IF  EXISTS (SELECT * FROM sysobjects WHERE type = 'U' AND name = 'tbl_Comprobaciones')
   BEGIN
@@ -24,13 +34,19 @@ CREATE TABLE [dbo].[tbl_Comprobaciones](
 	[IdTipoPlantilla] [int] NOT NULL,
 	[Concepto] [varchar](1500) NOT NULL,
 	[Formula] [varchar](1500) NOT NULL,
-	[Condicion] [varchar](1500) NOT NULL
+	[Condicion] [varchar](1500) NOT NULL,
+	[Nota] [varchar](500) NOT NULL,
+	[AdmiteCambios][smallint] NOT NULL
  CONSTRAINT [PK_tbl_Comprobaciones] PRIMARY KEY CLUSTERED 
 (
 	[IdComprobacion] ASC,
 	[IdTipoPlantilla] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[tbl_Comprobaciones] ADD CONSTRAINT [DF_tbl_Comprobaciones_Nota]  DEFAULT ('') FOR [Nota]
+GO
+ALTER TABLE [dbo].[tbl_Comprobaciones] ADD CONSTRAINT [DF_tbl_Comprobaciones_AdmiteCambios]  DEFAULT (0) FOR [AdmiteCambios]
 GO
 /****************************************\
   Proyect  : Deloitte ExcelAddIn
@@ -1731,7 +1747,7 @@ INSERT INTO tbl_Comprobaciones(IdComprobacion, IdTipoPlantilla, Concepto, Formul
   Developer: Ing. Ivan Muñoz
   Action   : Select Table D_tb_Cruce
 \************************************/
-SELECT IdTipoPlantilla, IdComprobacion, Concepto, Formula, Condicion
+SELECT IdTipoPlantilla, IdComprobacion, Concepto, Formula, Condicion, Nota, AdmiteCambios
 FROM tbl_Comprobaciones
 ORDER BY IdTipoPlantilla, IdComprobacion
 GO

@@ -21,6 +21,7 @@ namespace ExcelAddIn1
     {
         public string _window;
         public bool _Process;
+        public bool _Update;
         public Form _Form;
         public FileJsonTemplate()
         {
@@ -98,11 +99,37 @@ namespace ExcelAddIn1
                 //System.Threading.Thread.Sleep(1000);
 
                 string _Message = "Los Archivos fueron creados con éxito. Vuelva a cargar la pantalla de [" + _window + "]. ";
-
+                if (_Update)
+                {
+                    _Message = "Los Archivos fueron actualizados con éxito. Vuelva a cargar la pantalla de [" + _window + "]. ";
+                }
                 if (_Process)
                 {
                     _Message = "Los Archivos fueron creados con éxito. Click en el botón de Ok para continuar con el proceso.";
+
+                    if (_Update)
+                    {
+                        _Message = "Los Archivos fueron actualizados con éxito. Click en el botón de Ok para continuar con el proceso.";
+                    }
                 }
+
+                KeyValuePair<bool, System.Data.DataTable> _TipoPlantilla = new lSerializados().ObtenerUpdate();
+                String _Path = Configuration.Path;
+
+                foreach (DataRow _Row in _TipoPlantilla.Value.Rows)
+                {
+                    string _IdTipoPlantilla = _Row["IdTipoPlantilla"].ToString();
+                    string _Fecha_Modificacion = _Row["Fecha_Modificacion"].ToString();
+
+                    if (File.Exists(_Path + "\\jsons\\Update" + _IdTipoPlantilla + ".txt"))
+                    {
+                        File.Delete(_Path + "\\jsons\\Update" + _IdTipoPlantilla + ".txt");
+                    }
+                    StreamWriter sw = new StreamWriter(_Path + "\\Jsons\\Update" + _IdTipoPlantilla + ".txt");
+                    sw.WriteLine(_Fecha_Modificacion);
+                    sw.Close();
+                }
+
 
                 MessageBox.Show(_Message, "Archivos Base", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -111,6 +138,15 @@ namespace ExcelAddIn1
                     _Form.Close();
                 }
                 this.Close();
+            }
+        }
+
+        private void FileJsonTemplate_Load(object sender, EventArgs e)
+        {
+            Invoke(new System.Action(() => this.label1.Text = "Los archivos base serán generados... Click en el botón Aceptar para continuar."));
+            if (_Update)
+            {
+                Invoke(new System.Action(() => this.label1.Text = "Los archivos base serán actualizados... Click en el botón Aceptar para continuar."));
             }
         }
     }

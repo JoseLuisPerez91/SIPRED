@@ -6,18 +6,37 @@ using System.Xml.Linq;
 using Excel = Microsoft.Office.Interop.Excel;
 using Office = Microsoft.Office.Core;
 using Microsoft.Office.Tools.Excel;
+using ExcelAddIn.Objects;
 
 namespace ExcelAddIn1
 {
     public partial class ThisAddIn
     {
-        private MyUserControl myUserControl1;
-        private Microsoft.Office.Tools.CustomTaskPane myCustomTaskPane;
+        public List<oCruce> _result = new List<oCruce>();
+        public VerificacionDeCruce vdcUserControl;
+        public Microsoft.Office.Tools.CustomTaskPane myCustomTaskPane;
+        public ControlImprimir control;
+        public Microsoft.Office.Tools.CustomTaskPane TaskPane
+        {
+            get { return myCustomTaskPane; }
+
+        }
+        public void Imprimir()
+        {
+            control = new ControlImprimir();
+            myCustomTaskPane = this.CustomTaskPanes.Add(control, "Imprimir panel.xlsx");
+            myCustomTaskPane.Width = 370;
+            myCustomTaskPane.Visible = true;
+        }
+        public void CerrarImprimir()
+        {
+            this.CustomTaskPanes.Remove(myCustomTaskPane);
+        }
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
-            //myUserControl1 = new MyUserControl();
-            //myCustomTaskPane = this.CustomTaskPanes.Add(myUserControl1, "My Task Pane");
-            //myCustomTaskPane.Visible = true;
+            //Handler para instanciar el Control de usuario en cada instancia de Excel creada
+            this.Application.WorkbookActivate += new Excel.AppEvents_WorkbookActivateEventHandler(Application_WorkbookActivate);
+
             Globals.ThisAddIn.Application.SheetSelectionChange += new Excel.AppEvents_SheetSelectionChangeEventHandler(Application_SheetSelectionChange);
             Globals.ThisAddIn.Application.SheetSelectionChange += new Excel.AppEvents_SheetSelectionChangeEventHandler(Application_SheetSelectionChange);
             Globals.ThisAddIn.Application.SheetActivate += new Excel.AppEvents_SheetActivateEventHandler(app_SheetActivate);
@@ -38,6 +57,27 @@ namespace ExcelAddIn1
             Globals.Ribbons.Ribbon2.btnAgregarExplicacion.Enabled = (!Target.AddressLocal.Contains(":"));
             Globals.Ribbons.Ribbon2.btnEliminarIndice.Enabled = (!Target.AddressLocal.Contains(";"));// si  selecciona celdas intercaladas
             Globals.Ribbons.Ribbon2.btnEliminaeExplicacion.Enabled = (!Target.AddressLocal.Contains(";"));// si  selecciona celdas intercaladas
+        }
+        /// <summary>
+        /// Método que crea un panel de validación de cruces por cada instancia de Excel
+        /// </summary>
+        /// <param name="wb"></param>
+        private void Application_WorkbookActivate(Microsoft.Office.Interop.Excel.Workbook wb)
+        {
+            try
+            {
+                System.IO.FileInfo _ExcelFI = new System.IO.FileInfo(Globals.ThisAddIn.Application.ActiveWorkbook.Name);
+                vdcUserControl = new VerificacionDeCruce();
+                myCustomTaskPane = CustomTaskPanes.Add(vdcUserControl, "Verificación " + _ExcelFI.Name);
+                myCustomTaskPane.DockPosition = Office.MsoCTPDockPosition.msoCTPDockPositionRight;
+                myCustomTaskPane.DockPositionRestrict = Office.MsoCTPDockPositionRestrict.msoCTPDockPositionRestrictNoChange;
+                myCustomTaskPane.Width = 500;
+                myCustomTaskPane.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al instanciar el Task Panel de Validacion. [ThisAddIn].[Application_WorkbookActivate].[26]: {ex.Message}");
+            }
         }
         #region VSTO generated code
         /// <summary>

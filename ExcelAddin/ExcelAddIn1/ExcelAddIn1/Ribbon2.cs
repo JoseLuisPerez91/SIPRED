@@ -132,8 +132,8 @@ namespace ExcelAddIn1 {
                 }
             }
         #endregion
-        
-        bool _Connection = new lSerializados().CheckConnection(Configuration.UrlConnection);
+
+        bool _Connection = true; //new lSerializados().CheckConnection(Configuration.UrlConnection);
         string _Message = "No existe conexión con el servidor de datos... Contacte a un Administrador de Red para ver las opciones de conexión.";
         string _Title = "Conexión de Red";
         int NroFilaPrincipal = 0;
@@ -142,7 +142,7 @@ namespace ExcelAddIn1 {
         private void Ribbon2_Load(object sender, RibbonUIEventArgs e) {
 
         }
-        private void btnNew_Click(object sender, RibbonControlEventArgs e)
+        public void btnNew_Click(object sender, RibbonControlEventArgs e)
         {
             if (_Connection)
             {
@@ -154,7 +154,7 @@ namespace ExcelAddIn1 {
                 MessageBox.Show(_Message, _Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void btnCruces_Click(object sender, RibbonControlEventArgs e)
+        public void btnCruces_Click(object sender, RibbonControlEventArgs e)
         {
             if (_Connection)
             {
@@ -599,6 +599,48 @@ namespace ExcelAddIn1 {
             {
                 frmCarga form = new frmCarga();
                 form.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show(_Message, _Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnCrucesAdmin_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (_Connection)
+            {
+                CrucesAdmin form = new CrucesAdmin();
+                form.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show(_Message, _Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnComprobacionesAdmin_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (_Connection)
+            {
+
+                ComprobacionesAdmin form = new ComprobacionesAdmin();
+                form.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show(_Message, _Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnImprimir_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (_Connection)
+            {
+                frmPreImprimir form = new frmPreImprimir();
+                form.ShowDialog();
+                var addIn = Globals.ThisAddIn;
+                addIn.Imprimir();
             }
             else
             {

@@ -196,16 +196,47 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="ActualizarComprobacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActualizarComprobacion.Designer.cs">
+      <DependentUpon>ActualizarComprobacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ActualizarCruce.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActualizarCruce.Designer.cs">
+      <DependentUpon>ActualizarCruce.cs</DependentUpon>
+    </Compile>
     <Compile Include="Assemblers\Assembler.cs" />
     <Compile Include="Assemblers\Generales.cs" />
+    <Compile Include="Assemblers\lImprimir.cs" />
     <Compile Include="Base.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ComprobacionesAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ComprobacionesAdmin.Designer.cs">
+      <DependentUpon>ComprobacionesAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlImprimir.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlImprimir.designer.cs">
+      <DependentUpon>ControlImprimir.cs</DependentUpon>
     </Compile>
     <Compile Include="Cruce.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Cruce.Designer.cs">
       <DependentUpon>Cruce.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CrucesAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CrucesAdmin.Designer.cs">
+      <DependentUpon>CrucesAdmin.cs</DependentUpon>
     </Compile>
     <Compile Include="Explicaciones.cs">
       <SubType>Form</SubType>
@@ -218,6 +249,12 @@
     </Compile>
     <Compile Include="frmCarga.Designer.cs">
       <DependentUpon>frmCarga.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPreImprimir.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPreImprimir.Designer.cs">
+      <DependentUpon>frmPreImprimir.cs</DependentUpon>
     </Compile>
     <Compile Include="Indices.cs">
       <SubType>Form</SubType>
@@ -252,13 +289,41 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="VerificacionDeCruce.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VerificacionDeCruce.Designer.cs">
+      <DependentUpon>VerificacionDeCruce.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="ActualizarComprobacion.resx">
+      <DependentUpon>ActualizarComprobacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActualizarCruce.resx">
+      <DependentUpon>ActualizarCruce.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComprobacionesAdmin.resx">
+      <DependentUpon>ComprobacionesAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlImprimir.resx">
+      <DependentUpon>ControlImprimir.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Cruce.resx">
       <DependentUpon>Cruce.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrucesAdmin.resx">
+      <DependentUpon>CrucesAdmin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Explicaciones.resx">
       <DependentUpon>Explicaciones.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmCarga.resx" />
+    <EmbeddedResource Include="frmCarga.resx">
+      <DependentUpon>frmCarga.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Indices.resx">
       <DependentUpon>Indices.cs</DependentUpon>
     </EmbeddedResource>
@@ -273,21 +338,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Ribbon2.resx">
       <DependentUpon>Ribbon2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VerificacionDeCruce.resx">
+      <DependentUpon>VerificacionDeCruce.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
     <None Include="bin\Debug\ExcelAddIn1.dll.config" />
     <None Include="bin\Debug\ExcelAddIn1.dll.manifest" />
     <None Include="bin\Debug\ExcelAddIn1.vsto" />
     <None Include="ExcelAddIn1_TemporaryKey.pfx" />
+    <None Include="Images\botones\btnPdf.jpg" />
     <None Include="jsons\Comprobaciones.json" />
     <None Include="jsons\Cruces.json" />
     <None Include="jsons\Indices.json" />
@@ -349,6 +414,19 @@
     <Content Include="bin\Debug\Newtonsoft.Json.dll" />
     <Content Include="bin\Debug\Newtonsoft.Json.pdb" />
     <Content Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="Images\botones\btnAceptar.jpg" />
+    <Content Include="Images\botones\btnAgregar.jpg" />
+    <Content Include="Images\botones\btnCancelar.jpg" />
+    <Content Include="Images\botones\btnCerrar.jpg" />
+    <Content Include="Images\botones\btnCerrar17px.jpg" />
+    <Content Include="Images\botones\btnEditar.jpg" />
+    <Content Include="Images\botones\btnEliminar.jpg" />
+    <Content Include="Images\botones\btnGuardar.jpg" />
+    <Content Include="Images\botones\btnImprimir.jpg" />
+    <Content Include="Images\botones\btnLayoutAgregar.jpg" />
+    <Content Include="Images\botones\btnPapelera.jpg" />
+    <Content Include="Images\botones\btnSalir.jpg" />
+    <Content Include="Images\botones\btnVistaPrevia.jpg" />
     <Content Include="Images\Icons\Add.png" />
     <Content Include="Images\Icons\Comprobation.png" />
     <Content Include="Images\Icons\Comprobation2.png" />
@@ -368,6 +446,9 @@
     <Content Include="SQL\StoredProcedures\11. spObtenerPlantillas.sql" />
     <Content Include="SQL\StoredProcedures\12. spObtenerTiposPlantillas.sql" />
     <Content Include="SQL\StoredProcedures\13. spObtenerValidacionCruces.sql" />
+    <Content Include="SQL\StoredProcedures\14. spActualizarCruces.sql" />
+    <Content Include="SQL\StoredProcedures\15. spActualizarComprobaciones.sql" />
+    <Content Include="SQL\StoredProcedures\16. spObtenerIdTiposPlantillas.sql" />
     <Content Include="SQL\Tables\2. tbl_Comprobaciones.sql" />
     <Content Include="SQL\Tables\3. tbl_Cruces.sql" />
     <Content Include="SQL\Tables\4. tbl_Plantillas.sql" />

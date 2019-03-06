@@ -94,50 +94,50 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelAddIn.Access.dll" size="10752">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelAddIn.Access.dll" size="13312">
       <assemblyIdentity name="ExcelAddIn.Access" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>fOrxYRSPiTL0PlgL0vteVtHjKTnIAXfucsuLe/pjbFA=</dsig:DigestValue>
+        <dsig:DigestValue>Iy0UgWvuBGq0aAAY/Go514SkgIiEFGWD+CZYIYG6pVM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelAddIn.Logic.dll" size="15360">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelAddIn.Logic.dll" size="16896">
       <assemblyIdentity name="ExcelAddIn.Logic" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>jAHKIjlIhCuvyy2LSQiWzjKBKIgT/6gdsLjVDkOvn3w=</dsig:DigestValue>
+        <dsig:DigestValue>u/YMJrapnYlGDNapwfKTev1R5bV47uThZ+arOW+Wp8k=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelAddIn.Objects.dll" size="17408">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelAddIn.Objects.dll" size="17920">
       <assemblyIdentity name="ExcelAddIn.Objects" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>c6GueKs1tQz2nQ4A5Pek6mRRja9wk5t42FCJcmeVi10=</dsig:DigestValue>
+        <dsig:DigestValue>fogNgX186lvkRok8/oEehWAtLf0w5z7+ZXtxiPM6ksE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelAddIn1.dll" size="474624">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelAddIn1.dll" size="641536">
       <assemblyIdentity name="ExcelAddIn1" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>bnPUdE1KvACm0tjzF6VXRgNtP5daBBnkF2suYo3BIb8=</dsig:DigestValue>
+        <dsig:DigestValue>o++bM7XYqEVgy6u7PbFqAYC1rcB+L3kr02NlSlRp+yo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -177,22 +177,22 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="bin\Debug\ExcelAddIn1.dll" size="474624">
+  <file name="bin\Debug\ExcelAddIn1.dll" size="641536">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>bnPUdE1KvACm0tjzF6VXRgNtP5daBBnkF2suYo3BIb8=</dsig:DigestValue>
+      <dsig:DigestValue>o++bM7XYqEVgy6u7PbFqAYC1rcB+L3kr02NlSlRp+yo=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="bin\Debug\ExcelAddIn1.pdb" size="148992">
+  <file name="bin\Debug\ExcelAddIn1.pdb" size="286208">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>j8RbuMLWQvMjc3Vu9EJBLmmtud040dfcf7Fnj0BFx5Y=</dsig:DigestValue>
+      <dsig:DigestValue>vLOLMkHNK1AnTbIxpu2upwTnIwNc9PLEyNti6dvYzH4=</dsig:DigestValue>
     </hash>
   </file>
   <file name="bin\Debug\Microsoft.Office.Tools.Common.v4.0.Utilities.dll" size="32664">
@@ -247,6 +247,123 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>VW+Iz4l2sGELEqJ0+WxBrEnxSmvdwxNnK16B7MYdtb4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Images\botones\btnAceptar.jpg" size="888">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ELT7T6JtkwWCQEQCXc8z2oKRoRk4vl+ZrDG/qfJVsb4=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Images\botones\btnAgregar.jpg" size="1600">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>s1iN7jZcRVHN7+C2hi8irEGCLW0MhNry3WjkVe6Btnw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Images\botones\btnCancelar.jpg" size="1086">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>P9td3X+42QJuDf0gjNruR5bZrxvg7ihVD9AiGtaIYxs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Images\botones\btnCerrar.jpg" size="1376">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>E45vqLlmHJLgNVHj215LIDXTrTf4nOTFQg/i9S6aS1Q=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Images\botones\btnCerrar17px.jpg" size="1240">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>uN58L/gJRTd7ko/DmNe719DdQEJaGKo7TfOFnxzPi/0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Images\botones\btnEditar.jpg" size="1940">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Cv7iZgnPo52NU354yB6dmc+Io9VApvSAFcGkLpzu7DU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Images\botones\btnEliminar.jpg" size="772">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>g5I2J/jZEp3xxSnxjZ+BPIC7Z+AyNeLWi9GN5vdJSuE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Images\botones\btnGuardar.jpg" size="1133">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>hO8ONPAGCwyYGkYzcTh+Z+JeGDo8Cwl+jUQSMKNwt7o=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Images\botones\btnImprimir.jpg" size="1052">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>CJbEFBnLJtDN7dNubOa8dyTi6xkaJ33vb+Y6JiHD+DA=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Images\botones\btnLayoutAgregar.jpg" size="1743">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ilGFG26lVyjb5JfbD/L/TUb4W5Cb4QZS7Ke9wvikvXo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Images\botones\btnPapelera.jpg" size="1500">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>baI9osldpKwY48Dp61o6D1KyLrd9k1ddrddwmSRuQ7M=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Images\botones\btnSalir.jpg" size="1641">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>c09RTd17Z2EPkikk3WUUOrJ0EFPM4/E/yl4nDwLU1HQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Images\botones\btnVistaPrevia.jpg" size="1205">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>2pK/Qr40ZmHgHfyCcj4RoxpBCpj8PAfGe3IvZcBzBm8=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Images\Icons\Add.png" size="55396">
@@ -375,6 +492,150 @@
       <dsig:DigestValue>sJhtz/3pWpcwt5VEOeUB4ARL0Mfs2eyektvYsRgwfRc=</dsig:DigestValue>
     </hash>
   </file>
+  <file name="SQL\DataBase\1. Crear_DB_DSAT.sql" size="3057">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>8vGIJ5/Am1JSMUaRBpwm3YYZPvnqYLk5lI8gFbp0qRk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SQL\StoredProcedures\10. spObtenerIndices.sql" size="3429">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>uh8nasWUP3XkJYaYI1L1j1xkwEIzHDP03hjeFfGE5wY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SQL\StoredProcedures\11. spObtenerPlantillas.sql" size="888">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>0gouj5DFmAAoCYen0I0PwoFYc3fXSyN2/oY4f5tVhLo=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SQL\StoredProcedures\12. spObtenerTiposPlantillas.sql" size="853">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>srXddDDy/2HDRZCp8ZC6r+kifbbydnFw22gadZcMsTw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SQL\StoredProcedures\13. spObtenerValidacionCruces.sql" size="1560">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>adu0H0bIEGfDrRMz6RDTw3OhcYKUa0N+Le7Rv/f1TvU=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SQL\StoredProcedures\14. spActualizarCruces.sql" size="2492">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>hyJOiJTS0dKYL/rHXyM6E2iT130j/x1ApopbyBSFhW0=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SQL\StoredProcedures\15. spActualizarComprobaciones.sql" size="5320">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>9L903wtH37xmEwyMA702QhOPolET1CG/uNebBi2jlRY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SQL\StoredProcedures\16. spObtenerIdTiposPlantillas.sql" size="884">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>o5J/X9dSIPxBFxCyk5L/gMGYHBoTieif5MOVPHFs9xY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SQL\StoredProcedures\6. spLoadTemplate.sql" size="1936">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>N3byRkVkgWaBtWmHCQkx1WHUNAoUpOb9fqDUKLCHyIw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SQL\StoredProcedures\7. spObtenerArchivoPlantilla.sql" size="878">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>8umuVsJFMoynbFPAaUIW4QG0ETgiZAK5CtZlqXQ36mQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SQL\StoredProcedures\8. spObtenerComprobaciones.sql" size="1328">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>XH2TYght8DhXzDayrXtYxIkLb3umzklpicWGDA598FY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SQL\StoredProcedures\9. spObtenerCruces.sql" size="1294">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>MBH0PF/7b6eAO7DwmgeETLhzCge101On4pHqE0XG7/8=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SQL\Tables\2. tbl_Comprobaciones.sql" size="424802">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>CyX9RZVnJ+hMj/t/6UDCeMP6XOlAvzllil7cmGkSMCg=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SQL\Tables\3. tbl_Cruces.sql" size="260904">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>7d+5cMP/jFLLkv3wMCVX7lf0JHj86WrtOxA3KH85uGw=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SQL\Tables\4. tbl_Plantillas.sql" size="2816">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>oMMJVAtYNB54xroEbUo2MZ7MdwenWy464/DeAP0dkeQ=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="SQL\Tables\5. tbl_TiposPlantillas.sql" size="1653">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>x+JACtNGlpBKVNdzYNhaUQc36Zrc3+H3ZbJMf/3JJtc=</dsig:DigestValue>
+    </hash>
+  </file>
   <vstav3:addIn xmlns:vstav3="urn:schemas-microsoft-com:vsta.v3">
     <vstav3:entryPointsCollection>
       <vstav3:entryPoints>
@@ -400,4 +661,4 @@
       </vstov4:customizations>
     </vstav3:application>
   </vstav3:addIn>
-<publisherIdentity name="CN=MX\lasoriano" issuerKeyHash="29c87c65af001b441d22c46d8602d1273cf0843c" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>yI79AJkzOfkWBWKP8TDb42udeNDujuiEUZe20zBjPBI=</DigestValue></Reference></SignedInfo><SignatureValue>eFOH9YYWG3gIJp8tBQyjLEiRcAbl4zEjIPA+pZnRLQtJ+qf7g9CN6is7CrDUKFZAUuLnCVXc8cgRtqYZYmDpnMhu1r2TVKHwfI0jwiF+/ruH9MCTqqq5BcLjW+wV1ouimhS8/HIUJ8nts4/x2XXGlMVJsqWNRc8PYgSEi2a+nWw=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>yRrx6JdDgkbx5/obcFbY7jA9mugCan8rBesdA4BihAVGazdU5cjfQEQoptlJRG/rmgC3OXwKL/FY1z6THL7ztgxMvdGTD8Oj8kDmYGNwxpdw8Anh6+QpLKSFl5FIeKD5aP4R7cCg/LMDXs0oxDp7mCsgwGa510mB1Sq6QfHsU80=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="123c6330d3b6975184e88eeed0789d6be3db30f18f620516f939339900fd8ec8" Description="" Url=""><as:assemblyIdentity name="ExcelAddIn1.dll" version="1.0.0.0" publicKeyToken="084fcdac4a115276" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=MX\lasoriano</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>mBZrRJpxoamijsl/kLa67tQ0Os0syJvpTWeMCCvOnDk=</DigestValue></Reference></SignedInfo><SignatureValue>EGNhAggdB8WNg+OH+2FzPcsQrbaOHI8CKGnHP3KJ/8Khvopp0WNrz/fK/uGqrMdKx3xAyNZJ33eT2jHChPsHAyJZVwCbRTsokaaKMnKj+TXOBFhTWH+y/6yta1sdjmFPxg9g0Auoe2PcgD+WZfkq8PRRPENPUXInYUA1/aKTHII=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>yRrx6JdDgkbx5/obcFbY7jA9mugCan8rBesdA4BihAVGazdU5cjfQEQoptlJRG/rmgC3OXwKL/FY1z6THL7ztgxMvdGTD8Oj8kDmYGNwxpdw8Anh6+QpLKSFl5FIeKD5aP4R7cCg/LMDXs0oxDp7mCsgwGa510mB1Sq6QfHsU80=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIByTCCATKgAwIBAgIQcVvDRsaLLpdM+logGOyD5zANBgkqhkiG9w0BAQsFADAjMSEwHwYDVQQDHhgATQBYAFwAbABhAHMAbwByAGkAYQBuAG8wHhcNMTgxMDA0MTc0NDA5WhcNMTkxMDA0MjM0NDA5WjAjMSEwHwYDVQQDHhgATQBYAFwAbABhAHMAbwByAGkAYQBuAG8wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMka8eiXQ4JG8ef6G3BW2O4wPZroAmp/KwXrHQOAYoQFRms3VOXI30BEKKbZSURv65oAtzl8Ci/xWNc+kxy+87YMTL3Rkw/Do/JA5mBjcMaXcPAJ4evkKSykhZeRSHig+Wj+Ee3AoPyzA17NKMQ6e5grIMBmuddJgdUqukHx7FPNAgMBAAEwDQYJKoZIhvcNAQELBQADgYEAgfRzfWX0xAeU6bWK7Wu6msvd5vJM5AlJcPvQ+alb3QQY76z/4aS5Yw1Qfoz8v5UzsbkRqfee0Xk7FJdBqfaRZboqZf3NhWO/m2WGb63u2UDsOUYDQGdSxkqsbiCsoKeskNOZZx5kYmrEGEBqysZEGAcXhn3PuJOA/W528fsHO7I=</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
+<publisherIdentity name="CN=MX\lasoriano" issuerKeyHash="29c87c65af001b441d22c46d8602d1273cf0843c" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>Oh00mBfJnXsQ79kBRMM9w/vUo6brBrxsw5r9P8tsoXI=</DigestValue></Reference></SignedInfo><SignatureValue>Jr+OJhGUnh1DIi1BJ678a/0at3g3KEMSSdkg5eRRBONFOvym7vJbaC5eFVkXcdTVoYqDs2BywUdLlAwOMzlw907h76y7dWjMg3dmNT0e3CAKKmBQsoPXl9JTkHULFfZLZlJf83XY3xhL3xeNieVNZn7AlQbYOl0RFwy10lqR5e8=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>yRrx6JdDgkbx5/obcFbY7jA9mugCan8rBesdA4BihAVGazdU5cjfQEQoptlJRG/rmgC3OXwKL/FY1z6THL7ztgxMvdGTD8Oj8kDmYGNwxpdw8Anh6+QpLKSFl5FIeKD5aP4R7cCg/LMDXs0oxDp7mCsgwGa510mB1Sq6QfHsU80=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="72a16ccb3ffd9ac36cbc06eba6a3d4fbc33dc34401d9ef107b9dc91798341d3a" Description="" Url=""><as:assemblyIdentity name="ExcelAddIn1.dll" version="1.0.0.0" publicKeyToken="084fcdac4a115276" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=MX\lasoriano</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>By5RokF1F6+4wIAeN8f0bEB3nmOk9q1HNGaMYpKpP1k=</DigestValue></Reference></SignedInfo><SignatureValue>YNC5o+9zbW/1m/SnaltLad+M7Pxjy6nS23Kpve4gfa57eZthGXVmd0yH3qPDa888GeMJybtKADek01KXiGDw6fdJf7lYspfaSC9o5+81gdyzoqQ/1X1OD2cI2rSu+xo0gR5wR18PKl0wNOxb+W9Otjdyqx6UdfpGXpEHJvQrAEs=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>yRrx6JdDgkbx5/obcFbY7jA9mugCan8rBesdA4BihAVGazdU5cjfQEQoptlJRG/rmgC3OXwKL/FY1z6THL7ztgxMvdGTD8Oj8kDmYGNwxpdw8Anh6+QpLKSFl5FIeKD5aP4R7cCg/LMDXs0oxDp7mCsgwGa510mB1Sq6QfHsU80=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIByTCCATKgAwIBAgIQcVvDRsaLLpdM+logGOyD5zANBgkqhkiG9w0BAQsFADAjMSEwHwYDVQQDHhgATQBYAFwAbABhAHMAbwByAGkAYQBuAG8wHhcNMTgxMDA0MTc0NDA5WhcNMTkxMDA0MjM0NDA5WjAjMSEwHwYDVQQDHhgATQBYAFwAbABhAHMAbwByAGkAYQBuAG8wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMka8eiXQ4JG8ef6G3BW2O4wPZroAmp/KwXrHQOAYoQFRms3VOXI30BEKKbZSURv65oAtzl8Ci/xWNc+kxy+87YMTL3Rkw/Do/JA5mBjcMaXcPAJ4evkKSykhZeRSHig+Wj+Ee3AoPyzA17NKMQ6e5grIMBmuddJgdUqukHx7FPNAgMBAAEwDQYJKoZIhvcNAQELBQADgYEAgfRzfWX0xAeU6bWK7Wu6msvd5vJM5AlJcPvQ+alb3QQY76z/4aS5Yw1Qfoz8v5UzsbkRqfee0Xk7FJdBqfaRZboqZf3NhWO/m2WGb63u2UDsOUYDQGdSxkqsbiCsoKeskNOZZx5kYmrEGEBqysZEGAcXhn3PuJOA/W528fsHO7I=</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

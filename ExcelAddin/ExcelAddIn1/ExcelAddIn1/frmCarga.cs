@@ -28,23 +28,73 @@ namespace ExcelAddIn1
         private void frmCarga_Load(object sender, EventArgs e)
         {
             string _Path = Configuration.Path;
+            bool _Connection = new lSerializados().CheckConnection(Configuration.UrlConnection);
+            string _Message = "No existe conexión con el servidor de datos... Contacte a un Administrador de Red para ver las opciones de conexión.";
             this._ProcessJson = false;
             this.Visible = true;
-            
+
             if (Directory.Exists(_Path + "\\jsons") && Directory.Exists(_Path + "\\templates"))
             {
-                if (!File.Exists(_Path + "\\jsons\\TiposPlantillas.json"))
+                if (File.Exists(_Path + "\\jsons\\TiposPlantillas.json"))
                 {
-                    this._ProcessJson = true;
-                    this.TopMost = false;
-                    this.Enabled = false;
-                    this.Hide();
-                    FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
-                    _FileJsonfrm._Form = this;
-                    _FileJsonfrm._Process = false;
-                    _FileJsonfrm._window = this.Text;
-                    _FileJsonfrm.Show();
-                    return;
+                    if (_Connection)
+                    {
+                        KeyValuePair<bool, System.Data.DataTable> _TipoPlantilla = new lSerializados().ObtenerUpdate();
+
+                        foreach (DataRow _Row in _TipoPlantilla.Value.Rows)
+                        {
+                            string _IdTipoPlantilla = _Row["IdTipoPlantilla"].ToString();
+                            string _Fecha_Modificacion = _Row["Fecha_Modificacion"].ToString();
+                            string _Linea = null;
+
+                            if (File.Exists(_Path + "\\jsons\\Update" + _IdTipoPlantilla + ".txt"))
+                            {
+                                StreamReader sw = new StreamReader(_Path + "\\Jsons\\Update" + _IdTipoPlantilla + ".txt");
+                                _Linea = sw.ReadLine();
+                                sw.Close();
+
+                                if (_Linea != null)
+                                {
+                                    if (_Linea != _Fecha_Modificacion)
+                                    {
+                                        this.TopMost = false;
+                                        this.Enabled = false;
+                                        this.Hide();
+                                        FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
+                                        _FileJsonfrm._Form = this;
+                                        _FileJsonfrm._Process = false;
+                                        _FileJsonfrm._Update = true;
+                                        _FileJsonfrm._window = this.Text;
+                                        _FileJsonfrm.Show();
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (!_Connection)
+                    {
+                        MessageBox.Show(_Message.Replace("...", ", para crear los archivos base..."), "Creación de Archivos Base", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        this.btnAccept.Enabled = false;
+                        return;
+                    }
+                    else
+                    {
+                        this._ProcessJson = true;
+                        this.TopMost = false;
+                        this.Enabled = false;
+                        this.Hide();
+                        FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
+                        _FileJsonfrm._Form = this;
+                        _FileJsonfrm._Process = false;
+                        _FileJsonfrm._Update = false;
+                        _FileJsonfrm._window = this.Text;
+                        _FileJsonfrm.Show();
+                        return;
+                    }
                 }
             }
             else
@@ -65,14 +115,15 @@ namespace ExcelAddIn1
                 FileJsonTemplate _FileJsonfrm = new FileJsonTemplate();
                 _FileJsonfrm._Form = this;
                 _FileJsonfrm._Process = false;
+                _FileJsonfrm._Update = false;
                 _FileJsonfrm._window = this.Text;
                 _FileJsonfrm.Show();
                 return;
             }
 
             FileInfo _Excel = new FileInfo(Globals.ThisAddIn.Application.ActiveWorkbook.FullName);
-            
-            if(_Excel.Extension != ".xlsm")
+
+            if (_Excel.Extension != ".xlsm")
             {
                 MessageBox.Show("Archivo no válido, favor de generar el archivo mediante el AddIn D.SAT", "Información Incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Close();
@@ -168,7 +219,7 @@ namespace ExcelAddIn1
             Excel.Worksheet hojan = new Excel.Worksheet();
             int[] hojas = new int[numhojas];
             //Contraseña
-            psw = "AAAABABABAAG";
+            //psw = "AAAABABABAAG";
             //LENARHOJAS
             Globals.ThisAddIn.Application.DisplayAlerts = false;
 
@@ -192,7 +243,7 @@ namespace ExcelAddIn1
                 Invoke(new System.Action(() => this.label1.Text = "Trabajando Hoja : [" + (Globals.ThisAddIn.Application.ActiveSheet).Name + "] .........."));
                 if (this == null) return;
                 Invoke(new System.Action(() => pgb_proceso.Value = pgb_proceso.Value + pgb_proceso.Step));
-                
+
                 //pasamos los datos
                 EspacioFilas = 0;
                 fila = 1;
@@ -290,22 +341,19 @@ namespace ExcelAddIn1
                         //Barra de progreso
                         if (this == null) return;
                         Invoke(new System.Action(() => this.label1.Text = "Trabajando Hoja : [" + (Globals.ThisAddIn.Application.ActiveSheet).Name + "] .........."));
-                        
+
                         if (ind != -1)
                         {
                             ind++;
                             libron.Sheets[i].Activate();
                             //Color plomo de la etiqueta
-                            if (i == 15 || i == 16 || i == 19 || i == 20 || i == 21 || i == 23 || i == 24 || i == 25)
-                            {
                                 //Protegerhoja
                                 //((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Tab.Color = System.Drawing.Color.FromArgb(251, 155, 13);
                                 //((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Protect(psw, true);
-                            }
-                            else
-                            {
+                            
                                 ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Tab.Color = System.Drawing.Color.FromArgb(100, 100, 100);
-                            }
+                           
+                            //((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Tab.ColorIndex = 0;
                             ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Move(Globals.ThisAddIn.Application.Worksheets[ind]);
 
                             //Ocultar columnas
@@ -712,14 +760,15 @@ namespace ExcelAddIn1
             //}
             Generales.Proteccion(true);
 
-            //activar mensajes alerta
-            Globals.ThisAddIn.Application.DisplayAlerts = true;
 
             if (this == null) return;
             Invoke(new System.Action(() => this.pgb_proceso.Value = this.pgb_proceso.Maximum));
             Invoke(new System.Action(() => this.label1.Text = "Proceso Terminado."));
 
             GuardarExcel();
+
+            //activar mensajes alerta
+            Globals.ThisAddIn.Application.DisplayAlerts = true;
             Invoke(new System.Action(() => this.Visible = false));
             //this.Visible = false;
             Invoke(new System.Action(() => this.Close()));
@@ -791,7 +840,7 @@ namespace ExcelAddIn1
                     foreach (string i in cond)
                     {
                         Vcon = ((Excel.Worksheet)Globals.ThisAddIn.Application.Worksheets["Generales"]).Range[i].Formula;
-                        
+
                         if (Vcon == "SI" || Vcon == "si")
                         {
                             res = false;
@@ -800,7 +849,7 @@ namespace ExcelAddIn1
                         if (Vcon == "NO" || Vcon == "no")
                         {
                             res = true;
-                            }
+                        }
                     }
                     if (res)
                     {

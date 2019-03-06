@@ -27,7 +27,7 @@ BEGIN
 		@JSON	VARCHAR(MAX)		=	'[';
 
 	SELECT		@JSON = @JSON + '{"IdComprobacion": ' + CONVERT(VARCHAR, IdComprobacion) + ', "IdTipoPlantilla": ' + CONVERT(VARCHAR, IdTipoPlantilla) + ', ' + 
-				'"Concepto": "' + RTRIM(LTRIM(REPLACE([Concepto], '"', '\"'))) + '", "Formula": "' + RTRIM(LTRIM(Formula)) + '", "Condicion": "' + RTRIM(LTRIM(Condicion)) + '"},'
+				'"Concepto": "' + RTRIM(LTRIM(REPLACE([Concepto], '"', '\"'))) + '", "Formula": "' + RTRIM(LTRIM(Formula)) + '", "Condicion": "' + RTRIM(LTRIM(Condicion)) + '","Nota":"'+Nota+'","AdmiteCambios":"'+CONVERT(VARCHAR, AdmiteCambios)+'"},'
 		FROM	dbo.tbl_Comprobaciones
 		--FOR JSON PATH;
 

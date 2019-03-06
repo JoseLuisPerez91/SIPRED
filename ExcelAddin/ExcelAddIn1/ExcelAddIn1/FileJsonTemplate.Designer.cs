@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileJsonTemplate));
             this.ofdTemplate = new System.Windows.Forms.OpenFileDialog();
             this.gbProgress = new System.Windows.Forms.GroupBox();
             this.pgbFile = new System.Windows.Forms.ProgressBar();
@@ -70,11 +71,12 @@
             // 
             // btnGenerar
             // 
+            this.btnGenerar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnGenerar.BackgroundImage")));
             this.btnGenerar.Location = new System.Drawing.Point(357, 96);
             this.btnGenerar.Name = "btnGenerar";
             this.btnGenerar.Size = new System.Drawing.Size(75, 23);
             this.btnGenerar.TabIndex = 14;
-            this.btnGenerar.Text = "Aceptar";
+            this.btnGenerar.Text = "  Aceptar";
             this.btnGenerar.UseVisualStyleBackColor = true;
             this.btnGenerar.Click += new System.EventHandler(this.btnGenerar_Click);
             // 
@@ -94,6 +96,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Archivos Base";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.FileJsonTemplate_Load);
             this.gbProgress.ResumeLayout(false);
             this.ResumeLayout(false);
 

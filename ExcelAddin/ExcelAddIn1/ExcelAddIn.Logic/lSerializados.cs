@@ -46,6 +46,22 @@ namespace ExcelAddIn.Logic {
             }
             return new KeyValuePair<bool, string[]>(_Key, _Messages.ToArray());
         }
+        /// <summary>Función para obtener la última versión de los archivos Json's.
+        /// <para>Obtiene la última versión de los archivos Json's. Referencia: <see cref="ObtenerUpdate()"/> se agrega la referencia ExcelAddIn.Logic para invocarla.</para>
+        /// <seealso cref="ObtenerUpdate()"/>
+        /// </summary>
+        public new KeyValuePair<bool, System.Data.DataTable> ObtenerUpdate()
+        {
+            KeyValuePair<KeyValuePair<bool, string>, System.Data.DataTable> _result = base.ObtenerUpdate();
+            if (_result.Key.Key)
+            {
+                return new KeyValuePair<bool, System.Data.DataTable>(true, _result.Value);
+            }
+            else
+            {
+                return new KeyValuePair<bool, System.Data.DataTable>(true, null);
+            }
+        }
         /// <summary>Función para obtener el archivo Json.
         /// <para>Ejecuta la creación del archivo Json de Indices. Referencia: <see cref="ObtenerIndices()"/> se agrega la referencia ExcelAddIn.Logic para invocarla.</para>
         /// <seealso cref="ObtenerIndices()"/>
