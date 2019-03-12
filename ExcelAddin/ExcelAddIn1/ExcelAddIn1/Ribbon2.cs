@@ -597,7 +597,8 @@ namespace ExcelAddIn1 {
         {
             if (_Connection)
             {
-                frmCarga form = new frmCarga();
+                FormulasComprobaciones form = new FormulasComprobaciones();
+                form._formulas = false;
                 form.ShowDialog();
             }
             else

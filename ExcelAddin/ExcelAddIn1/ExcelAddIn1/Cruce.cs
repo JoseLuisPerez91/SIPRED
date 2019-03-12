@@ -773,26 +773,19 @@ namespace ExcelAddIn1
         /// <param name="_result"></param>
         private void FIllValidacionDeCruceUC(oCruce[] _result)
         {
-            string _Anexo, _IdCruce, _Concepto, _Condicion, _Diferencia, _Formula, _IndiceGpo, _ConceptoGpo, _ColumnaGpo, _DatoGpo;
-            int _BanGpo;
-
-            if (Globals.ThisAddIn.TaskPane.Visible == true)
-            {
-                Globals.ThisAddIn.vdcUserControl.lst_Anexos.Items.Clear();
-                Globals.ThisAddIn.vdcUserControl.dgv_DiferenciasEnCruces.DataSource = null;
-                Globals.ThisAddIn.vdcUserControl.dgv_DiferenciasEnCruces.Rows.Clear();
-                Globals.ThisAddIn.vdcUserControl.dgv_LadoDerechoDeFormula.DataSource = null;
-                Globals.ThisAddIn.vdcUserControl.dgv_LadoDerechoDeFormula.Rows.Clear();
-                Globals.ThisAddIn.vdcUserControl.dgv_LadoIzquierdoDeFormula.DataSource = null;
-                Globals.ThisAddIn.vdcUserControl.dgv_LadoIzquierdoDeFormula.DataSource = null;
-                Globals.ThisAddIn.vdcUserControl.txt_CrucesConDiferencia.Text = "0";
-                Globals.ThisAddIn.vdcUserControl.txt_SumTotalLadoDerecho.Text = "0";
-                Globals.ThisAddIn.vdcUserControl.txt_SumTotalLadoDerecho.Text = "0";
-                Globals.ThisAddIn.vdcUserControl.txt_SumTotalLadoIzquierdo.Text = "0";
-                Globals.ThisAddIn.vdcUserControl.txt_Formula.Text = "";
-
-            }
-
+            Globals.ThisAddIn.vdcUserControl.lst_Anexos.Items.Clear();
+            Globals.ThisAddIn.vdcUserControl.dgv_DiferenciasEnCruces.DataSource = null;
+            Globals.ThisAddIn.vdcUserControl.dgv_DiferenciasEnCruces.Rows.Clear();
+            Globals.ThisAddIn.vdcUserControl.dgv_LadoDerechoDeFormula.DataSource = null;
+            Globals.ThisAddIn.vdcUserControl.dgv_LadoDerechoDeFormula.Rows.Clear();
+            Globals.ThisAddIn.vdcUserControl.dgv_LadoIzquierdoDeFormula.DataSource = null;
+            Globals.ThisAddIn.vdcUserControl.dgv_LadoIzquierdoDeFormula.DataSource = null;
+            Globals.ThisAddIn.vdcUserControl.txt_CrucesConDiferencia.Text = "0";
+            Globals.ThisAddIn.vdcUserControl.txt_SumTotalLadoDerecho.Text = "0";
+            Globals.ThisAddIn.vdcUserControl.txt_SumTotalLadoDerecho.Text = "0";
+            Globals.ThisAddIn.vdcUserControl.txt_SumTotalLadoIzquierdo.Text = "0";
+            Globals.ThisAddIn.vdcUserControl.txt_Formula.Text = "";
+            
             var _TodosLosAnexos = (from items in _result
                                    from details in items.CeldasFormula
                                    orderby Int16.Parse(details.Anexo.Substring(6))
@@ -811,46 +804,6 @@ namespace ExcelAddIn1
 
             Globals.ThisAddIn.vdcUserControl.txt_CrucesConDiferencia.Text = Globals.ThisAddIn._result.Count().ToString();
             Globals.ThisAddIn.vdcUserControl.txt_TotalCruces.Text = _TotalValidaciones.ToString();
-            
-            foreach (var item in _result)
-            {
-                _Concepto = item.Concepto;
-                _Diferencia = item.Diferencia;
-                _IdCruce = item.IdCruce.ToString();
-
-                Globals.ThisAddIn.vdcUserControl.dgv_DiferenciasEnCruces.Rows.Add(_IdCruce, "", _Concepto, _Diferencia);
-
-                foreach (var detail in item.CeldasFormula)
-                {
-                    _Anexo = detail.Anexo;
-                    _Condicion = item.Condicion;
-                    _Formula = item.Formula;
-                    _IndiceGpo = detail.Indice;
-                    _ConceptoGpo = detail.Concepto;
-                    _ColumnaGpo = detail.Columna.ToString();
-                    _BanGpo = detail.Grupo;
-
-                    var _match = Globals.ThisAddIn.vdcUserControl.lst_Anexos.FindString(_Anexo);
-                    if (_match == -1)
-                    {
-                        Globals.ThisAddIn.vdcUserControl.lst_Anexos.Items.Add(_Anexo);
-                    }
-
-                    if (_BanGpo == 0)
-                    {
-                        _DatoGpo = item.Grupo1;
-                        Globals.ThisAddIn.vdcUserControl.dgv_LadoIzquierdoDeFormula.Rows.Add(_IndiceGpo, _ConceptoGpo, _ColumnaGpo, _DatoGpo);
-                    }
-                    else
-                    {
-                        _DatoGpo = item.Grupo2;
-                        Globals.ThisAddIn.vdcUserControl.dgv_LadoDerechoDeFormula.Rows.Add(_IndiceGpo, _ConceptoGpo, _ColumnaGpo, _DatoGpo);
-                    }
-                }
-
-                Globals.ThisAddIn.vdcUserControl.lst_Anexos.Sorted = true;
-            }
-
         }
     }
 }

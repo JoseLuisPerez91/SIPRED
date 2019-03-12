@@ -117,40 +117,33 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="IndiceGpo2.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
+  <metadata name="ofdTemplate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
   </metadata>
-  <metadata name="ConceptoGpo2.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnGenerar.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        /9j/4AAQSkZJRgABAQEARwBHAAD/2wBDAAICAgICAgICAgICAgICAwQDAgIDBAUEBAQEBAUGBQUFBQUF
+        BgYHBwgHBwYJCQoKCQkMDAwMDAwMDAwMDAwMDAz/2wBDAQMDAwUEBQkGBgkNCwkLDQ8ODg4ODw8MDAwM
+        DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAAXAFADAREAAhEBAxEB/8QA
+        GgAAAgMBAQAAAAAAAAAAAAAAAAEFBgcECf/EADIQAAAEAwMLAwQDAAAAAAAAAAECAwQABQYREhUHFyEx
+        UlRVkpTR0xQyQUNFcZFRYmP/xAAZAQEAAgMAAAAAAAAAAAAAAAAABAUCAwb/xAAmEQABAwIEBgMAAAAA
+        AAAAAAAAAQIEAxIFETFBMlFhgeHwobHx/9oADAMBAAIRAxEAPwD1fmE8cIPnifq1iFTcKEKF8QD3CABA
+        FWn9enkTYhhcuXL50Ikl0vIoN9U/70FDWYfgIiy5bIzLnfpFmS2RmXO7dSKonKQ/qqXu3Cp1CKS90doq
+        8bnOLRc5PcKBjDaYC6h+LdFuuzXh8tZNO5Uy92NeHy1k07lTL67F0x51vjjnHvE4nDx91vbjnHvABj7r
+        e3HOPeADHnW+L85u8APHnW+L8494AeOut7cc494Ap+UKpZo0oGuHTKZv2jxtT8zVaO0FjpqpKkaqCQ5D
+        lEBKYo6QEIAz3Ked8s/mizMF3gS587FxKkzXDqlvmC+kIfVT1l/n82RU4tFqVmItNdNuflCpxaLUrMRa
+        a6bc/KGMMDvK+eqFbTCZDIrARnlSqgKThchdbBrsf6nD8a4qIkSrOffW4UKeJEqz331uFPn3c3hi4ZSx
+        m2l8vRSZsWaZUmrVILpCELoAACOra1Gpkmh1jWo1Mk0OzFv7RkZBiwbUAPFg2ggAxUNqAHiobUAGKhtQ
+        BUa/mQHoStSW++QzIv7aqQBmM/y4ZP3c9nTtpUQqtHT9yq1V9I7LeTOqYxRsMiAhaA/MARAZZ6GD76PS
+        uvFADz0UNx03TOvFABnoobjo9M68UAGeihuOj0zrxQAZ6KG46PTOvFADz0UNx0emdeKADPRQ3HR6Z14o
+        AM9FDcdHpnXigCDqbK3RsypuoJc1nQquX8tdt26Xp3IXjqomIULTJAAWiPzAH//Z
+</value>
+  </data>
+  <metadata name="fbdTemplate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>138, 20</value>
   </metadata>
-  <metadata name="ColumnaGpo2.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="DatoGpo2.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Indice.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="ConceptoGpo1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="ColumnaGpo1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="DatoGpo1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Numero.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Tooltip.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Concepto.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Diferencia.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
 </root>

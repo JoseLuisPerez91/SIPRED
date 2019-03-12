@@ -206,7 +206,7 @@ namespace ExcelAddIn1
                 }
 
                 txt_Formula.Text = _Indices[0].Formula;
-                txt_Formula.AppendText(_Indices[0].Condicion);
+                txt_Formula.AppendText("\r\n" + _Indices[0].Condicion);
                 txt_SumTotalLadoIzquierdo.Text = _Indices[0].Grupo1;
                 txt_SumTotalLadoDerecho.Text = _Indices[0].Grupo2;
 

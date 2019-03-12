@@ -140,31 +140,26 @@ namespace ExcelAddIn1 {
                 MessageBox.Show("Debe especificar un ruta", "Ruta Invalida", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            string _newTemplate = $"{_DestinationPath}\\{((oTipoPlantilla)cmbTipo.SelectedItem).Clave}-{cmbAnio.SelectedValue.ToString()}-{DateTime.Now.ToString("ddMMyyyyHHmmss")}.xlsm";
+            string _newTemplate = $"{_DestinationPath}\\{((oTipoPlantilla)cmbTipo.SelectedItem).Clave}-{cmbAnio.SelectedValue.ToString()}-{DateTime.Now.ToString("ddMMyyyyHHmmss")}_{_IdTemplateType}_{_Year}.xlsm";
             GenerarArchivo(_Template, _newTemplate, ((oTipoPlantilla)cmbTipo.SelectedItem).Clave);
-            this.Close();
+            //this.Close();
         }
         protected void GenerarArchivo(oPlantilla _Template, string _DestinationPath, string _Tipo) {
             string _Path = Configuration.Path;
-            oComprobacion[] _Comprobaciones = Assembler.LoadJson<oComprobacion[]>($"{_Path}\\jsons\\Comprobaciones.json");
-            FileInfo _Excel = new FileInfo($"{_Path}\\templates\\{_Template.Nombre}");
-            using(ExcelPackage _package = new ExcelPackage(_Excel)) {
-                _package.Workbook.Worksheets.Add(_Tipo);
-                foreach(oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == _Template.IdTipoPlantilla).ToArray()) {
-                    ExcelWorksheet _workSheet = _package.Workbook.Worksheets[_Comprobacion.Destino.Anexo];
-                    _Comprobacion.setFormulaExcel();
-                    if(_Comprobacion.EsValida() && _Comprobacion.EsFormula())
-                        _workSheet.Cells[_Comprobacion.Destino.CeldaExcel].Formula = _Comprobacion.FormulaExcel;
-                    else if(_Comprobacion.EsValida() && !_Comprobacion.EsFormula())
-                        _workSheet.Cells[_Comprobacion.Destino.CeldaExcel].Value = _Comprobacion.FormulaExcel;
-                }
-                //_package.Workbook.CreateVBAProject();
-                byte[] _NewTemplate = _package.GetAsByteArray();
-                File.WriteAllBytes(_DestinationPath, _NewTemplate);
-            }
+
+            File.Copy($"{_Path}\\templates\\{_Template.Nombre}", _DestinationPath);
             Globals.ThisAddIn.Application.Visible = true;
             Globals.ThisAddIn.Application.Workbooks.Open(_DestinationPath);
-            btnCancelar_Click(btnCancelar, null);
+
+            this.TopMost = false;
+            this.Enabled = false;
+            this.Hide();
+            FormulasComprobaciones _Formulas = new FormulasComprobaciones();
+            _Formulas._Form = this;
+            _Formulas._Template = _Template;
+            _Formulas._Tipo = _Tipo;
+            _Formulas._formulas = true;
+            _Formulas.ShowDialog();
         }
     }
 }

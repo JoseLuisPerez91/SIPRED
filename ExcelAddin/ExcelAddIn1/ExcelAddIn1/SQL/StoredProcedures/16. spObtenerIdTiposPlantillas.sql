@@ -22,7 +22,7 @@ GO
 CREATE PROCEDURE [dbo].[spObtenerIdTiposPlantillas]
 AS
  BEGIN
-   SELECT IdTipoPlantilla, Fecha_Modificacion FROM tbl_Plantillas WHERE Activo = 1 ORDER BY IdTipoPlantilla ASC
+   SELECT TOP 1 IdTipoPlantilla, Fecha_Modificacion FROM tbl_Plantillas WHERE Activo = 1 ORDER BY IdTipoPlantilla ASC
  END;
 GO
 

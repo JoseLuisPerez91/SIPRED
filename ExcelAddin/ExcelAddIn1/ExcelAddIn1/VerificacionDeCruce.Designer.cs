@@ -81,13 +81,13 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.btn_VerificarCruceSeleccionado);
+            this.tabPage2.Controls.Add(this.txt_SumTotalLadoDerecho);
             this.tabPage2.Controls.Add(this.btn_VolverAverificarCruces);
             this.tabPage2.Controls.Add(this.txt_CrucesConDiferencia);
             this.tabPage2.Controls.Add(this.textBox6);
             this.tabPage2.Controls.Add(this.txt_TotalCruces);
             this.tabPage2.Controls.Add(this.textBox4);
             this.tabPage2.Controls.Add(this.txt_SumTotalLadoIzquierdo);
-            this.tabPage2.Controls.Add(this.txt_SumTotalLadoDerecho);
             this.tabPage2.Controls.Add(this.label3);
             this.tabPage2.Controls.Add(this.label2);
             this.tabPage2.Controls.Add(this.label1);
@@ -166,14 +166,14 @@
             // 
             // txt_SumTotalLadoIzquierdo
             // 
-            this.txt_SumTotalLadoIzquierdo.Location = new System.Drawing.Point(397, 456);
+            this.txt_SumTotalLadoIzquierdo.Location = new System.Drawing.Point(197, 456);
             this.txt_SumTotalLadoIzquierdo.Name = "txt_SumTotalLadoIzquierdo";
             this.txt_SumTotalLadoIzquierdo.Size = new System.Drawing.Size(72, 20);
             this.txt_SumTotalLadoIzquierdo.TabIndex = 9;
             // 
             // txt_SumTotalLadoDerecho
             // 
-            this.txt_SumTotalLadoDerecho.Location = new System.Drawing.Point(208, 456);
+            this.txt_SumTotalLadoDerecho.Location = new System.Drawing.Point(384, 456);
             this.txt_SumTotalLadoDerecho.Name = "txt_SumTotalLadoDerecho";
             this.txt_SumTotalLadoDerecho.Size = new System.Drawing.Size(72, 20);
             this.txt_SumTotalLadoDerecho.TabIndex = 8;
