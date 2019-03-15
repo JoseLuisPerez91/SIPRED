@@ -13,6 +13,8 @@ using Newtonsoft.Json;
 using ExcelAddIn.Objects;
 using ExcelAddIn.Logic;
 using ExcelAddIn.Access;
+using Microsoft.Win32;
+using Microsoft.Office;
 
 namespace ExcelAddIn1 {
     public partial class Nuevo : Base {
@@ -146,8 +148,17 @@ namespace ExcelAddIn1 {
         }
         protected void GenerarArchivo(oPlantilla _Template, string _DestinationPath, string _Tipo) {
             string _Path = Configuration.Path;
+            // el nombre de una Key debe incluir un root valido.
+            const string userRoot = "HKEY_CURRENT_USER";
+            const string subkey = "Software\\Microsoft\\Office\\Excel\\Addins\\SAT.Dictamenes.SIPRED.Client";
+            const string keyName = userRoot + "\\" + subkey;
+
+            object addInName = "SAT.Dictamenes.SIPRED.Client";
 
             File.Copy($"{_Path}\\templates\\{_Template.Nombre}", _DestinationPath);
+
+            Registry.SetValue(keyName, "LoadBehavior", 0);
+            Globals.ThisAddIn.Application.COMAddIns.Item(ref addInName).Connect = false;
             Globals.ThisAddIn.Application.Visible = true;
             Globals.ThisAddIn.Application.Workbooks.Open(_DestinationPath);
 

@@ -18,6 +18,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 using Office = Microsoft.Office.Core;
 using Microsoft.Office.Tools.Excel;
 using Microsoft.Office.Core;
+using Microsoft.Win32;
 
 namespace ExcelAddIn1
 {
@@ -131,7 +132,7 @@ namespace ExcelAddIn1
             //Libro Actual de Excel.
             Excel.Worksheet xlSht;
             Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
-            string _Name = wb.Name;
+            string _Name = Globals.ThisAddIn.Application.ActiveWorkbook.Name;
             string[] _aName = _Name.Split('-');
             string _anio = _aName[1];
             string _IdTipo = "";
@@ -156,6 +157,41 @@ namespace ExcelAddIn1
                         y = 0;
                     }
                 }
+
+                // el nombre de una Key debe incluir un root valido.
+                const string userRoot = "HKEY_CURRENT_USER";
+                const string subkey = "Software\\Microsoft\\Office\\Excel\\Addins\\SAT.Dictamenes.SIPRED.Client";
+                const string keyName = userRoot + "\\" + subkey;
+                object addInName = "SAT.Dictamenes.SIPRED.Client";
+
+                Registry.SetValue(keyName, "LoadBehavior", 3);
+                Globals.ThisAddIn.Application.COMAddIns.Item(ref addInName).Connect = true;
+
+                _newTemplate = $"{_DestinationPath}\\Transferencia-{_TipoFile}-{_anio}-{DateTime.Now.ToString("ddMMyyyyHHmmss")}_{_IdTipo}_{_anio}.xlsm";
+                wb.SaveCopyAs(_newTemplate);
+                wb.Save();
+                wb.Close();
+
+                Globals.ThisAddIn.Application.Visible = true;
+                Globals.ThisAddIn.Application.Workbooks.Open(_newTemplate);
+
+                wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+
+                foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == Convert.ToInt32(_IdTipo)).ToArray())
+                {
+                    _Comprobacion.setFormulaExcel();
+                    xlSht = (Excel.Worksheet)wb.Worksheets.get_Item(_Comprobacion.Destino.Anexo);
+                    Excel.Range _Range = (Excel.Range)xlSht.get_Range(_Comprobacion.Destino.CeldaExcel);
+
+                    object _valor = _Range.Value;
+                    //_Range.NumberFormat = "0.00";
+                    if (_Comprobacion.EsValida() && _Comprobacion.EsFormula())
+                    {
+                        _Range.Formula = "";
+                        _Range.Value = _valor.ToString();
+                    }
+                }
+                wb.Save();
             }
             //Asigna valores vacios a las celdas de las formulas y de tipo "General".
             if (_formulas)
@@ -193,96 +229,28 @@ namespace ExcelAddIn1
                         }
                     }
                 }
-            }
-            //Barra de Progreso.
-            x = 0;
-            fnProgressBar(100);
-            //Asigna las formulas a las celdas al crear un nuevo archivo
-            //De lo contrario si es transferir quita las formulas y asigna el valor del resultado de la formula.
-            //Se agina el progreso del ProgessBar según la cantidad de celdas divididas entre 16.
-            foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == Convert.ToInt32(_IdTipo)).ToArray())
-            {
-                _Comprobacion.setFormulaExcel();
-                xlSht = (Excel.Worksheet)wb.Worksheets.get_Item(_Comprobacion.Destino.Anexo);
-                Excel.Range _Range = (Excel.Range)xlSht.get_Range(_Comprobacion.Destino.CeldaExcel);
 
-                if(x==0)
-                {
-                    xlSht.Activate();
-                }
-                _Range.NumberFormat = "0.00";
-                if (_Comprobacion.EsValida() && _Comprobacion.EsFormula())
-                {
-                    if (_formulas)
-                    {
-                        _Range.Formula = $"={_Comprobacion.FormulaExcel}";
-                    }
-                    else
-                    {
-                        string _result = Convert.ToString(_Range.Value);
-                        _Range.Formula = "";
-                        _Range.Value = "";
-                        _Range.NumberFormat = "";
-
-                        //Celdas para las formulas
-                        string _fExcel = _Comprobacion.FormulaExcel.Replace("SUM", "").Replace("(", "").Replace(")", "").Replace("+0", "").Replace("*", "+").Replace("/", "+").Replace("IF", "").Replace("<0", "").Replace(">0", "+").Replace(",0)", "").Replace(",", "+").Replace("-", "+").Replace(">", "+").Replace("<", "+").Replace("=", "+");
-                        string[] _sfExcel = _fExcel.Split('+');
-
-                        for (int z = 0; z < _sfExcel.Length; z++)
-                        {
-                            if (_sfExcel[z] != "")
-                            {
-                                decimal temp = 0;
-                                if (!decimal.TryParse(_sfExcel[z], out temp))
-                                {
-                                    Excel.Range _Celda = (Excel.Range)xlSht.get_Range(_sfExcel[z]);
-                                    _Celda.NumberFormat = "";
-                                }
-                            }
-                        }
-                    }
-                }
-                else if (_Comprobacion.EsValida() && !_Comprobacion.EsFormula())
-                {
-                    if (_formulas)
-                    {
-                        _Range.Value = _Comprobacion.FormulaExcel;
-                    }
-                }
-                //Barra de Progreso.
-                x++;
-                r = x % 16;
-                if (r == 0.00)
-                {
-                    progress += 10;
-                    if (progress < 100)
-                    {
-                        fnProgressBar(progress);
-                    }
-                }
-            }
-            //Se guarda el archivo original.
-            wb.Save();
-            //Barra de Progreso.
-            x = 0;
-            fnProgressBar(100);
-            //Genera una copia del archivo original para ser transferido y regresa las formulas al archivo original.
-            //Guarda el archivo el original y muestra con mensaje en donde fue guardado el archivo transferido.
-            if (!_formulas)
-            {
-                _newTemplate = $"{_DestinationPath}\\Transferencia-{_TipoFile}-{_anio}-{DateTime.Now.ToString("ddMMyyyyHHmmss")}_{_IdTipo}_{_anio}.xlsm";
-                wb.SaveCopyAs(_newTemplate);
-
+                //Asigna las formulas a las celdas al crear un nuevo archivo
+                //De lo contrario si es transferir quita las formulas y asigna el valor del resultado de la formula.
+                //Se agina el progreso del ProgessBar según la cantidad de celdas divididas entre 16.
                 foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == Convert.ToInt32(_IdTipo)).ToArray())
                 {
                     _Comprobacion.setFormulaExcel();
                     xlSht = (Excel.Worksheet)wb.Worksheets.get_Item(_Comprobacion.Destino.Anexo);
                     Excel.Range _Range = (Excel.Range)xlSht.get_Range(_Comprobacion.Destino.CeldaExcel);
 
+                    if (x == 0)
+                    {
+                        xlSht.Activate();
+                    }
                     _Range.NumberFormat = "0.00";
                     if (_Comprobacion.EsValida() && _Comprobacion.EsFormula())
                     {
-                        _Range.Formula = $"= {_Comprobacion.FormulaExcel}";
+                        _Range.Formula = $"={_Comprobacion.FormulaExcel}";
+                    }
+                    else if (_Comprobacion.EsValida() && !_Comprobacion.EsFormula())
+                    {
+                        _Range.Value = _Comprobacion.FormulaExcel;
                     }
                     //Barra de Progreso.
                     x++;
@@ -296,13 +264,9 @@ namespace ExcelAddIn1
                         }
                     }
                 }
-                //Barra de Progreso.
-                fnProgressBar(100);
                 //Se guarda el archivo original.
                 wb.Save();
-                MessageBox.Show($"Archivo transferido en [{ _newTemplate }].", "Transferencia", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
             if (_Form != null)
             {
                 _Form.Close();
