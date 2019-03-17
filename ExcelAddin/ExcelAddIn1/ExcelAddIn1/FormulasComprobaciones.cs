@@ -29,6 +29,7 @@ namespace ExcelAddIn1
         public string _Tipo;
         public bool _formulas;
         public string _Origen;
+        public bool _Open;
         public FormulasComprobaciones()
         {
             string _Path = Configuration.Path;
@@ -166,8 +167,22 @@ namespace ExcelAddIn1
 
                 Registry.SetValue(keyName, "LoadBehavior", 3);
                 Globals.ThisAddIn.Application.COMAddIns.Item(ref addInName).Connect = true;
+                string _sOpen = wb.Worksheets.Item[wb.Worksheets.Count].Name;
 
                 _newTemplate = $"{_DestinationPath}\\Transferencia-{_TipoFile}-{_anio}-{DateTime.Now.ToString("ddMMyyyyHHmmss")}_{_IdTipo}_{_anio}.xlsm";
+
+                for(int _wCount = 1; _wCount <= wb.Worksheets.Count; _wCount++)
+                {
+                    if (wb.Worksheets.Item[_wCount].Name == "SIPRED")
+                    {
+                        wb.Worksheets.Item[_wCount].Delete();
+                    }
+                    if (wb.Worksheets.Item[_wCount].Name == "_Open")
+                    {
+                        wb.Worksheets.Item[_wCount].Delete();
+                    }
+                }
+
                 wb.SaveCopyAs(_newTemplate);
                 wb.Save();
                 wb.Close();
@@ -176,7 +191,7 @@ namespace ExcelAddIn1
                 Globals.ThisAddIn.Application.Workbooks.Open(_newTemplate);
 
                 wb = Globals.ThisAddIn.Application.ActiveWorkbook;
-
+                x = 0;
                 foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == Convert.ToInt32(_IdTipo)).ToArray())
                 {
                     _Comprobacion.setFormulaExcel();
@@ -187,8 +202,15 @@ namespace ExcelAddIn1
                     //_Range.NumberFormat = "0.00";
                     if (_Comprobacion.EsValida() && _Comprobacion.EsFormula())
                     {
-                        _Range.Formula = "";
-                        _Range.Value = _valor.ToString();
+                        try
+                        {
+                            if (!_Open && _sOpen == "SIPRED")
+                            {
+                                _Range.Formula = "";
+                                _Range.Value = Convert.ToDecimal(_valor.ToString());
+                            }
+                        }
+                        catch { }
                     }
                 }
                 wb.Save();
@@ -196,6 +218,7 @@ namespace ExcelAddIn1
             //Asigna valores vacios a las celdas de las formulas y de tipo "General".
             if (_formulas)
             {
+                x = 0;
                 foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == Convert.ToInt32(_IdTipo)).ToArray())
                 {
                     _Comprobacion.setFormulaExcel();
@@ -213,7 +236,10 @@ namespace ExcelAddIn1
                             {
                                 Excel.Range _Celda = (Excel.Range)xlSht.get_Range(_sfExcel[z]);
                                 _Celda.NumberFormat = "0.00";
-                                _Celda.Value = "";
+                                if (!_Open)
+                                {
+                                    _Celda.Value = "";
+                                }
                             }
                         }
                     }
@@ -229,7 +255,7 @@ namespace ExcelAddIn1
                         }
                     }
                 }
-
+                x = 0;
                 //Asigna las formulas a las celdas al crear un nuevo archivo
                 //De lo contrario si es transferir quita las formulas y asigna el valor del resultado de la formula.
                 //Se agina el progreso del ProgessBar según la cantidad de celdas divididas entre 16.

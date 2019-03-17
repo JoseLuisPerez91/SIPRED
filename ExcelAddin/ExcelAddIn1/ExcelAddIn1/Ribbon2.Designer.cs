@@ -38,6 +38,7 @@
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
             this.btnNew = this.Factory.CreateRibbonButton();
+            this.btnOpen = this.Factory.CreateRibbonButton();
             this.btnPrellenar = this.Factory.CreateRibbonButton();
             this.btnIndice = this.Factory.CreateRibbonMenu();
             this.btnAgregarIndice = this.Factory.CreateRibbonButton();
@@ -56,6 +57,7 @@
             this.btnPlantilla = this.Factory.CreateRibbonButton();
             this.btnCrucesAdmin = this.Factory.CreateRibbonButton();
             this.btnComprobacionesAdmin = this.Factory.CreateRibbonButton();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -75,6 +77,7 @@
             // group1
             // 
             this.group1.Items.Add(this.btnNew);
+            this.group1.Items.Add(this.btnOpen);
             this.group1.Items.Add(this.btnPrellenar);
             this.group1.Items.Add(this.btnIndice);
             this.group1.Items.Add(this.btnExplicacion);
@@ -93,6 +96,18 @@
             this.btnNew.ShowImage = true;
             this.btnNew.SuperTip = "Crea una hoja de trabajo para capturar la información del cliente";
             this.btnNew.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnNew_Click);
+            // 
+            // btnOpen
+            // 
+            this.btnOpen.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnOpen.Image = ((System.Drawing.Image)(resources.GetObject("btnOpen.Image")));
+            this.btnOpen.Label = "Abrir";
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Position = this.Factory.RibbonPosition.BeforeOfficeId("TabView");
+            this.btnOpen.ScreenTip = "Abrir hoja de trabajo";
+            this.btnOpen.ShowImage = true;
+            this.btnOpen.SuperTip = "Abre una hoja de trabajo para continuar capturarando información del cliente";
+            this.btnOpen.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnOpen_Click);
             // 
             // btnPrellenar
             // 
@@ -283,6 +298,10 @@
     "sistema.";
             this.btnComprobacionesAdmin.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnComprobacionesAdmin_Click);
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog";
+            // 
             // Ribbon2
             // 
             this.Name = "Ribbon2";
@@ -308,6 +327,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnNew;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnOpen;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnImprimir;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group2;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnCruces;
@@ -326,6 +346,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnEliminarIndice;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnTransferir;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnPrellenar;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 
     partial class ThisRibbonCollection

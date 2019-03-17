@@ -13,6 +13,7 @@ using iTextSharp.text;
 using System.IO;
 using ExcelAddIn.Logic;
 using ExcelAddIn.Access;
+using Microsoft.Win32;
 
 namespace ExcelAddIn1 {
     public partial class Ribbon2
@@ -148,6 +149,85 @@ namespace ExcelAddIn1 {
             {
                 Nuevo _New = new Nuevo();
                 _New.Show();
+            }
+            else
+            {
+                MessageBox.Show(_Message, _Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public void btnOpen_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (_Connection)
+            {
+                OpenFileDialog _Abrir = new OpenFileDialog();
+
+                _Abrir.Filter = "Archivo xlsm (*.xlsm)|*.xlsm";
+                _Abrir.Title = "Abrir archivo xlsm";
+                _Abrir.ShowDialog();
+
+                if(_Abrir.FileName == "")
+                {
+                    MessageBox.Show("Debe especificar un archivo xlsm", "Archivo xlsm Invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                const string userRoot = "HKEY_CURRENT_USER";
+                const string subkey = "Software\\Microsoft\\Office\\Excel\\Addins\\SAT.Dictamenes.SIPRED.Client";
+                const string keyName = userRoot + "\\" + subkey;
+                object addInName = "SAT.Dictamenes.SIPRED.Client";
+                Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+
+                Registry.SetValue(keyName, "LoadBehavior", 0);
+                Globals.ThisAddIn.Application.COMAddIns.Item(ref addInName).Connect = false;
+                //try
+                //{
+                //    wb.Close();
+                //}
+                //catch { }
+                Globals.ThisAddIn.Application.Visible = true;
+                Globals.ThisAddIn.Application.Workbooks.Open(_Abrir.FileName);
+
+                //Libro Actual de Excel.
+                Excel.Worksheet xlSht;
+                wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+                int count = wb.Worksheets.Count;
+                bool _existeS = false;
+                bool _existeO = false;
+
+                for(int _wCount = 1; _wCount<= count; _wCount++)
+                {
+                    string _sName = wb.Worksheets[_wCount].Name;
+
+                    if(_sName == "SIPRED")
+                    {
+                        _existeS = true;
+                    }
+                    if (_sName == "_Open")
+                    {
+                        _existeO = true;
+                    }
+                }
+
+                if (!_existeS)
+                {
+                    xlSht = (Excel.Worksheet)wb.Worksheets.Add(Type.Missing, wb.Worksheets[count], Type.Missing, Type.Missing);
+                    xlSht.Name = "SIPRED";
+                }
+                if (!_existeO)
+                {
+                    count = wb.Worksheets.Count;
+                    xlSht = (Excel.Worksheet)wb.Worksheets.Add(Type.Missing, wb.Worksheets[count], Type.Missing, Type.Missing);
+                    xlSht.Name = "_Open";
+                }
+                wb.Save();
+
+                FormulasComprobaciones _Formulas = new FormulasComprobaciones();
+                _Formulas._Form = null;
+                _Formulas._Template = null;
+                _Formulas._Tipo = "";
+                _Formulas._formulas = true;
+                _Formulas._Open = true;
+                _Formulas.ShowDialog();
             }
             else
             {
@@ -599,6 +679,8 @@ namespace ExcelAddIn1 {
             {
                 FormulasComprobaciones form = new FormulasComprobaciones();
                 form._formulas = false;
+                form._Open = false;
+                form.TopMost = false;
                 form.ShowDialog();
             }
             else

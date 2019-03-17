@@ -447,6 +447,7 @@
     <Content Include="Images\Icons\Explication.png" />
     <Content Include="Images\Icons\Index.png" />
     <Content Include="Images\Icons\New.png" />
+    <Content Include="Images\Icons\Open.png" />
     <Content Include="Images\Icons\Printer.png" />
     <Content Include="Images\Icons\Transfer.png" />
     <Content Include="Images\Icons\Upload.png" />

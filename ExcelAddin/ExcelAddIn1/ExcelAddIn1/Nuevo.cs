@@ -15,6 +15,7 @@ using ExcelAddIn.Logic;
 using ExcelAddIn.Access;
 using Microsoft.Win32;
 using Microsoft.Office;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace ExcelAddIn1 {
     public partial class Nuevo : Base {
@@ -162,6 +163,14 @@ namespace ExcelAddIn1 {
             Globals.ThisAddIn.Application.Visible = true;
             Globals.ThisAddIn.Application.Workbooks.Open(_DestinationPath);
 
+            //Libro Actual de Excel.
+            Excel.Worksheet xlSht;
+            Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+            int count = wb.Worksheets.Count;
+            xlSht = (Excel.Worksheet)wb.Worksheets.Add(Type.Missing, wb.Worksheets[count], Type.Missing, Type.Missing);
+            xlSht.Name = "SIPRED";
+            wb.Save();
+
             this.TopMost = false;
             this.Enabled = false;
             this.Hide();
@@ -170,6 +179,7 @@ namespace ExcelAddIn1 {
             _Formulas._Template = _Template;
             _Formulas._Tipo = _Tipo;
             _Formulas._formulas = true;
+            _Formulas._Open = false;
             _Formulas.ShowDialog();
         }
     }
