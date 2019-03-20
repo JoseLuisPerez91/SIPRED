@@ -177,9 +177,12 @@ namespace ExcelAddIn1
                     {
                         wb.Worksheets.Item[_wCount].Delete();
                     }
-                    if (wb.Worksheets.Item[_wCount].Name == "_Open")
+                    else
                     {
-                        wb.Worksheets.Item[_wCount].Delete();
+                        if (wb.Worksheets.Item[_wCount].Name == "_Open")
+                        {
+                            wb.Worksheets.Item[_wCount].Delete();
+                        }
                     }
                 }
 
@@ -206,8 +209,53 @@ namespace ExcelAddIn1
                         {
                             if (!_Open && _sOpen == "SIPRED")
                             {
-                                _Range.Formula = "";
-                                _Range.Value = Convert.ToDecimal(_valor.ToString());
+                                string _Columna1 = Generales.ColumnAdress(_Range.Column);
+                                string _Renglon1 = (_Range.Row - 1).ToString();
+                                object _Celda1 = _Columna1 + "" + _Renglon1;
+                                Excel.Range _Range1 = (Excel.Range)xlSht.get_Range(_Celda1);
+                                object _valor1 = _Range1.Value;
+
+                                //Papá de los Indices.
+                                if (_Range1.HasFormula)
+                                {
+                                    _Range1.Formula = "";
+                                    _Range1.Value = Convert.ToDecimal(_valor1.ToString());
+                                }
+                                //Indices
+                                if (!_Range.HasFormula)
+                                {
+                                    int _Rango = 1;
+                                    string _Renglon;
+                                    string _Columna;
+                                    object _Celda;
+                                    for (int xx = 0; xx < 1;)
+                                    {
+                                        _Columna = Generales.ColumnAdress(_Range.Column);
+                                        _Renglon = (_Range.Row + _Rango).ToString();
+                                        _Celda = _Columna + "" + _Renglon;
+                                        Excel.Range _Range2 = (Excel.Range)xlSht.get_Range(_Celda);
+
+                                        if (!_Range2.HasFormula)
+                                        {
+                                            xx = 0;
+                                            _Rango += 1;
+                                        }
+                                        else
+                                        {
+                                            _Range.Formula = "";
+                                            _Range.Value = Convert.ToDecimal(_valor.ToString());
+                                            //_Range2.FormulaHidden = true;
+                                            xx = 1;
+                                            //_Rango = 1;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    _Range.Formula = "";
+                                    _Range.Value = Convert.ToDecimal(_valor.ToString());
+                                    //_Range.FormulaHidden = true;
+                                }
                             }
                         }
                         catch { }

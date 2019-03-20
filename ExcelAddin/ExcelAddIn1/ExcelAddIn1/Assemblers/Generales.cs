@@ -138,10 +138,10 @@ namespace ExcelAddIn1
                 AddNamedRange(NroRow + i, 1, "IA_0" + Convert.ToString(indiceNvo));
                 currentCell = (Excel.Range)xlSht.Cells[NroRow + i, 1];
                 IndicePrevio = currentCell.get_Value(Type.Missing).ToString();
-                currentCell = xlSht.Range[xlSht.Cells[NroRow + i, 1], xlSht.Cells[NroRow + i, 3]];
-                currentCell.Font.Color = System.Drawing.Color.FromArgb(0, 0, 255);
+                //currentCell = xlSht.Range[xlSht.Cells[NroRow + i, 1], xlSht.Cells[NroRow + i, 3]];
+                //currentCell.Font.Color = System.Drawing.Color.FromArgb(0, 0, 255);
 
-                ((Excel.Range)xlSht.Cells[NroRow + 1, 2]).NumberFormat = "@"; // le doy formato text al concepto
+                ((Excel.Range)xlSht.Cells[NroRow + 1, 2]).NumberFormat = "General"; // le doy formato text al concepto
                 ((Excel.Range)xlSht.Cells[NroRow + 1, 2]).WrapText = true;
                 RangeLocked = (Excel.Range)xlSht.Cells[NroRow + i, 1];
                 RangeLocked.Locked = true; // con esto bloqueo solo la primera columna
@@ -182,6 +182,7 @@ namespace ExcelAddIn1
             {
                 Sum_Range = xlSht.get_Range(ST.Columna + (NroPrincipalAux).ToString(), ST.Columna + (NroPrincipalAux).ToString());
                 Sum_Range.Formula = "=sum(" + ST.Columna + (NroPrincipalAux + 1).ToString() + ":" + ST.Columna + (NroFinal).ToString() + ")";
+                //Sum_Range.FormulaHidden = true;
             }
 
             Sum_Range = xlSht.get_Range("B" + (NroPrincipal).ToString(), "B" + (NroPrincipal).ToString());
@@ -200,7 +201,7 @@ namespace ExcelAddIn1
             xlSht.Cells[currentCell.Row + 1, 1] = " EXPLICACION ";
             xlSht.Cells[currentCell.Row + 1, 2] = Explicacion;
 
-            ((Excel.Range)xlSht.Cells[currentCell.Row + 1, 2]).NumberFormat = "@";
+            ((Excel.Range)xlSht.Cells[currentCell.Row + 1, 2]).NumberFormat = "General";
             ((Excel.Range)xlSht.Cells[currentCell.Row + 1, 2]).WrapText = true;
 
             currentCell.Select();
