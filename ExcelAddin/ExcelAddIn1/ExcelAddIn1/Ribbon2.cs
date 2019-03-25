@@ -14,6 +14,8 @@ using System.IO;
 using ExcelAddIn.Logic;
 using ExcelAddIn.Access;
 using Microsoft.Win32;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace ExcelAddIn1 {
     public partial class Ribbon2
@@ -376,31 +378,109 @@ namespace ExcelAddIn1 {
         }
         private void btnPrellenar_Click(object sender, RibbonControlEventArgs e)
         {
-            string _Path = ExcelAddIn.Access.Configuration.Path;
+            //string _Path = ExcelAddIn.Access.Configuration.Path;
 
-            var fecha = DateTime.Now;
-            var name = "Cruce_" + fecha.Year.ToString() + fecha.Month.ToString() + fecha.Day.ToString() + fecha.Hour.ToString() + fecha.Minute.ToString() + fecha.Second.ToString();
-            var filepath = _Path + "\\" + name + ".pdf";
-            // Creamos el documento con el tamaño de página tradicional
-            Document doc = new Document(PageSize.LETTER);
-            // Indicamos donde vamos a guardar el documento
-            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(filepath, FileMode.Create));
-            // Le colocamos el título y el autor
-            doc.AddTitle("Cruces");
-            doc.AddCreator("S-DAT");
-            // Abrimos el archivo
-            doc.Open();
-            PdfPTable tabla = new PdfPTable(3);
+            //var fecha = DateTime.Now;
+            //var name = "Cruce_" + fecha.Year.ToString() + fecha.Month.ToString() + fecha.Day.ToString() + fecha.Hour.ToString() + fecha.Minute.ToString() + fecha.Second.ToString();
+            //var filepath = _Path + "\\" + name + ".pdf";
+            //// Creamos el documento con el tamaño de página tradicional
+            //Document doc = new Document(PageSize.LETTER);
+            //// Indicamos donde vamos a guardar el documento
+            //PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(filepath, FileMode.Create));
+            //// Le colocamos el título y el autor
+            //doc.AddTitle("Cruces");
+            //doc.AddCreator("S-DAT");
+            //// Abrimos el archivo
+            //doc.Open();
+            //PdfPTable tabla = new PdfPTable(3);
 
-            for (int i = 0; i < 15; i++)
+            //for (int i = 0; i < 15; i++)
+            //{
+            //    tabla.AddCell("A " + i);
+            //    tabla.AddCell("B " + i);
+            //}
+            //doc.Add(tabla);
+
+            //doc.Close();
+            //writer.Close();
+            string _CnStr = string.Format(Configuration.ConnectionStringPrellenado, Configuration.Server, Configuration.DataBase, Configuration.User, Configuration.Password);
+            bool _Connection = new lSerializados().CheckConnection(Configuration.UrlConnection);
+
+            string _RFC = "CVG080811RU4";
+            int _Anio = 2018;
+
+            DataTable dt = new DataTable();
+            dt.Clear();
+            dt.Columns.Add("INDICE");
+            dt.Columns.Add("SALDO");
+            dt.Columns.Add("CUENTAS");
+
+            DataTable dt2 = new DataTable();
+            dt2.Clear();
+            dt2.Columns.Add("INDICE");
+            dt2.Columns.Add("SALDO");
+            dt2.Columns.Add("CUENTAS");
+
+            SqlConnection _DbConn = new SqlConnection(_CnStr);
+
+            try
             {
-                tabla.AddCell("A " + i);
-                tabla.AddCell("B " + i);
-            }
-            doc.Add(tabla);
+                if (_Connection)
+                {
+                    using (_DbConn)
+                    {
+                        SqlCommand _SqlComm = new SqlCommand("dbo.SP_DAgrupa_ObtieneSaldoIndice", _DbConn);
+                        _SqlComm.Parameters.AddWithValue("@RFC", _RFC);
+                        _SqlComm.Parameters.AddWithValue("@Ejercicio", _Anio.ToString());
+                        _SqlComm.Parameters.AddWithValue("@Indice", "");
 
-            doc.Close();
-            writer.Close();
+                        _SqlComm.CommandType = CommandType.StoredProcedure;
+                        SqlDataAdapter da = new SqlDataAdapter();
+
+                        da.SelectCommand = _SqlComm;
+                        da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                        da.Fill(dt);
+
+                        _SqlComm.Parameters.Clear();
+
+                        _SqlComm.Parameters.AddWithValue("@RFC", _RFC);
+                        _SqlComm.Parameters.AddWithValue("@Ejercicio", (_Anio - 1).ToString());
+                        _SqlComm.Parameters.AddWithValue("@Indice", "");
+                        SqlDataAdapter daT2 = new SqlDataAdapter();
+                        daT2.SelectCommand = _SqlComm;
+                        daT2.SelectCommand.CommandType = CommandType.StoredProcedure;
+                        daT2.Fill(dt2);
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("Porfavor verifique que tiene conexión a internet.", "Sin acceso a la red", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+            }
+            catch (SqlException sqlex)
+            {
+                MessageBox.Show($"Error en la conexión. {sqlex.Message.ToString()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error en la conexión. {ex.Message.ToString()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                _DbConn.Close();
+
+                if (dt.Rows.Count > 0 || dt2.Rows.Count > 0)
+                {
+                    ValidaSaldoIndice(dt, dt2);
+                }
+                else
+                {
+                    MessageBox.Show($"No hay datos para el cliente {_RFC}, periodo {_Anio}.", "Sin Datos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+            }
         }
         private void btnEliminarIndice_Click(object sender, RibbonControlEventArgs e)
         {
@@ -738,6 +818,163 @@ namespace ExcelAddIn1 {
             {
                 MessageBox.Show(_Message, _Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        /// <summary>
+        /// Validamos que el indice no venga vacio y tenga el formato correcto
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="dt2"></param>
+        private void ValidaSaldoIndice(DataTable dt, DataTable dt2)
+        {
+            string _Indice;
+            string _Saldo;
+            string _Anexo;
+            string _IndexNumber;
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    _Anexo = "";
+                    _Indice = row["INDICE"].ToString();
+                    if (_Indice.ToString().Length == 14)
+                    {
+
+                        _Saldo = row["SALDO"].ToString();
+                        _IndexNumber = _Indice.ToString().Substring(2, 2);
+                        _Anexo = ObtenerStringAnexo(_IndexNumber);
+
+                        LlenaCeldas(_Saldo, _Indice, _Anexo, "C");
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+            }
+
+            if (dt2.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt2.Rows)
+                {
+                    _Anexo = "";
+                    _Indice = row["INDICE"].ToString();
+                    if (_Indice.ToString().Length == 14)
+                    {
+
+                        _Saldo = row["SALDO"].ToString();
+                        _IndexNumber = _Indice.ToString().Substring(2, 2);
+                        _Anexo = ObtenerStringAnexo(_IndexNumber);
+
+                        LlenaCeldas(_Saldo, _Indice, _Anexo, "D");
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+            }
+        }
+
+        private void LlenaCeldas(string _Saldo, string _Indice, string _Anexo, string _Columna)
+        {
+            int _MaxRow = 0;
+
+            try
+            {
+                Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+                Excel.Worksheet sheet = (Excel.Worksheet)wb.Worksheets.get_Item(_Anexo);
+                _MaxRow = sheet.UsedRange.Count + 1;
+
+                if (sheet != null)
+                {
+                    Excel.Range range = (Excel.Range)sheet.get_Range("A1:A" + _MaxRow.ToString());
+                    Excel.Range findValue = range.Find(_Indice, Type.Missing, Excel.XlFindLookIn.xlValues,
+                                                        Excel.XlLookAt.xlPart, Excel.XlSearchOrder.xlByRows,
+                                                        Excel.XlSearchDirection.xlNext, false, Type.Missing, Type.Missing);
+                    if (findValue != null)
+                    {
+                        range = (Excel.Range)sheet.Cells[findValue.Row, _Columna];
+                        range.Value = _Saldo;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al llenar la hoja {_Anexo}: {ex.Message.ToString()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private string ObtenerStringAnexo(string _indexNumber)
+        {
+            string result = "";
+
+            switch (_indexNumber)
+            {
+                case "01":
+                    result = "Anexo 1";
+                    break;
+                case "02":
+                    result = "Anexo 2";
+                    break;
+                case "03":
+                    result = "Anexo 3";
+                    break;
+                case "04":
+                    result = "Anexo 4";
+                    break;
+                case "05":
+                    result = "Anexo 5";
+                    break;
+                case "06":
+                    result = "Anexo 6";
+                    break;
+                case "07":
+                    result = "Anexo 7";
+                    break;
+                case "08":
+                    result = "Anexo 8";
+                    break;
+                case "09":
+                    result = "Anexo 9";
+                    break;
+                case "10":
+                    result = "Anexo 10";
+                    break;
+                case "11":
+                    result = "Anexo 11";
+                    break;
+                case "12":
+                    result = "Anexo 12";
+                    break;
+                case "13":
+                    result = "Anexo 13";
+                    break;
+                case "14":
+                    result = "Anexo 14";
+                    break;
+                case "15":
+                    result = "Anexo 15";
+                    break;
+                case "16":
+                    result = "Anexo 16";
+                    break;
+                case "17":
+                    result = "Anexo 17";
+                    break;
+                case "18":
+                    result = "Anexo 18";
+                    break;
+                case "19":
+                    result = "Anexo 19";
+                    break;
+                case "20":
+                    result = "Anexo 20";
+                    break;
+            }
+
+            return result;
         }
     }
 }

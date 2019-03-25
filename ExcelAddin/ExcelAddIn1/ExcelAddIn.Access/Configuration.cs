@@ -63,5 +63,9 @@ namespace ExcelAddIn.Access {
         /// <seealso cref="UrlConnection"/>
         /// </summary>
         public static string UrlConnection => _getConfig("VAL8");
+        /// <summary>
+        /// Función para obtener la cadena de conexión para el prellenado de la plantilla
+        /// </summary>
+        public static string ConnectionStringPrellenado => _unEncrypt(_getConfig("VAL9"));
     }
 }
