@@ -169,7 +169,7 @@ namespace ExcelAddIn1
                 Globals.ThisAddIn.Application.COMAddIns.Item(ref addInName).Connect = true;
                 string _sOpen = wb.Worksheets.Item[wb.Worksheets.Count].Name;
 
-                _newTemplate = $"{_DestinationPath}\\Transferencia-{_TipoFile}-{_anio}-{DateTime.Now.ToString("ddMMyyyyHHmmss")}_{_IdTipo}_{_anio}.xlsm";
+                _newTemplate = $"{_DestinationPath}\\Transferencia-{Globals.ThisAddIn.Application.ActiveWorkbook.Name}";
 
                 for(int _wCount = 1; _wCount <= wb.Worksheets.Count; _wCount++)
                 {
@@ -186,6 +186,7 @@ namespace ExcelAddIn1
                     }
                 }
 
+                string _NameFile = wb.Name;
                 wb.SaveCopyAs(_newTemplate);
                 wb.Save();
                 wb.Close();
@@ -209,53 +210,87 @@ namespace ExcelAddIn1
                         {
                             if (!_Open && _sOpen == "SIPRED")
                             {
-                                string _Columna1 = Generales.ColumnAdress(_Range.Column);
-                                string _Renglon1 = (_Range.Row - 1).ToString();
-                                object _Celda1 = _Columna1 + "" + _Renglon1;
-                                Excel.Range _Range1 = (Excel.Range)xlSht.get_Range(_Celda1);
-                                object _valor1 = _Range1.Value;
+                                if(File.Exists(_Path + "\\references\\" + _NameFile + ".json"))
+                                {
+                                    StreamReader _fJason = new StreamReader(_Path + "\\references\\" + _NameFile + ".json");
 
-                                //Papá de los Indices.
-                                if (_Range1.HasFormula)
-                                {
-                                    _Range1.Formula = "";
-                                    _Range1.Value = Convert.ToDecimal(_valor1.ToString());
-                                }
-                                //Indices
-                                if (!_Range.HasFormula)
-                                {
-                                    int _Rango = 1;
-                                    string _Renglon;
-                                    string _Columna;
-                                    object _Celda;
-                                    for (int xx = 0; xx < 1;)
+                                    while (_fJason.Peek() >= 0)
                                     {
-                                        _Columna = Generales.ColumnAdress(_Range.Column);
-                                        _Renglon = (_Range.Row + _Rango).ToString();
-                                        _Celda = _Columna + "" + _Renglon;
-                                        Excel.Range _Range2 = (Excel.Range)xlSht.get_Range(_Celda);
+                                        var _jCadena = _fJason.ReadLine();
+                                        oIndices _Indices = JsonConvert.DeserializeObject<oIndices>(_jCadena);
 
-                                        if (!_Range2.HasFormula)
+                                        if(_Comprobacion.Destino.Anexo == _Indices.Anexo)
                                         {
-                                            xx = 0;
-                                            _Rango += 1;
-                                        }
-                                        else
-                                        {
-                                            _Range.Formula = "";
-                                            _Range.Value = Convert.ToDecimal(_valor.ToString());
-                                            //_Range2.FormulaHidden = true;
-                                            xx = 1;
-                                            //_Rango = 1;
+                                            Excel.Range _Range1 = (Excel.Range)xlSht.get_Range(_Indices.Column + _Indices.Row);
+                                            object _valor1 = _Range1.Value;
+
+                                            _Range1.Formula = "";
+                                            _Range1.Value = Convert.ToDecimal(_valor1.ToString());
+
+                                            for(int zz = 1; zz<=_Indices.Cantidad; zz++)
+                                            {
+                                                string _rColumn = _Indices.Column;
+                                                string _rRow = (Convert.ToInt32(_Indices.Row) + zz).ToString();
+                                                string _rCelda = _rColumn + _rRow;
+
+                                                _Range1 = (Excel.Range)xlSht.get_Range(_rCelda);
+                                                _valor1 = _Range1.Value;
+                                                _Range1.Formula = "";
+                                                string _Value = _valor1.ToString() == "" ? "0" : _valor1.ToString();
+                                                _Range1.Value = Convert.ToDecimal(_Value);
+                                            }
                                         }
                                     }
+                                    _fJason.Close();
                                 }
-                                else
-                                {
-                                    _Range.Formula = "";
-                                    _Range.Value = Convert.ToDecimal(_valor.ToString());
-                                    //_Range.FormulaHidden = true;
-                                }
+
+                                //string _Columna1 = Generales.ColumnAdress(_Range.Column);
+                                //string _Renglon1 = (_Range.Row - 1).ToString();
+                                //object _Celda1 = _Columna1 + "" + _Renglon1;
+                                //Excel.Range _Range1 = (Excel.Range)xlSht.get_Range(_Celda1);
+                                //object _valor1 = _Range1.Value;
+
+                                ////Papá de los Indices.
+                                //if (_Range1.HasFormula)
+                                //{
+                                //    _Range1.Formula = "";
+                                //    _Range1.Value = Convert.ToDecimal(_valor1.ToString());
+                                //}
+                                ////Indices
+                                //if (!_Range.HasFormula)
+                                //{
+                                //    int _Rango = 1;
+                                //    string _Renglon;
+                                //    string _Columna;
+                                //    object _Celda;
+                                //    for (int xx = 0; xx < 1;)
+                                //    {
+                                //        _Columna = Generales.ColumnAdress(_Range.Column);
+                                //        _Renglon = (_Range.Row + _Rango).ToString();
+                                //        _Celda = _Columna + "" + _Renglon;
+                                //        Excel.Range _Range2 = (Excel.Range)xlSht.get_Range(_Celda);
+
+                                //        if (!_Range2.HasFormula)
+                                //        {
+                                //            xx = 0;
+                                //            _Rango += 1;
+                                //        }
+                                //        else
+                                //        {
+                                //            _Range.Formula = "";
+                                //            _Range.Value = Convert.ToDecimal(_valor.ToString());
+                                //            //_Range2.FormulaHidden = true;
+                                //            xx = 1;
+                                //            //_Rango = 1;
+                                //        }
+                                //    }
+                                //}
+                                //else
+                                //{
+                                //    _Range.Formula = "";
+                                //    _Range.Value = Convert.ToDecimal(_valor.ToString());
+                                //    //_Range.FormulaHidden = true;
+                                //}
                             }
                         }
                         catch { }
@@ -267,6 +302,7 @@ namespace ExcelAddIn1
             if (_formulas)
             {
                 x = 0;
+                //wb.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
                 foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == Convert.ToInt32(_IdTipo)).ToArray())
                 {
                     _Comprobacion.setFormulaExcel();
@@ -304,6 +340,12 @@ namespace ExcelAddIn1
                     }
                 }
                 x = 0;
+                foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == Convert.ToInt32(_IdTipo)).ToArray())
+                {
+                    _Comprobacion.setFormulaExcel();
+                    xlSht = (Excel.Worksheet)wb.Worksheets.get_Item(_Comprobacion.Destino.Anexo);
+                    xlSht.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
+                }
                 //Asigna las formulas a las celdas al crear un nuevo archivo
                 //De lo contrario si es transferir quita las formulas y asigna el valor del resultado de la formula.
                 //Se agina el progreso del ProgessBar según la cantidad de celdas divididas entre 16.
@@ -337,7 +379,10 @@ namespace ExcelAddIn1
                             fnProgressBar(progress);
                         }
                     }
+
+                    //xlSht.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true, false, true, true, true, true, false, false, false, false, false, false, true, false);
                 }
+                //wb.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true);
                 //Se guarda el archivo original.
                 wb.Save();
             }
@@ -364,6 +409,8 @@ namespace ExcelAddIn1
                 _Message = "Clic en [Aceptar] para Transfirir el Archivo... Espere mientras termina el proceso.";
                 this.btnGenerar.Visible = true;
                 this.btnGenerar.Enabled = true;
+                this.gbProgress.Visible = false;
+                this.pbTransferir.Visible = true;
                 this.Height = 122;
                 Invoke(new System.Action(() => this.label1.Text = _Message));
             }
@@ -384,6 +431,8 @@ namespace ExcelAddIn1
                 _Message = "Generando las formulas de Comprobaciones... Espere mientras termina el proceso.";
                 this.btnGenerar.Visible = false;
                 this.btnGenerar.Enabled = false;
+                this.gbProgress.Visible = true;
+                this.pbTransferir.Visible = false;
                 this.Height = 97;
                 Invoke(new System.Action(() => this.label1.Text = _Message));
                 btnGenerar_Click(sender, e);

@@ -35,7 +35,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnGenerar = new System.Windows.Forms.Button();
             this.fbdTemplate = new System.Windows.Forms.FolderBrowserDialog();
+            this.pbTransferir = new System.Windows.Forms.PictureBox();
             this.gbProgress.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbTransferir)).BeginInit();
             this.SuspendLayout();
             // 
             // ofdTemplate
@@ -82,12 +84,22 @@
             this.btnGenerar.Visible = false;
             this.btnGenerar.Click += new System.EventHandler(this.btnGenerar_Click);
             // 
+            // pbTransferir
+            // 
+            this.pbTransferir.Image = ((System.Drawing.Image)(resources.GetObject("pbTransferir.Image")));
+            this.pbTransferir.Location = new System.Drawing.Point(185, 44);
+            this.pbTransferir.Name = "pbTransferir";
+            this.pbTransferir.Size = new System.Drawing.Size(80, 50);
+            this.pbTransferir.TabIndex = 16;
+            this.pbTransferir.TabStop = false;
+            // 
             // FormulasComprobaciones
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(451, 97);
             this.ControlBox = false;
+            this.Controls.Add(this.pbTransferir);
             this.Controls.Add(this.gbProgress);
             this.Controls.Add(this.btnGenerar);
             this.Controls.Add(this.label1);
@@ -101,6 +113,7 @@
             this.Load += new System.EventHandler(this.FormulasComprobaciones_Load);
             this.Shown += new System.EventHandler(this.FormulasComprobaciones_Shown);
             this.gbProgress.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbTransferir)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -113,5 +126,6 @@
         private System.Windows.Forms.Button btnGenerar;
         private System.Windows.Forms.ProgressBar pgbFile;
         private System.Windows.Forms.FolderBrowserDialog fbdTemplate;
+        private System.Windows.Forms.PictureBox pbTransferir;
     }
 }

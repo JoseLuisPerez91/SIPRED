@@ -409,6 +409,7 @@ namespace ExcelAddIn1 {
             Excel.Worksheet sheet = Globals.ThisAddIn.Application.ActiveSheet;
             string IndiceActivo = "";
             string IndiceSiguiente = "";
+            string _NameFile = wb.Name;
             bool Eliminar = false;
             List<string> NombreRangos = new List<string>();
             List<string> NombreRangosDEL = new List<string>();
@@ -569,15 +570,23 @@ namespace ExcelAddIn1 {
 
                     try
                     { // limpio si hay error en la formula
-                        Excel.Range objRangeI = ((Excel.Range)sheet.Cells[row, 1]).SpecialCells(Excel.XlCellType.xlCellTypeFormulas, Excel.XlSpecialCellsValue.xlErrors);//obten las celdas con errores
+                        Excel.Range objRangeI = ((Excel.Range)sheet.Cells[row, 1]);//.SpecialCells(Excel.XlCellType.xlCellTypeFormulas, Excel.XlSpecialCellsValue.xlErrors);//obten las celdas con errores
                         string NombreHoja = sheet.Name.ToUpper().Replace(" ", "");
                         List<oSubtotal> ColumnasST = Generales.DameColumnasST(NombreHoja);
+                        int _Registro = 1;
 
                         foreach (oSubtotal ST in ColumnasST)
                         {
                             objRangeI = sheet.get_Range(ST.Columna + row.ToString(), ST.Columna + row.ToString());
-                            objRangeI.Clear();
+                            //objRangeI.Clear();
+
+                            if (_Registro == 1)
+                            {
+                                _Registro += 1;
+                                Generales.ActualizarReferencia(_NameFile, sheet.Name.ToUpper(), ST.Columna + row.ToString(), NombreRangos.Count, ST.Columna, row.ToString());
+                            }
                         }
+                        //wb.Save();
                     }
                     catch (Exception ex)
                     {

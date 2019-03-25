@@ -451,6 +451,7 @@
     <Content Include="Images\Icons\Printer.png" />
     <Content Include="Images\Icons\Transfer.png" />
     <Content Include="Images\Icons\Upload.png" />
+    <Content Include="Images\Transferir.png" />
     <Content Include="SQL\DataBase\1. Crear_DB_DSAT.sql" />
     <Content Include="SQL\StoredProcedures\10. spObtenerIndices.sql" />
     <Content Include="SQL\StoredProcedures\11. spObtenerPlantillas.sql" />

@@ -15,6 +15,7 @@ using System.Data;
 using ExcelAddIn.Objects;
 using ExcelAddIn.Logic;
 using ExcelAddIn.Access;
+using System.Text.RegularExpressions;
 
 namespace ExcelAddIn1
 {
@@ -54,6 +55,8 @@ namespace ExcelAddIn1
         {
             Worksheet sheet = Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveWorkbook.ActiveSheet);
             Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+            string _NameFile = wb.Name;
+            string _AnexoFile = sheet.Name;
             FileInfo _Excel = new FileInfo(Globals.ThisAddIn.Application.ActiveWorkbook.FullName);
             Excel.Range currentFind = null;
             Excel.Range currentFindExpl = null;
@@ -115,7 +118,7 @@ namespace ExcelAddIn1
                 Excel.Range rangej = xlSht.get_Range(string.Format("{0}:{0}", NroRow + i, Type.Missing));
                 rangej.Select();
                 rangej.Insert(Excel.XlInsertShiftDirection.xlShiftDown, Excel.XlInsertFormatOrigin.xlFormatFromLeftOrAbove);
-                
+
                 var rangeall = xlSht.get_Range(string.Format("{0}:{0}", NroPrincipalAux - 1, Type.Missing));
                 var rangeaCopy = xlSht.get_Range(string.Format("{0}:{0}", NroRow + i, Type.Missing));
                 iTotalColumns = xlSht.UsedRange.Columns.Count;
@@ -178,15 +181,145 @@ namespace ExcelAddIn1
             Excel.Range Sum_Range = null;
             int NroFinal = NroRow + CantReg + CantRango;
 
+            int _Rango = 0;
+            string _Renglon;
+            string _Columna;
+            string _rCelda = "";
+
             foreach (oSubtotal ST in ColumnasST)
             {
                 Sum_Range = xlSht.get_Range(ST.Columna + (NroPrincipalAux).ToString(), ST.Columna + (NroPrincipalAux).ToString());
                 Sum_Range.Formula = "=sum(" + ST.Columna + (NroPrincipalAux + 1).ToString() + ":" + ST.Columna + (NroFinal).ToString() + ")";
-                //Sum_Range.FormulaHidden = true;
+                _Rango = NroFinal - NroPrincipal;
+                _Renglon = (Sum_Range.Row).ToString();
+                _Columna = Generales.ColumnAdress(Sum_Range.Column);
+                _rCelda = _Columna + "" + _Renglon;
+                InsertarReferencia(_NameFile, _AnexoFile, _rCelda, _Rango, _Columna, _Renglon, CantReg);
             }
 
             Sum_Range = xlSht.get_Range("B" + (NroPrincipal).ToString(), "B" + (NroPrincipal).ToString());
             Sum_Range.Select();
+            //wb.Save();
+        }
+        public static void ActualizarReferencia(string _Archivo, string _Anexo, string _Celda, int _Cantidad, string _Column, string _Row)
+        {
+            string _Path = Configuration.Path;
+
+            if (File.Exists(_Path + "\\references\\" + _Archivo + ".json"))
+            {
+                string _jCadena = "";
+                StreamReader _fJason = new StreamReader(_Path + "\\references\\" + _Archivo + ".json");
+
+                while (_fJason.Peek() >= 0)
+                {
+                    var _json = _fJason.ReadLine();
+                    oIndices _Indices = JsonConvert.DeserializeObject<oIndices>(_json);
+
+                    if (_Indices.Anexo + _Indices.Column + _Indices.Row == _Anexo + _Column + _Row)
+                    {
+                        _Indices.Cantidad -= 1;
+                        _json = JsonConvert.SerializeObject(_Indices);
+                    }
+                    if (_Indices.Column != _Column)
+                    {
+                        if (_Indices.Row == _Row)
+                        {
+                            _Indices.Cantidad -= 1;
+                            _json = JsonConvert.SerializeObject(_Indices);
+                        }
+                    }
+                    if (_Indices.Anexo + _Indices.Row != _Anexo + _Row)
+                    {
+                        if (Convert.ToInt32(_Row) < Convert.ToInt32(_Indices.Row))
+                        {
+                            _Indices.Row = (Convert.ToInt32(_Indices.Row) - 1).ToString();
+                            _json = JsonConvert.SerializeObject(_Indices);
+                        }
+                    }
+
+                    _jCadena += _json;
+                    _jCadena += string.Format(Environment.NewLine);
+                }
+
+                _fJason.Close();
+                File.WriteAllText(_Path + "\\references\\" + _Archivo + ".json", _jCadena);
+            }
+        }
+        public static void InsertarReferencia(string _Archivo, string _Anexo, string _Celda, int _Cantidad, string _Column, string _Row, int _Posicion)
+        {
+            string _Path = Configuration.Path;
+            var Indices = new oIndices
+            {
+                Archivo = _Archivo,
+                Anexo = _Anexo,
+                Celda = _Celda,
+                Cantidad = _Cantidad,
+                Column = _Column,
+                Row = _Row
+            };
+
+            string jReference = JsonConvert.SerializeObject(Indices);
+
+            if (Directory.Exists(_Path + "\\references"))
+            {
+                if (!File.Exists(_Path + "\\references\\" + _Archivo + ".json"))
+                {
+                    File.WriteAllText(_Path + "\\references\\" + _Archivo + ".json", jReference);
+                }
+                else
+                {
+                    string _jCadena = "";
+                    StreamReader _fJason = new StreamReader(_Path + "\\references\\" + _Archivo + ".json");
+                    
+                    while(_fJason.Peek() >= 0)
+                    {
+                        var _json = _fJason.ReadLine();
+                        oIndices _Indices = JsonConvert.DeserializeObject<oIndices>(_json);
+
+                        //if(Convert.ToInt32(_Row) < Convert.ToInt32(_Indices.Row))
+                        //{
+                        //    Match m = Regex.Match(_Indices.Celda, "(\\d+)");
+                        //    string _num = "0";
+                        //    if (m.Success){_num = m.Value;}
+
+                        //    _Indices.Row = (Convert.ToInt32(_Indices.Row) + _Posicion).ToString();
+                        //    _json = JsonConvert.SerializeObject(_Indices);
+                        //}
+                        if (_Indices.Column + _Indices.Row != _Column + _Row)
+                        {
+                            _jCadena += _json;
+                            _jCadena += string.Format(Environment.NewLine);
+                        }
+                    }
+
+                    _fJason.Close();
+                    //_jCadena += string.Format(Environment.NewLine);
+                    _jCadena += jReference;
+                    File.WriteAllText(_Path + "\\references\\" + _Archivo + ".json", _jCadena);
+                }
+            }
+            else
+            {
+                Directory.CreateDirectory(_Path + "\\references");
+                if (!File.Exists(_Path + "\\references\\" + _Archivo + ".json"))
+                {
+                    File.WriteAllText(_Path + "\\references\\" + _Archivo + ".json", jReference);
+                }
+                else
+                {
+                    string _jCadena = "";
+                    StreamReader _fJason = new StreamReader(_Path + "\\references\\" + _Archivo + ".json");
+
+                    while (_fJason.Peek() >= 0)
+                    {
+                        _jCadena = _jCadena + _fJason.ReadLine();
+                    }
+
+                    _fJason.Close();
+                    _jCadena = _jCadena + jReference;
+                    File.WriteAllText(_Path + "\\references\\" + _Archivo + ".json", _jCadena);
+                }
+            }
         }
         /// <summary>Función para Insertar la Explicación.
         /// <para>Inserta la Explicación en el archivo de Excel. Referencia: <see cref="InsertaExplicacion(Excel.Worksheet, Excel.Range, string)"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
