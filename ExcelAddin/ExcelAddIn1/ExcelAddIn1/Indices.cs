@@ -36,9 +36,9 @@ namespace ExcelAddIn1
                 if ((cantRows > 0) && (cantRows <= NewActiveWorksheet.Rows.Count))
                 {
                     Excel.Range currentCell = (Excel.Range)Globals.ThisAddIn.Application.ActiveCell.Cells;
-                    //NewActiveWorksheet.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
+                    NewActiveWorksheet.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
                     Generales.InsertIndice(NewActiveWorksheet, cantRows, currentCell, ConFormula, NroPrincipal);
-                    //NewActiveWorksheet.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true, false, true, true, true, true, false, false, false, false, false, false, true, false);
+                    NewActiveWorksheet.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true, false, true, true, true, true, false, false, false, false, false, false, true, false);
                     this.Close();
                 }
                 else

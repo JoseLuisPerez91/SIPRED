@@ -190,7 +190,7 @@ namespace ExcelAddIn1
             {
                 Sum_Range = xlSht.get_Range(ST.Columna + (NroPrincipalAux).ToString(), ST.Columna + (NroPrincipalAux).ToString());
                 Sum_Range.Formula = "=sum(" + ST.Columna + (NroPrincipalAux + 1).ToString() + ":" + ST.Columna + (NroFinal).ToString() + ")";
-                _Rango = NroFinal - NroPrincipal;
+                _Rango = NroFinal - NroPrincipalAux; // nroprincipalaux siempre tiene el numero de la fila padre al restar te da la cantidad de rows insertadas
                 _Renglon = (Sum_Range.Row).ToString();
                 _Columna = Generales.ColumnAdress(Sum_Range.Column);
                 _rCelda = _Columna + "" + _Renglon;
@@ -199,9 +199,9 @@ namespace ExcelAddIn1
 
             Sum_Range = xlSht.get_Range("B" + (NroPrincipal).ToString(), "B" + (NroPrincipal).ToString());
             Sum_Range.Select();
-            //wb.Save();
+           
         }
-        public static void ActualizarReferencia(string _Archivo, string _Anexo, string _Celda, int _Cantidad, string _Column, string _Row)
+        public static void ActualizarReferencia(string _Archivo, string _Anexo, string _Celda, int _Cantidad, string _Column, string _Row,int CantEliminar, string Accion)
         {
             string _Path = Configuration.Path;
 
@@ -217,22 +217,43 @@ namespace ExcelAddIn1
 
                     if (_Indices.Anexo + _Indices.Column + _Indices.Row == _Anexo + _Column + _Row)
                     {
-                        _Indices.Cantidad -= 1;
+                        if (Accion == "E")
+                        {//Eliminar
+                            _Indices.Cantidad -= CantEliminar;
+                        }
+                        else if (Accion == "A")
+                        {//Agregar
+                            _Indices.Cantidad += 1;
+                        }
                         _json = JsonConvert.SerializeObject(_Indices);
                     }
                     if (_Indices.Column != _Column)
                     {
                         if (_Indices.Row == _Row)
                         {
-                            _Indices.Cantidad -= 1;
-                            _json = JsonConvert.SerializeObject(_Indices);
+                            if (Accion == "E")
+                            {//Eliminar
+                                _Indices.Cantidad -= CantEliminar;
+                            }
+                            else if (Accion == "A")
+                            {//Agregar
+                                _Indices.Cantidad += 1;
+                            }
+                                _json = JsonConvert.SerializeObject(_Indices);
                         }
                     }
                     if (_Indices.Anexo + _Indices.Row != _Anexo + _Row)
                     {
                         if (Convert.ToInt32(_Row) < Convert.ToInt32(_Indices.Row))
                         {
-                            _Indices.Row = (Convert.ToInt32(_Indices.Row) - 1).ToString();
+                            if (Accion == "E")
+                            {//Eliminar
+                                _Indices.Row = (Convert.ToInt32(_Indices.Row) - CantEliminar).ToString();
+                            }
+                            else if (Accion == "A")
+                            {//Agregar
+                                _Indices.Row = (Convert.ToInt32(_Indices.Row) + 1).ToString();
+                            }
                             _json = JsonConvert.SerializeObject(_Indices);
                         }
                     }
@@ -243,6 +264,8 @@ namespace ExcelAddIn1
 
                 _fJason.Close();
                 File.WriteAllText(_Path + "\\references\\" + _Archivo + ".json", _jCadena);
+                Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+                wb.Save();
             }
         }
         public static void InsertarReferencia(string _Archivo, string _Anexo, string _Celda, int _Cantidad, string _Column, string _Row, int _Posicion)
@@ -297,6 +320,7 @@ namespace ExcelAddIn1
                     _jCadena += jReference;
                     File.WriteAllText(_Path + "\\references\\" + _Archivo + ".json", _jCadena);
                 }
+              
             }
             else
             {
@@ -320,6 +344,9 @@ namespace ExcelAddIn1
                     File.WriteAllText(_Path + "\\references\\" + _Archivo + ".json", _jCadena);
                 }
             }
+
+            Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+            wb.Save();
         }
         /// <summary>Función para Insertar la Explicación.
         /// <para>Inserta la Explicación en el archivo de Excel. Referencia: <see cref="InsertaExplicacion(Excel.Worksheet, Excel.Range, string)"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
@@ -350,7 +377,23 @@ namespace ExcelAddIn1
                 currentCell.Locked = true;
                 k++;
             }
-        }
+            //ref
+            string NombreHoja = xlSht.Name.ToUpper().Replace(" ", "");
+            List<oSubtotal> ColumnasST = Generales.DameColumnasST(NombreHoja);
+            int _Registro = 1;
+            Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+            string _NameFile = wb.Name;
+            int NroPrincipal = currentCell.Row + 1;
+            int row = DameRangoPrincipal(NroPrincipal, xlSht);
+            foreach (oSubtotal ST in ColumnasST)
+            {
+                if (_Registro == 1)
+                {
+                    _Registro += 1;
+                    Generales.ActualizarReferencia(_NameFile, xlSht.Name.ToUpper(), ST.Columna + row.ToString(), 0, ST.Columna, row.ToString(), 0, "A");
+                }
+            }
+          }
         /// <summary>Función para Agregar Rango con Nombre.
         /// <para>Agrega el Rango con Nombre en el archivo de Excel. Referencia: <see cref="AddNamedRange(int, int, string)"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
         /// <seealso cref="AddNamedRange(int, int, string)"/>

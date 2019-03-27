@@ -557,12 +557,18 @@ namespace ExcelAddIn1 {
                 {
                     sheet.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
                     currentCell = (Excel.Range)Globals.ThisAddIn.Application.Selection;
+                    int CantRowDelete = currentCell.Cells.Rows.Count;
                     objRange = (Excel.Range)sheet.Cells[currentCell.Cells.Row + 1, 1];
                     IndiceSiguiente = objRange.Value2;
 
                     if (IndiceSiguiente != null)
+                    {
                         if (IndiceSiguiente.ToUpper().Trim() == "EXPLICACION")
+                        {
                             objRange.EntireRow.Delete(Excel.XlDeleteShiftDirection.xlShiftUp);
+                            CantRowDelete += 1;
+                        }
+                    }
 
                     currentCell.EntireRow.Delete(Excel.XlDeleteShiftDirection.xlShiftUp);
                     NombreRangosDEL.Sort();
@@ -663,7 +669,7 @@ namespace ExcelAddIn1 {
                             if (_Registro == 1)
                             {
                                 _Registro += 1;
-                                Generales.ActualizarReferencia(_NameFile, sheet.Name.ToUpper(), ST.Columna + row.ToString(), NombreRangos.Count, ST.Columna, row.ToString());
+                                Generales.ActualizarReferencia(_NameFile, sheet.Name.ToUpper(), ST.Columna + row.ToString(), NombreRangos.Count, ST.Columna, row.ToString(), CantRowDelete,"E");
                             }
                         }
                         //wb.Save();
@@ -752,8 +758,27 @@ namespace ExcelAddIn1 {
             {
                 NewActiveWorksheet.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
 
+              
+
                 currentCell.EntireRow.Delete(Excel.XlDeleteShiftDirection.xlShiftUp);
 
+                //ref
+                string NombreHoja = NewActiveWorksheet.Name.ToUpper().Replace(" ", "");
+                List<oSubtotal> ColumnasST = Generales.DameColumnasST(NombreHoja);
+                int _Registro = 1;
+                Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+                string _NameFile = wb.Name;
+             
+                int row = Generales.DameRangoPrincipal(NroRow, NewActiveWorksheet);
+                foreach (oSubtotal ST in ColumnasST)
+                {
+                    if (_Registro == 1)
+                    {
+                        _Registro += 1;
+                        Generales.ActualizarReferencia(_NameFile, NewActiveWorksheet.Name.ToUpper(), ST.Columna + row.ToString(), 0, ST.Columna, row.ToString(), 1, "E");
+                    }
+                }
+                //ref
                 NewActiveWorksheet.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true, false, true, true, true, true, false, false, false, false, false, false, true, false);
             }
             else

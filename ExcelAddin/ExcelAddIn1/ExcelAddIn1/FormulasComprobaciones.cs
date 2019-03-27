@@ -143,7 +143,7 @@ namespace ExcelAddIn1
 
             _Name = _aName[2].ToString();
             _IdTipo = _Name.Split('_')[1].ToString();
-
+            Generales.Proteccion(false);//desprotejo
             //Cuándo es para transferir, pide la ruta en donde guardar el archivo a transferir.
             if (!_formulas)
             {
@@ -223,11 +223,11 @@ namespace ExcelAddIn1
                                         {
                                             Excel.Range _Range1 = (Excel.Range)xlSht.get_Range(_Indices.Column + _Indices.Row);
                                             object _valor1 = _Range1.Value;
-
+                                            
                                             _Range1.Formula = "";
                                             _Range1.Value = Convert.ToDecimal(_valor1.ToString());
 
-                                            for(int zz = 1; zz<=_Indices.Cantidad; zz++)
+                                            for (int zz = 1; zz<=_Indices.Cantidad; zz++)
                                             {
                                                 string _rColumn = _Indices.Column;
                                                 string _rRow = (Convert.ToInt32(_Indices.Row) + zz).ToString();
@@ -293,7 +293,7 @@ namespace ExcelAddIn1
                                 //}
                             }
                         }
-                        catch { }
+                        catch   (Exception ex) { }
                     }
                 }
                 wb.Save();
