@@ -473,7 +473,9 @@ namespace ExcelAddIn1 {
 
                 if (dt.Rows.Count > 0 || dt2.Rows.Count > 0)
                 {
+                    Generales.Proteccion(false);
                     ValidaSaldoIndice(dt, dt2);
+                    Generales.Proteccion(true);
                 }
                 else
                 {

@@ -29,6 +29,7 @@ namespace ExcelAddIn1
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
         {
             impr._Imprimir(dataGridView1, checkBox3.Checked, Type.Missing);
+            
         }
         private void ControlImprimir_Load(object sender, EventArgs e)
         {

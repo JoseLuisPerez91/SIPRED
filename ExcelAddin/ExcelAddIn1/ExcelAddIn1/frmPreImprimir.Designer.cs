@@ -39,7 +39,7 @@
             this.pgb_proceso.Location = new System.Drawing.Point(12, 29);
             this.pgb_proceso.Name = "pgb_proceso";
             this.pgb_proceso.Size = new System.Drawing.Size(572, 30);
-            this.pgb_proceso.Step = 2;
+            this.pgb_proceso.Step = 1;
             this.pgb_proceso.TabIndex = 0;
             // 
             // label1
@@ -72,7 +72,7 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // frmCarga
+            // frmPreImprimir
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -85,7 +85,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmCarga";
+            this.Name = "frmPreImprimir";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Transferencia";

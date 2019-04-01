@@ -13,6 +13,9 @@ namespace ExcelAddIn1
     public partial class ThisAddIn
     {
         public List<oCruce> _result = new List<oCruce>();
+        public oCruce[] _TotalCruces = Assembler.LoadJson<oCruce[]>($"{ExcelAddIn.Access.Configuration.Path}\\jsons\\Cruces.json");
+        public List<oCruce> _CrucesSinDiferencia = new List<oCruce>();
+        public List<oCruce> _CrucesQueNoAplican = new List<oCruce>();
         public VerificacionDeCruce vdcUserControl;
         public Microsoft.Office.Tools.CustomTaskPane myCustomTaskPane;
         public ControlImprimir control;
@@ -71,7 +74,7 @@ namespace ExcelAddIn1
                 myCustomTaskPane = CustomTaskPanes.Add(vdcUserControl, "Verificación " + _ExcelFI.Name);
                 myCustomTaskPane.DockPosition = Office.MsoCTPDockPosition.msoCTPDockPositionRight;
                 myCustomTaskPane.DockPositionRestrict = Office.MsoCTPDockPositionRestrict.msoCTPDockPositionRestrictNoChange;
-                myCustomTaskPane.Width = 500;
+                myCustomTaskPane.Width = 515;
                 myCustomTaskPane.Visible = false;
             }
             catch (Exception ex)

@@ -76,6 +76,10 @@ namespace ExcelAddIn1
         /// <param name="_grilla"></param>hojas en las que se aplicara los cambios
         public void _PrepararImpresion(Boolean _Ocultar, DataGridView _grilla)
         {
+            if (!Verificar(_grilla))
+            {
+                return;
+            }
             int EspacioFilas = 0;
             int fila = 3;
             int columna = 1;
@@ -90,7 +94,7 @@ namespace ExcelAddIn1
             //Contraseña
             Generales.Proteccion(false);
             Globals.ThisAddIn.Application.DisplayAlerts = false;
-            for (int i = 1; i <= numhojas; i++)
+            for (int i = 1; i <= _grilla.RowCount; i++)
             {
                 if (_grilla.Rows[i - 1].Cells["Imprimir"].Value.ToString().Trim().ToUpper() == "TRUE")
                 {
@@ -168,13 +172,15 @@ namespace ExcelAddIn1
         /// <param name="_impresora"></param>nombre de la impresora o Type.Missing si mostraremos una vista previa
         public void _Imprimir(DataGridView _grilla, Boolean _BandW, object _impresora)
         {
-            if (!Verificar(_grilla)) {
+            if (!Verificar(_grilla))
+            {
                 MessageBox.Show("Debe seleccionar al menos un anexo. ", "Imprimir SIPRED", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             Excel.Workbook libron = Globals.ThisAddIn.Application.ActiveWorkbook;
             Excel.Workbook libro = libron;
 
+            Generales.Proteccion(false);
             //Desactivamos los mensajes de Alerta del Excel
             Globals.ThisAddIn.Application.DisplayAlerts = false;
             for (int k = 1; k <= _grilla.RowCount; k++)
@@ -201,28 +207,43 @@ namespace ExcelAddIn1
                     ((Excel.Worksheet)libro.Sheets[k]).Visible = XlSheetVisibility.xlSheetHidden;
                 }
             }
-            if (_impresora == Type.Missing) {
+            //Generales.Proteccion(false);
+            if (_impresora == Type.Missing)
+            {
                 libro.PrintOut(Type.Missing, Type.Missing, Type.Missing, true, _impresora, Type.Missing, Type.Missing, Type.Missing);
             }
-            if (_impresora.ToString() == "PDF") {
+            else if (_impresora.ToString() == "PDF")
+            {
                 string _Path = Configuration.Path + "\\SIPRED" + DateTime.Now.ToString("yyyyMMdd_HHmm") + ".pdf";
-                libro.ExportAsFixedFormat(Type:XlFixedFormatType.xlTypePDF, Filename: _Path, Quality: XlFixedFormatQuality.xlQualityStandard, OpenAfterPublish:true);
+                libro.ExportAsFixedFormat(Type: XlFixedFormatType.xlTypePDF, Filename: _Path, Quality: XlFixedFormatQuality.xlQualityStandard, OpenAfterPublish: true);
             }
-            else {
+            else
+            {
                 libro.PrintOut(Type.Missing, Type.Missing, Type.Missing, false, _impresora, Type.Missing, Type.Missing, Type.Missing);
             }
-            
+
+            _Cargararraynombre(_HojasSPR);
             //Si se ocultaron hojas las vuelve visible todas
-            for (int k = 1; k <= _grilla.RowCount; k++)
+            for (int k = 1; k <= libro.Worksheets.Count; k++)
             {
-                ((Excel.Worksheet)libro.Sheets[k]).Visible = XlSheetVisibility.xlSheetVisible;
+                if (Array.IndexOf(_nombre, ((Excel.Worksheet)libro.Sheets[k]).Name.ToString().Trim().ToUpper()) != -1)
+                {
+                    //if ( _grilla.Rows[k - 1].Cells["Imprimir"].Value.ToString().Trim().ToUpper() == "TRUE" || _grilla.Rows[k - 1].Cells["Imprimir"].Value.ToString().Trim().ToUpper() == "FALSE") {
+                    ((Excel.Worksheet)libro.Sheets[k]).Visible = XlSheetVisibility.xlSheetVisible;
+                }
+                else {
+                    ((Excel.Worksheet)libro.Sheets[k]).Visible = XlSheetVisibility.xlSheetHidden;
+                }
+
             }
+            Generales.Proteccion(true);
             //Activamos los mensajes de Alerta del Excel
             Globals.ThisAddIn.Application.DisplayAlerts = true;
         }
 
-        public Boolean Verificar(DataGridView _grilla) {
-            Boolean resp=false;
+        public Boolean Verificar(DataGridView _grilla)
+        {
+            Boolean resp = false;
             for (int k = 1; k <= _grilla.RowCount; k++)
             {
                 if (_grilla.Rows[k - 1].Cells["Imprimir"].Value.ToString().Trim().ToUpper() == "TRUE")
@@ -233,7 +254,7 @@ namespace ExcelAddIn1
             }
             return resp;
         }
-         
+
 
     }
 }

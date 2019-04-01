@@ -216,7 +216,7 @@ namespace ExcelAddIn1
             Excel.Worksheet hojan = new Excel.Worksheet();
             int[] hojas = new int[numhojas];
             //Contraseña
-            psw = "AAAABABABAAG";
+            //psw = "AAAABABABAAG";
             //LENARHOJAS
             Globals.ThisAddIn.Application.DisplayAlerts = false;
             for (int i = 1; i <= numhojas; i++)
@@ -243,8 +243,8 @@ namespace ExcelAddIn1
                 fila = 1;
                 columna = 1;
                 //Quitar proteccion de excel 
-                hojan.Unprotect(psw);
-                //hojan.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
+                //hojan.Unprotect(psw);
+                hojan.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
 
                 do
                 {
@@ -344,7 +344,8 @@ namespace ExcelAddIn1
                         {
 
                             Excel.Worksheet m_objSheet = (Excel.Worksheet)(Globals.ThisAddIn.Application.ActiveWorkbook.Sheets.get_Item(i));
-                            m_objSheet.Delete();
+                            //m_objSheet.Delete();
+                            m_objSheet.Visible = XlSheetVisibility.xlSheetHidden;
                             numhojas--;
                             i = i - 1;
                         }
