@@ -130,8 +130,13 @@ namespace ExcelAddIn1
 
 
         }
+        private void btn_Informe_Click(object sender, EventArgs e)
+        {
+            frmInfomeDeVerificaciones Informe = new frmInfomeDeVerificaciones();
+            Informe.ShowDialog();
+        }
         #endregion
-        
+
         #region MÉTODOS Y FUNCIONES
         private void FillTablaDeDiferenciasByAnexo(String _Anexo)
         {
@@ -259,8 +264,9 @@ namespace ExcelAddIn1
 
         }
 
+
         #endregion
 
-       
+        
     }
 }

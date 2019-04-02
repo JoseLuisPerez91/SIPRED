@@ -31,13 +31,13 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btn_VerificarCruceSeleccionado = new System.Windows.Forms.Button();
+            this.txt_SumTotalLadoDerecho = new System.Windows.Forms.TextBox();
             this.btn_VolverAverificarCruces = new System.Windows.Forms.Button();
             this.txt_CrucesConDiferencia = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.txt_TotalCruces = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.txt_SumTotalLadoIzquierdo = new System.Windows.Forms.TextBox();
-            this.txt_SumTotalLadoDerecho = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -60,6 +60,7 @@
             this.Concepto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Diferencia = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lst_Anexos = new System.Windows.Forms.ListBox();
+            this.btn_Informe = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -80,6 +81,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.btn_Informe);
             this.tabPage2.Controls.Add(this.btn_VerificarCruceSeleccionado);
             this.tabPage2.Controls.Add(this.txt_SumTotalLadoDerecho);
             this.tabPage2.Controls.Add(this.btn_VolverAverificarCruces);
@@ -113,6 +115,13 @@
             this.btn_VerificarCruceSeleccionado.Text = "Seleccionado";
             this.btn_VerificarCruceSeleccionado.UseVisualStyleBackColor = true;
             this.btn_VerificarCruceSeleccionado.Click += new System.EventHandler(this.btn_VerificarCruceSeleccionado_Click);
+            // 
+            // txt_SumTotalLadoDerecho
+            // 
+            this.txt_SumTotalLadoDerecho.Location = new System.Drawing.Point(397, 456);
+            this.txt_SumTotalLadoDerecho.Name = "txt_SumTotalLadoDerecho";
+            this.txt_SumTotalLadoDerecho.Size = new System.Drawing.Size(72, 20);
+            this.txt_SumTotalLadoDerecho.TabIndex = 8;
             // 
             // btn_VolverAverificarCruces
             // 
@@ -166,17 +175,10 @@
             // 
             // txt_SumTotalLadoIzquierdo
             // 
-            this.txt_SumTotalLadoIzquierdo.Location = new System.Drawing.Point(197, 456);
+            this.txt_SumTotalLadoIzquierdo.Location = new System.Drawing.Point(209, 456);
             this.txt_SumTotalLadoIzquierdo.Name = "txt_SumTotalLadoIzquierdo";
             this.txt_SumTotalLadoIzquierdo.Size = new System.Drawing.Size(72, 20);
             this.txt_SumTotalLadoIzquierdo.TabIndex = 9;
-            // 
-            // txt_SumTotalLadoDerecho
-            // 
-            this.txt_SumTotalLadoDerecho.Location = new System.Drawing.Point(384, 456);
-            this.txt_SumTotalLadoDerecho.Name = "txt_SumTotalLadoDerecho";
-            this.txt_SumTotalLadoDerecho.Size = new System.Drawing.Size(72, 20);
-            this.txt_SumTotalLadoDerecho.TabIndex = 8;
             // 
             // label3
             // 
@@ -382,6 +384,16 @@
             this.lst_Anexos.TabIndex = 0;
             this.lst_Anexos.SelectedIndexChanged += new System.EventHandler(this.lst_Anexos_SelectedIndexChanged);
             // 
+            // btn_Informe
+            // 
+            this.btn_Informe.Location = new System.Drawing.Point(205, 511);
+            this.btn_Informe.Name = "btn_Informe";
+            this.btn_Informe.Size = new System.Drawing.Size(75, 23);
+            this.btn_Informe.TabIndex = 16;
+            this.btn_Informe.Text = "Informe";
+            this.btn_Informe.UseVisualStyleBackColor = true;
+            this.btn_Informe.Click += new System.EventHandler(this.btn_Informe_Click);
+            // 
             // VerificacionDeCruce
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -436,5 +448,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Diferencia;
         private System.Windows.Forms.Button btn_VolverAverificarCruces;
         private System.Windows.Forms.Button btn_VerificarCruceSeleccionado;
+        private System.Windows.Forms.Button btn_Informe;
     }
 }
