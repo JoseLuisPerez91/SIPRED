@@ -378,7 +378,7 @@ namespace ExcelAddIn1
                                         _Cruce.Diferencia = Test_Range.get_Value(Type.Missing).ToString();
                                     else
                                         _Cruce.Diferencia = "0";
-                                    _Cruce.Diferencia = Test_Range.get_Value(Type.Missing).ToString();
+                                    //_Cruce.Diferencia = Test_Range.get_Value(Type.Missing).ToString();
                                     xlSht.Cells[3, 1] = ValorAnterior;// restauro                                   
                                 }
 
