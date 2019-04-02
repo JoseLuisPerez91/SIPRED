@@ -109,6 +109,8 @@ namespace ExcelAddIn1
                         FillDGConceptoCruce(_CrucesLocalGbl);
                         break;
                     case 2:
+                        _CrucesLocalGbl = Globals.ThisAddIn._CrucesQueNoAplican.ToArray();
+                        FillDGConceptoCruce(_CrucesLocalGbl);
                         break;
                 }
             }

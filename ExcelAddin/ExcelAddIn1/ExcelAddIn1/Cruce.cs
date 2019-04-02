@@ -369,24 +369,23 @@ namespace ExcelAddIn1
                                 {
                                     formula = _Cruce.FormulaExcel.Split('=');
                                     Test_Range = (Range)xlSht.get_Range("A3");
-                                    ValorAnterior = Test_Range.get_Value(Type.Missing);
+                                    ValorAnterior = Test_Range.get_Value(Type.Missing);                                    
                                     if (chksigno.Checked)
                                         Test_Range.Formula = "=ABS(" + formula[0] + ")-ABS(" + formula[1] + ")";
                                     else
                                         Test_Range.Formula = "=(" + formula[0] + " - " + formula[1] + ")";
-
                                     _Cruce.Diferencia = Test_Range.get_Value(Type.Missing).ToString();
-                                    xlSht.Cells[3, 1] = ValorAnterior;// restauro
+                                    xlSht.Cells[3, 1] = ValorAnterior;// restauro                                   
                                 }
 
                                 if (_Cruce.CondicionExcel != "")
                                 {
                                     Test_Range = (Range)xlSht.get_Range("A2");
-                                    ValorAnterior = Test_Range.get_Value(Type.Missing);
+                                    ValorAnterior = Test_Range.get_Value(Type.Missing);                                    
                                     Test_Range.Formula = "=" + _Cruce.CondicionExcel;
                                     _Cruce.ResultadoCondicion = Test_Range.get_Value(Type.Missing).ToString();
                                     xlSht.Cells[2, 1] = ValorAnterior;// restauro
-                                    _Cruce.Condicion = "[" + _Cruce.Condicion + "] = " + _Cruce.ResultadoCondicion;
+                                    _Cruce.Condicion = "[" + _Cruce.Condicion + "] = " + _Cruce.ResultadoCondicion;                                    
                                 }
                                 else
                                 {
@@ -410,16 +409,16 @@ namespace ExcelAddIn1
                                             {
                                                 formula = _Cruce.FormulaExcel.Split('=');
                                                 Test_Range = (Range)xlSht.get_Range("A4");
-                                                ValorAnterior = Test_Range.get_Value(Type.Missing);
+                                                ValorAnterior = Test_Range.get_Value(Type.Missing);                                                
                                                 Test_Range.Formula = "=" + formula[0];
-                                                _Cruce.Grupo1 = Test_Range.get_Value(Type.Missing).ToString();
-                                                xlSht.Cells[4, 1] = ValorAnterior;// restauro
+                                                _Cruce.Grupo1 = Test_Range.get_Value(Type.Missing).ToString();                                                
+                                                xlSht.Cells[4, 1] = ValorAnterior;// restauro                                              
 
                                                 Test_Range = (Range)xlSht.get_Range("A5");
-                                                ValorAnterior = Test_Range.get_Value(Type.Missing);
+                                                ValorAnterior = Test_Range.get_Value(Type.Missing);                                                
                                                 Test_Range.Formula = "=" + formula[1];
                                                 _Cruce.Grupo2 = Test_Range.get_Value(Type.Missing).ToString();
-                                                xlSht.Cells[5, 1] = ValorAnterior;// restauro
+                                                xlSht.Cells[5, 1] = ValorAnterior;// restauro                                                
                                             }
                                         }
                                         Globals.ThisAddIn._result.Add(_Cruce);
@@ -461,7 +460,7 @@ namespace ExcelAddIn1
 
                 progress += 15;
                 pgbCruces.Value = progress;
-                if (Globals.ThisAddIn._result.Count > 0)
+                if (Globals.ThisAddIn._result.Count > 0 || Globals.ThisAddIn._CrucesQueNoAplican.Count>0 || Globals.ThisAddIn._CrucesSinDiferencia.Count>0)
                 {
                     Globals.ThisAddIn.TaskPane.Visible = true;
                     FIllValidacionDeCruceUC(Globals.ThisAddIn._result.ToArray());
