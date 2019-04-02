@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.64
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelAddIn1", "ExcelAddIn1\ExcelAddIn1.csproj", "{1CBC42E3-1479-4D5B-BAB1-3135E7566E17}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSAT", "ExcelAddIn1\DSAT.csproj", "{1CBC42E3-1479-4D5B-BAB1-3135E7566E17}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelAddIn.Objects", "ExcelAddIn.Objects\ExcelAddIn.Objects.csproj", "{0255E4CF-37E5-45CD-9EB9-4EB4A7159F7C}"
 EndProject
