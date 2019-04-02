@@ -374,6 +374,10 @@ namespace ExcelAddIn1
                                         Test_Range.Formula = "=ABS(" + formula[0] + ")-ABS(" + formula[1] + ")";
                                     else
                                         Test_Range.Formula = "=(" + formula[0] + " - " + formula[1] + ")";
+                                    if (!Globals.ThisAddIn.Application.WorksheetFunction.IsErr(Test_Range))
+                                        _Cruce.Diferencia = Test_Range.get_Value(Type.Missing).ToString();
+                                    else
+                                        _Cruce.Diferencia = "0";
                                     _Cruce.Diferencia = Test_Range.get_Value(Type.Missing).ToString();
                                     xlSht.Cells[3, 1] = ValorAnterior;// restauro                                   
                                 }
