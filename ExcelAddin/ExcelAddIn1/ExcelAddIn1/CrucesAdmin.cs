@@ -368,7 +368,7 @@ namespace ExcelAddIn1
                     oCruce _Template = new oCruce()
                     {
                         IdCruce = IDCruce,
-                        IdTipoPlantilla = 0,
+                        IdTipoPlantilla = cmbTipo.SelectedIndex,
                         Concepto = "",
                         Formula = "",
                         Condicion = "",
