@@ -417,7 +417,7 @@ namespace ExcelAddIn1
                     oComprobacion _Template = new oComprobacion()
                     {
                         IdComprobacion = IDcompro,
-                        IdTipoPlantilla = 0,
+                        IdTipoPlantilla = cmbTipo.SelectedIndex,
                         Concepto = "",
                         Formula = "",
                         Condicion = "",
