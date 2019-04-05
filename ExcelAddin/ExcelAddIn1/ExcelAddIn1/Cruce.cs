@@ -516,7 +516,7 @@ namespace ExcelAddIn1
 
                         if (currentFind != null)
                         {
-                            currentCell = (Range)xlSht.Cells[currentFind.Row, 3];
+                            currentCell = (Range)xlSht.Cells[currentFind.Row, 3];   
                             if (currentCell.get_Value(Type.Missing) == null)
                             {
                                 _F.EsCorrecto = false;

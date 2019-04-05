@@ -74,7 +74,8 @@ namespace ExcelAddIn1
         /// </summary>
         /// <param name="_Ocultar"></param> true muesta los datos false oculta
         /// <param name="_grilla"></param>hojas en las que se aplicara los cambios
-        public void _PrepararImpresion(Boolean _Ocultar, DataGridView _grilla)
+        /// <param name="mostrar"></param>si se manda true pon visible todas las filas
+        public void _PrepararImpresion(Boolean _Ocultar, DataGridView _grilla,Boolean mostrar)
         {
             if (!Verificar(_grilla))
             {
@@ -94,34 +95,43 @@ namespace ExcelAddIn1
             //Contraseña
             Generales.Proteccion(false);
             Globals.ThisAddIn.Application.DisplayAlerts = false;
+            int numhj = 0;
             for (int i = 1; i <= _grilla.RowCount; i++)
             {
-                if (_grilla.Rows[i - 1].Cells["Imprimir"].Value.ToString().Trim().ToUpper() == "TRUE")
+                if (_grilla.Rows[i - 1].Cells["Imprimir"].Value.ToString().Trim().ToUpper() == "TRUE" || mostrar)
                 {
-                    Globals.ThisAddIn.Application.Sheets[i].Activate();
+                    numhj = Array.IndexOf(_nombre, _grilla.Rows[i - 1].Cells["Anexo"].Value.ToString().Trim().ToUpper());
+                    Globals.ThisAddIn.Application.Sheets[_grilla.Rows[i - 1].Cells["Anexo"].Value.ToString().Trim().ToUpper()].Activate();
                     fila = 3;
                     EspacioFilas = 0;
-                    nom = Globals.ThisAddIn.Application.Sheets[i].Name.ToString().Trim();
-                    ind = Array.IndexOf(_nombre, Globals.ThisAddIn.Application.Sheets[i].Name.ToString().Trim().ToUpper());
+                    nom = Globals.ThisAddIn.Application.Sheets[_grilla.Rows[i - 1].Cells["Anexo"].Value.ToString().Trim().ToUpper()].Name.ToString().Trim();
+                    ind = Array.IndexOf(_nombre, Globals.ThisAddIn.Application.Sheets[_grilla.Rows[i - 1].Cells["Anexo"].Value.ToString().Trim().ToUpper()].Name.ToString().Trim().ToUpper());
                     do
                     {
                         columna = 1;
                         fv = 0;
-                        for (int j = 3; j <= _ValidarInt(_HojasSPR[i - 1, 2]); j++)
+                        for (int j = 3; j <= _ValidarInt(_HojasSPR[numhj, 2]); j++)
                         {
                             if ((_ValidarString(((Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Cells[fila, j].Value).Trim() == "" || _ValidarInt(((Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Cells[fila, j].Value) == 0) && _ValidarString(((Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Cells[fila, 1].Value).Trim().Length > 0)
                             {
                                 fv++;
                             }
                         }
-                        if (fv == _ValidarInt(_HojasSPR[i - 1, 2]) - 2)
+                        if (!mostrar)
                         {
-                            ((Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Rows[fila].Hidden = _Ocultar;
+                            if (fv == _ValidarInt(_HojasSPR[numhj, 2]) - 2)
+                            {
+                                ((Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Rows[fila].Hidden = _Ocultar;
+                            }
+                            else
+                            {
+                                ((Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Rows[fila].Hidden = false;
+                            }
                         }
-                        else
-                        {
+                        else {
                             ((Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Rows[fila].Hidden = false;
                         }
+                        
 
                         if (_ValidarString(((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Cells[fila, columna].Value).Trim().Length == 0 && _ValidarString(((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Cells[fila, columna + 1].Value).Trim().Length == 0)
                         {
@@ -183,29 +193,46 @@ namespace ExcelAddIn1
             Generales.Proteccion(false);
             //Desactivamos los mensajes de Alerta del Excel
             Globals.ThisAddIn.Application.DisplayAlerts = false;
+            int numhj = 0;
+            _Cargararraynombre(_HojasSPR);
+
             for (int k = 1; k <= _grilla.RowCount; k++)
             {
+                numhj = Array.IndexOf(_nombre, _grilla.Rows[k - 1].Cells["Anexo"].Value.ToString().Trim().ToUpper());
                 if (_grilla.Rows[k - 1].Cells["Imprimir"].Value.ToString().Trim().ToUpper() == "TRUE")
                 {
+                    numhj = Array.IndexOf(_nombre, _grilla.Rows[k - 1].Cells["Anexo"].Value.ToString().Trim().ToUpper());
                     //para mantener las dos primeras filas y columnas fijas en la vista previa
-                    ((Excel.Worksheet)libro.Sheets[k]).PageSetup.PrintTitleRows = "$1:$2";
-                    ((Excel.Worksheet)libro.Sheets[k]).PageSetup.PrintTitleColumns = "$A:$B";
-                    ((Excel.Worksheet)libro.Sheets[k]).PageSetup.Zoom = 65;
-                    ((Excel.Worksheet)libro.Sheets[k]).PageSetup.BlackAndWhite = _BandW;
+                    ((Excel.Worksheet)libro.Sheets[_grilla.Rows[k - 1].Cells["Anexo"].Value.ToString().Trim().ToUpper()]).PageSetup.PrintTitleRows = "$1:$2";
+                    ((Excel.Worksheet)libro.Sheets[_grilla.Rows[k - 1].Cells["Anexo"].Value.ToString().Trim().ToUpper()]).PageSetup.PrintTitleColumns = "$A:$B";
+                    ((Excel.Worksheet)libro.Sheets[_grilla.Rows[k - 1].Cells["Anexo"].Value.ToString().Trim().ToUpper()]).PageSetup.Zoom = 65;
+                    ((Excel.Worksheet)libro.Sheets[_grilla.Rows[k - 1].Cells["Anexo"].Value.ToString().Trim().ToUpper()]).PageSetup.BlackAndWhite = _BandW;
                     //Cuando Es un Anexo: Orientacion horizontal
                     if (_grilla.Rows[k - 1].Cells["Anexo"].Value.ToString().Trim().ToUpper().Contains("ANEXO"))
                     {
-                        ((Excel.Worksheet)libro.Sheets[k]).PageSetup.Orientation = XlPageOrientation.xlLandscape;
+                        ((Excel.Worksheet)libro.Sheets[_grilla.Rows[k - 1].Cells["Anexo"].Value.ToString().Trim().ToUpper()]).PageSetup.Orientation = XlPageOrientation.xlLandscape;
                     }
                     else
                     {
-                        ((Excel.Worksheet)libro.Sheets[k]).PageSetup.Orientation = XlPageOrientation.xlPortrait;
+                        ((Excel.Worksheet)libro.Sheets[_grilla.Rows[k - 1].Cells["Anexo"].Value.ToString().Trim().ToUpper()]).PageSetup.Orientation = XlPageOrientation.xlPortrait;
                     }
                 }
-                else
+                else if (numhj != -1)
                 {
-                    ((Excel.Worksheet)libro.Sheets[k]).Visible = XlSheetVisibility.xlSheetHidden;
+                    ((Excel.Worksheet)libro.Sheets[_grilla.Rows[k - 1].Cells["Anexo"].Value.ToString().Trim().ToUpper()]).Visible = XlSheetVisibility.xlSheetHidden;
                 }
+
+                //Notas a ocultar
+                //Si se ocultaron hojas las vuelve visible todas
+                for (int x = 1; x <= libro.Worksheets.Count; x++)
+                {
+                    if (Array.IndexOf(_nombre, ((Excel.Worksheet)libro.Sheets[x]).Name.ToString().Trim().ToUpper()) != -1 && _HojasSPR[Array.IndexOf(_nombre, ((Excel.Worksheet)libro.Sheets[x]).Name.ToString().Trim().ToUpper()), 4].Trim().Length == 0)
+                    {
+                        ((Excel.Worksheet)libro.Sheets[x]).Visible = XlSheetVisibility.xlSheetHidden;
+                    }
+
+                }
+
             }
             //Generales.Proteccion(false);
             if (_impresora == Type.Missing)
@@ -222,16 +249,15 @@ namespace ExcelAddIn1
                 libro.PrintOut(Type.Missing, Type.Missing, Type.Missing, false, _impresora, Type.Missing, Type.Missing, Type.Missing);
             }
 
-            _Cargararraynombre(_HojasSPR);
             //Si se ocultaron hojas las vuelve visible todas
             for (int k = 1; k <= libro.Worksheets.Count; k++)
             {
                 if (Array.IndexOf(_nombre, ((Excel.Worksheet)libro.Sheets[k]).Name.ToString().Trim().ToUpper()) != -1)
                 {
-                    //if ( _grilla.Rows[k - 1].Cells["Imprimir"].Value.ToString().Trim().ToUpper() == "TRUE" || _grilla.Rows[k - 1].Cells["Imprimir"].Value.ToString().Trim().ToUpper() == "FALSE") {
                     ((Excel.Worksheet)libro.Sheets[k]).Visible = XlSheetVisibility.xlSheetVisible;
                 }
-                else {
+                else
+                {
                     ((Excel.Worksheet)libro.Sheets[k]).Visible = XlSheetVisibility.xlSheetHidden;
                 }
 
@@ -253,6 +279,31 @@ namespace ExcelAddIn1
                 }
             }
             return resp;
+        }
+
+        public void Cerrar() {
+
+            Excel.Workbook libro = Globals.ThisAddIn.Application.ActiveWorkbook;
+
+            Generales.Proteccion(false);
+            //Activamos los mensajes de Alerta del Excel
+            Globals.ThisAddIn.Application.DisplayAlerts = false;
+            //Si se ocultaron hojas las vuelve visible todas
+            for (int k = 1; k <= libro.Worksheets.Count; k++)
+            {
+                if (Array.IndexOf(_nombre, ((Excel.Worksheet)libro.Sheets[k]).Name.ToString().Trim().ToUpper()) != -1)
+                {
+                    ((Excel.Worksheet)libro.Sheets[k]).Visible = XlSheetVisibility.xlSheetVisible;
+                }
+                else
+                {
+                    ((Excel.Worksheet)libro.Sheets[k]).Visible = XlSheetVisibility.xlSheetHidden;
+                }
+
+            }
+            Generales.Proteccion(true);
+            //Activamos los mensajes de Alerta del Excel
+            Globals.ThisAddIn.Application.DisplayAlerts = true;
         }
 
 

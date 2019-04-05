@@ -199,6 +199,7 @@ namespace ExcelAddIn1
             Range range;
             String psw = "";
 
+
             //Nuevo Excel
             Excel.Application exceln = new Excel.Application();
             //libro abierto
@@ -206,6 +207,8 @@ namespace ExcelAddIn1
             //nuevo libro
             //Excel.Workbook libron = exceln.Workbooks.Add(obj);
             Excel.Workbook libron = libro;
+            //libron = exceln.Workbooks.
+
             //obtenemos el numero de hojas
             numhojas = libro.Sheets.Count;
             //cargar array de nombres
@@ -219,19 +222,22 @@ namespace ExcelAddIn1
             //psw = "AAAABABABAAG";
             //LENARHOJAS
             Globals.ThisAddIn.Application.DisplayAlerts = false;
-            for (int i = 1; i <= numhojas; i++)
+            for (int i = 1; i < numhojas; i++)
             {
                 //seleccionamos la hoja de orden i
                 hoja = libro.Sheets[i];
                 //Creamos nueva hoja de orden i
                 hojan = libron.Sheets[i];
-                hojas[i - 1] = ValidarInt(Regex.Replace(hoja.Name, @"[^\d]", "").ToString().Trim());
+                hojas[i] = ValidarInt(Regex.Replace(hoja.Name, @"[^\d]", "").ToString().Trim());
                 //seleccionamos la hoja numero i
                 hoja.Activate();
                 hojan.Activate();
 
                 nom = libron.Worksheets[i].Name.ToString().Trim();
                 ind = Array.IndexOf(nombre, libron.Worksheets[i].Name.ToString().Trim().ToUpper());
+
+                //if (nom.ToUpper() == "CONTADOR") MessageBox.Show("gvfknjdkhjljkdfskl");
+
                 //Barra de progreso
                 if (this == null) return;
                 Invoke(new System.Action(() => this.label1.Text = "Trabajando Hoja : [" + (Globals.ThisAddIn.Application.ActiveSheet).Name + "] .........."));
@@ -293,61 +299,33 @@ namespace ExcelAddIn1
             Globals.ThisAddIn.Application.DisplayAlerts = false;
             for (int j = 0; j < 5; j++)
             {
-                for (int i = 1; i <= numhojas; i++)
+                for (int i = 1; i < numhojas; i++)
                 {
                     try
                     {
                         nom = libron.Worksheets[i].Name.ToString().Trim();
                         ind = Array.IndexOf(nombre, libron.Worksheets[i].Name.ToString().Trim().ToUpper());
+                        
                         //Barra de progreso
                         if (this == null) return;
                         Invoke(new System.Action(() => this.label1.Text = "Trabajando Hoja : [" + (Globals.ThisAddIn.Application.ActiveSheet).Name + "] .........."));
                         
                         if (ind != -1)
                         {
-                            ind++;
                             libron.Sheets[i].Activate();
                             
-
-                            ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Move(Globals.ThisAddIn.Application.Worksheets[ind]);
+                            ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Move(Globals.ThisAddIn.Application.Worksheets[i]);
                             
-
-                            cell1 = ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Cells[1, ValidarInt(ValidarString(HojasSPR[i - 1, 2]).Trim())+1];
-                            cell2 = ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Cells[1048575, 16383];
-                            range = ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).get_Range(cell1, cell2);
-
-                            range.ClearContents();
-
-
-                            cell1 = ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Cells[ValidarInt(ValidarString(HojasSPR[i - 1, 1]).Trim())+1, 1];
-                            cell2 = ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Cells[1048575, 16383];
-                            range = ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).get_Range(cell1, cell2);
-
-                            range.ClearContents();
-
-
-
-
                             cell1 = ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Cells[1, 1];
-                            cell2 = ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Cells[ValidarInt(ValidarString(HojasSPR[i - 1, 1]).Trim()), ValidarInt(ValidarString(HojasSPR[i - 1, 2]).Trim())];
-                            //cell2 = ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Cells[1048576, 16384];
+                            cell2 = ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Cells[ValidarInt(ValidarString(HojasSPR[ind, 1]).Trim()), ValidarInt(ValidarString(HojasSPR[ind, 2]).Trim())];
                             range = ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).get_Range(cell1, cell2);
-
-                            //Worksheets("Sheet1").Range("A1:E1").Columns.AutoFit
 
                             range.Columns.AutoFit();
-
-
-
                         }
                         else
                         {
-
-                            Excel.Worksheet m_objSheet = (Excel.Worksheet)(Globals.ThisAddIn.Application.ActiveWorkbook.Sheets.get_Item(i));
-                            //m_objSheet.Delete();
+                            Excel.Worksheet m_objSheet = (Excel.Worksheet)(Globals.ThisAddIn.Application.ActiveWorkbook.Sheets.get_Item(nom));
                             m_objSheet.Visible = XlSheetVisibility.xlSheetHidden;
-                            numhojas--;
-                            i = i - 1;
                         }
                     }
                     catch (Exception e)
@@ -364,12 +342,10 @@ namespace ExcelAddIn1
                 {
                     nom = libron.Worksheets[i].Name.ToString().Trim();
                     ind = Array.IndexOf(nombre, libron.Worksheets[i].Name.ToString().Trim().ToUpper());
-                    if (ind != -1)
+                    if (ind == -1)
                     {
-                        ind++;
-                        libron.Sheets[i].Activate();
-                        ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet).Protect(ExcelAddIn.Access.Configuration.PwsExcel, true);
-
+                        Excel.Worksheet m_objSheet = (Excel.Worksheet)(Globals.ThisAddIn.Application.ActiveWorkbook.Sheets.get_Item(nom));
+                        m_objSheet.Visible = XlSheetVisibility.xlSheetHidden;
                     }
                 }
                 catch (Exception e)
@@ -380,6 +356,7 @@ namespace ExcelAddIn1
 
             //activar mensajes alerta
             Globals.ThisAddIn.Application.DisplayAlerts = true;
+
 
             if (this == null) return;
             Invoke(new System.Action(() => this.pgb_proceso.Value = this.pgb_proceso.Maximum));

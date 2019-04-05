@@ -13,6 +13,10 @@ namespace ExcelAddIn1
 {
     public partial class VerificacionDeCruce : UserControl
     {
+        static Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+        static Worksheet activeSheet = wb.Application.ActiveSheet;
+        static Microsoft.Office.Interop.Excel.Range _Range = activeSheet.get_Range("B3");
+        String _ValorAnterior = String.Empty;
 
         public VerificacionDeCruce()
         {
@@ -30,38 +34,50 @@ namespace ExcelAddIn1
         {
             try
             {
-                int _IdCruce = Convert.ToInt16(dgv_DiferenciasEnCruces.CurrentRow.Cells[0].Value.ToString());
-                var _FormulaCruce = (from item in Globals.ThisAddIn._result
-                                     where item.IdCruce == _IdCruce
-                                     select item.FormulaExcel
-                                     ).ToList();
-
-                Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
-                Worksheet activeSheet = wb.Application.ActiveSheet;
-                var _Range = activeSheet.get_Range("A3");
-                String _ValorAnterior = _Range.get_Value(Type.Missing);
-                var _SplitFormulaCruce = _FormulaCruce[0].Split('=');
-                String _Diferencia = String.Empty;
-
-                if (_FormulaCruce.Count() > 0)
+                if (dgv_DiferenciasEnCruces.Rows.Count > 0)
                 {
-                    _Range.Formula = "=(" + _SplitFormulaCruce[0] + "-" + _SplitFormulaCruce[1] + ")";
-                    _Diferencia = _Range.get_Value(Type.Missing).ToString();
-                    activeSheet.Cells[3, 1] = _ValorAnterior;
-                }
+                    int _IdCruce = Convert.ToInt16(dgv_DiferenciasEnCruces.CurrentRow.Cells[0].Value.ToString());
+                    var _FormulaCruce = (from item in Globals.ThisAddIn._result
+                                         where item.IdCruce == _IdCruce
+                                         select item.FormulaExcel
+                                         ).ToList();
 
-                if ((_Diferencia != String.Empty && _Diferencia != null))
-                {
-                    MessageBox.Show($"El cruce {_IdCruce.ToString()} tiene una dierencia de: {_Diferencia}", "Verificación del cruce seleccionado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    _ValorAnterior = _Range.get_Value(Type.Missing);
+                    var _SplitFormulaCruce = _FormulaCruce[0].Split('=');
+                    String _Diferencia = String.Empty;
+
+                    if (_FormulaCruce.Count() > 0)
+                    {
+                        _Range.NumberFormat = "0.00";
+                        _Range.Formula = "=(" + _SplitFormulaCruce[0] + "-" + _SplitFormulaCruce[1] + ")";
+                        _Diferencia = _Range.get_Value(Type.Missing).ToString();                      
+                    }
+
+                    if ((_Diferencia != String.Empty && _Diferencia != null))
+                    {
+                        MessageBox.Show($"El cruce {_IdCruce.ToString()} tiene una dierencia de: {_Diferencia}", "Verificación del cruce seleccionado", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Hubo un error al calcular la diferencia. Por favor intente de nuevo. [_Diferecia NULL OR Empty]");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Hubo un error al calcular la diferencia. Por favor intente de nuevo. [_Diferecia NULL OR Empty]");
+                    MessageBox.Show($"No hay datos a evaluar", "Sin datos", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al evaluar el cruce [VerificacionDeCruce].[btn_VerificarCruceSeleccionado].[225] : {ex.Message}");
+            }
+            finally
+            {                           
+                _Range.NumberFormat = "@";
+                _Range.Value = "";                
+                _Range.Value = _ValorAnterior;
+                _ValorAnterior = String.Empty;
+              
             }
 
         }
@@ -94,8 +110,6 @@ namespace ExcelAddIn1
             SwitchHojaYCelda(_IdCruce, _Indice, _Valor, _Columna);
 
         }
-
-
 
         private void dgv_DiferenciasEnCruces_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -167,7 +181,6 @@ namespace ExcelAddIn1
                                 MessageBoxIcon.Error);
             }
         }
-
 
         private void FillTablasDeIndices(int _IdCruce)
         {
@@ -259,14 +272,8 @@ namespace ExcelAddIn1
                 Microsoft.Office.Interop.Excel.Worksheet activeSheet = Globals.ThisAddIn.Application.ActiveSheet;
                 var range = activeSheet.get_Range(celValue[1]);
                 range.Select();
-            }
-          
-
+            }         
         }
-
-
-        #endregion
-
-        
+        #endregion        
     }
 }

@@ -47,7 +47,7 @@ namespace ExcelAddIn1
         }
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
-            impr._PrepararImpresion(checkBox2.Checked,dataGridView1);
+            impr._PrepararImpresion(checkBox2.Checked,dataGridView1,false);
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
@@ -62,7 +62,8 @@ namespace ExcelAddIn1
 
         private void toolStripStatusLabel3_Click(object sender, EventArgs e)
         {
-                var addIn = Globals.ThisAddIn;
+            impr._PrepararImpresion(checkBox2.Checked, dataGridView1, true);
+            var addIn = Globals.ThisAddIn;
                 addIn.CerrarImprimir();
 
         }
