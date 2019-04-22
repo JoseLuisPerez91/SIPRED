@@ -36,7 +36,8 @@ namespace ExcelAddIn.Logic {
                 KeyValuePair<bool, string[]> _Comprobaciones = ObtenerComprobaciones();
                 KeyValuePair<bool, string[]> _Validaciones = ObtenerValidacionCruces();
                 KeyValuePair<bool, string[]> _Indices = ObtenerIndices();
-                _Key = (!_TiposPlantillas.Key || !_Cruces.Key || !_Plantillas.Key || !_Comprobaciones.Key || !_Validaciones.Key || !_Indices.Key);
+                KeyValuePair<bool, string[]> _Masiva = ObtenerConversionMasiva();
+                _Key = (!_TiposPlantillas.Key || !_Cruces.Key || !_Plantillas.Key || !_Comprobaciones.Key || !_Validaciones.Key || !_Indices.Key || !_Masiva.Key);
                 _Messages.AddRange(_TiposPlantillas.Value);
                 _Messages.AddRange(_Cruces.Value);
                 _Messages.AddRange(_Plantillas.Value);
@@ -61,6 +62,22 @@ namespace ExcelAddIn.Logic {
             {
                 return new KeyValuePair<bool, System.Data.DataTable>(true, null);
             }
+        }
+        /// <summary>Función para obtener la última versión de los archivos Json's.
+        /// <para>Obtiene la última versión de los archivos Json's. Referencia: <see cref="ObtenerConversionMasiva()"/> se agrega la referencia ExcelAddIn.Logic para invocarla.</para>
+        /// <seealso cref="ObtenerConversionMasiva()"/>
+        /// </summary>
+        public new KeyValuePair<bool, string[]> ObtenerConversionMasiva()
+        {
+            KeyValuePair<KeyValuePair<bool, string>, object> _result = base.ObtenerCMasiva();
+            if (_result.Key.Key)
+            {
+                string _JsonData = (string)_result.Value;
+                File.WriteAllText($"{Access.Configuration.Path}\\jsons\\Masiva.json", _JsonData);
+                return new KeyValuePair<bool, string[]>(true, new string[] { "Se generó correctamente el archivo json para la Conversión Masiva." });
+            }
+            else { }
+            return new KeyValuePair<bool, string[]>(_result.Key.Key, new string[] { _result.Key.Value });
         }
         /// <summary>Función para obtener el archivo Json.
         /// <para>Ejecuta la creación del archivo Json de Indices. Referencia: <see cref="ObtenerIndices()"/> se agrega la referencia ExcelAddIn.Logic para invocarla.</para>

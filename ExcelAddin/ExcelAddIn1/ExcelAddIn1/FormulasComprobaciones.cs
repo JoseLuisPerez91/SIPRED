@@ -133,16 +133,11 @@ namespace ExcelAddIn1
             //Libro Actual de Excel.
             Excel.Worksheet xlSht;
             Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
-            string _Name = Globals.ThisAddIn.Application.ActiveWorkbook.Name;
-            string[] _aName = _Name.Split('-');
-            string _anio = _aName[1];
-            string _IdTipo = "";
-            string _TipoFile = _aName[0].ToString();
             string _DestinationPath = "";
             string _newTemplate = "";
 
-            _Name = _aName[2].ToString();
-            _IdTipo = _Name.Split('_')[1].ToString();
+            //_Name = _aName[2].ToString();
+            //_IdTipo = _Name.Split('_')[1].ToString();
             Generales.Proteccion(false);//desprotejo
             //Cuándo es para transferir, pide la ruta en donde guardar el archivo a transferir.
             if (!_formulas)
@@ -159,6 +154,7 @@ namespace ExcelAddIn1
                     }
                 }
 
+                Cursor.Current = Cursors.WaitCursor;
                 // el nombre de una Key debe incluir un root valido.
                 const string userRoot = "HKEY_CURRENT_USER";
                 const string subkey = "Software\\Microsoft\\Office\\Excel\\Addins\\SAT.Dictamenes.SIPRED.Client";
@@ -177,13 +173,6 @@ namespace ExcelAddIn1
                     {
                         wb.Worksheets.Item[_wCount].Delete();
                     }
-                    else
-                    {
-                        if (wb.Worksheets.Item[_wCount].Name == "_Open")
-                        {
-                            wb.Worksheets.Item[_wCount].Delete();
-                        }
-                    }
                 }
 
                 string _NameFile = wb.Name;
@@ -196,114 +185,84 @@ namespace ExcelAddIn1
 
                 wb = Globals.ThisAddIn.Application.ActiveWorkbook;
                 x = 0;
-                foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == Convert.ToInt32(_IdTipo)).ToArray())
+                foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == Convert.ToInt32(1)).ToArray())
                 {
                     _Comprobacion.setFormulaExcel();
                     xlSht = (Excel.Worksheet)wb.Worksheets.get_Item(_Comprobacion.Destino.Anexo);
-                    Excel.Range _Range = (Excel.Range)xlSht.get_Range(_Comprobacion.Destino.CeldaExcel);
 
-                    object _valor = _Range.Value;
-                    //_Range.NumberFormat = "0.00";
                     if (_Comprobacion.EsValida() && _Comprobacion.EsFormula())
                     {
-                        try
+                        for (int a = 1; a < 1000; a++)
                         {
-                            if (!_Open && _sOpen == "SIPRED")
+                            Excel.Range _Celda = (Excel.Range)xlSht.get_Range("A" + a.ToString());
+                            if (Convert.ToString(_Celda.Value) == Convert.ToString(_Comprobacion.Destino.Indice))
                             {
-                                if(File.Exists(_Path + "\\references\\" + _NameFile + ".json"))
+                                try
                                 {
-                                    StreamReader _fJason = new StreamReader(_Path + "\\references\\" + _NameFile + ".json");
+                                    string _Rango = Generales.ColumnAdress(Convert.ToInt32(_Comprobacion.Destino.Columna)) + a.ToString();
+                                    Int32 _iColumna = _Comprobacion.Destino.Columna;
 
-                                    while (_fJason.Peek() >= 0)
-                                    {
-                                        var _jCadena = _fJason.ReadLine();
-                                        oIndices _Indices = JsonConvert.DeserializeObject<oIndices>(_jCadena);
-
-                                        if(_Comprobacion.Destino.Anexo == _Indices.Anexo)
-                                        {
-                                            Excel.Range _Range1 = (Excel.Range)xlSht.get_Range(_Indices.Column + _Indices.Row);
-                                            object _valor1 = _Range1.Value;
-                                            
-                                            _Range1.Formula = "";
-                                            _Range1.Value = Convert.ToDecimal(_valor1.ToString());
-
-                                            for (int zz = 1; zz<=_Indices.Cantidad; zz++)
-                                            {
-                                                string _rColumn = _Indices.Column;
-                                                string _rRow = (Convert.ToInt32(_Indices.Row) + zz).ToString();
-                                                string _rCelda = _rColumn + _rRow;
-
-                                                _Range1 = (Excel.Range)xlSht.get_Range(_rCelda);
-                                                _valor1 = _Range1.Value;
-                                                _Range1.Formula = "";
-                                                string _Value = _valor1.ToString() == "" ? "0" : _valor1.ToString();
-                                                _Range1.Value = Convert.ToDecimal(_Value);
-                                            }
-                                        }
-                                    }
-                                    _fJason.Close();
+                                    _Celda = (Excel.Range)xlSht.get_Range(_Rango);
+                                    _Celda.NumberFormat = "0";
+                                    object _Value = _Celda.Value;
+                                    _Celda.Formula = "";
+                                    _Celda.Value = _Value;
                                 }
-
-                                //string _Columna1 = Generales.ColumnAdress(_Range.Column);
-                                //string _Renglon1 = (_Range.Row - 1).ToString();
-                                //object _Celda1 = _Columna1 + "" + _Renglon1;
-                                //Excel.Range _Range1 = (Excel.Range)xlSht.get_Range(_Celda1);
-                                //object _valor1 = _Range1.Value;
-
-                                ////Papá de los Indices.
-                                //if (_Range1.HasFormula)
-                                //{
-                                //    _Range1.Formula = "";
-                                //    _Range1.Value = Convert.ToDecimal(_valor1.ToString());
-                                //}
-                                ////Indices
-                                //if (!_Range.HasFormula)
-                                //{
-                                //    int _Rango = 1;
-                                //    string _Renglon;
-                                //    string _Columna;
-                                //    object _Celda;
-                                //    for (int xx = 0; xx < 1;)
-                                //    {
-                                //        _Columna = Generales.ColumnAdress(_Range.Column);
-                                //        _Renglon = (_Range.Row + _Rango).ToString();
-                                //        _Celda = _Columna + "" + _Renglon;
-                                //        Excel.Range _Range2 = (Excel.Range)xlSht.get_Range(_Celda);
-
-                                //        if (!_Range2.HasFormula)
-                                //        {
-                                //            xx = 0;
-                                //            _Rango += 1;
-                                //        }
-                                //        else
-                                //        {
-                                //            _Range.Formula = "";
-                                //            _Range.Value = Convert.ToDecimal(_valor.ToString());
-                                //            //_Range2.FormulaHidden = true;
-                                //            xx = 1;
-                                //            //_Rango = 1;
-                                //        }
-                                //    }
-                                //}
-                                //else
-                                //{
-                                //    _Range.Formula = "";
-                                //    _Range.Value = Convert.ToDecimal(_valor.ToString());
-                                //    //_Range.FormulaHidden = true;
-                                //}
+                                catch (Exception ex)
+                                { }
+                                a = 1001;
                             }
                         }
-                        catch   (Exception ex) { }
                     }
                 }
+
+                Excel.Range _Range;
+                Excel.Range _RangeP;
+                string _sValor;
+                Int64 _Valor;
+                int _Hijo;
+
+                for (int _wCount = 1; _wCount <= wb.Worksheets.Count; _wCount++)
+                {
+                    string _sAnexo = wb.Worksheets.Item[_wCount].Name;
+                    if (_sAnexo.IndexOf("NEXO") > 0)
+                    {
+                        xlSht = (Excel.Worksheet)wb.Worksheets.get_Item(_sAnexo);
+                        for (int a = 1; a < 1000; a++)
+                        {
+                            _Range = (Excel.Range)xlSht.get_Range("A" + a.ToString());
+
+                            if (Int64.TryParse(_Range.Value, out _Valor))
+                            {
+                                _Valor = Convert.ToInt64(_Range.Value);
+                                _sValor = Convert.ToString(_Range.Value);
+                                _Hijo = Convert.ToInt32(_sValor.Substring(_sValor.Length - 4, 4));
+
+                                if (_Hijo == 100)
+                                {
+                                    for(int c = 3; c<53; c++)
+                                    {
+                                        _RangeP = (Excel.Range)xlSht.get_Range($"{Generales.ColumnAdress(c)}{(a - 1).ToString()}");
+                                        _RangeP.NumberFormat = "0";
+                                        object _Value = _RangeP.Value;
+                                        _RangeP.Formula = "";
+                                        _RangeP.Value = _Value;
+                                    }
+                                    a = 1001;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 wb.Save();
+                Cursor.Current = Cursors.Default;
             }
             //Asigna valores vacios a las celdas de las formulas y de tipo "General".
             if (_formulas)
             {
                 x = 0;
-                //wb.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
-                foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == Convert.ToInt32(_IdTipo)).ToArray())
+                foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == Convert.ToInt32(1)).ToArray())
                 {
                     _Comprobacion.setFormulaExcel();
                     xlSht = (Excel.Worksheet)wb.Worksheets.get_Item(_Comprobacion.Destino.Anexo);
@@ -340,7 +299,7 @@ namespace ExcelAddIn1
                     }
                 }
                 x = 0;
-                foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == Convert.ToInt32(_IdTipo)).ToArray())
+                foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == Convert.ToInt32(1)).ToArray())
                 {
                     _Comprobacion.setFormulaExcel();
                     xlSht = (Excel.Worksheet)wb.Worksheets.get_Item(_Comprobacion.Destino.Anexo);
@@ -349,7 +308,7 @@ namespace ExcelAddIn1
                 //Asigna las formulas a las celdas al crear un nuevo archivo
                 //De lo contrario si es transferir quita las formulas y asigna el valor del resultado de la formula.
                 //Se agina el progreso del ProgessBar según la cantidad de celdas divididas entre 16.
-                foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == Convert.ToInt32(_IdTipo)).ToArray())
+                foreach (oComprobacion _Comprobacion in _Comprobaciones.Where(o => o.IdTipoPlantilla == Convert.ToInt32(1)).ToArray())
                 {
                     _Comprobacion.setFormulaExcel();
                     xlSht = (Excel.Worksheet)wb.Worksheets.get_Item(_Comprobacion.Destino.Anexo);
@@ -379,10 +338,7 @@ namespace ExcelAddIn1
                             fnProgressBar(progress);
                         }
                     }
-
-                    //xlSht.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true, false, true, true, true, true, false, false, false, false, false, false, true, false);
                 }
-                //wb.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true);
                 //Se guarda el archivo original.
                 wb.Save();
             }
@@ -395,7 +351,15 @@ namespace ExcelAddIn1
         private void FormulasComprobaciones_Load(object sender, EventArgs e)
         {
             string _Message = "";
-            FileInfo _Excel = new FileInfo(Globals.ThisAddIn.Application.ActiveWorkbook.FullName);
+            string _NameFile = "";
+
+            try
+            {
+                _NameFile = Globals.ThisAddIn.Application.ActiveWorkbook.FullName;
+            }
+            catch(Exception ex) { }
+
+            FileInfo _Excel = new FileInfo(_NameFile == null || _NameFile == "" ? "C:\\ArchivoNoValido.xlsx" : _NameFile);
 
             if (_Excel.Extension != ".xlsm")
             {

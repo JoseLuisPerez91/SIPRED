@@ -65,7 +65,7 @@ AS
        END
      IF (@pAccion<>'')
 	   BEGIN
-         UPDATE tbl_Plantillas SET Fecha_Modificacion = GETDATE() WHERE IdTipoPlantilla = @pIdTipoPlantilla AND Activo = 1
+         UPDATE tbl_Plantillas SET Fecha_Modificacion = GETDATE() WHERE IdPlantilla = @pIdTipoPlantilla AND Activo = 1
        END
      IF(@ContTran = 1)
        BEGIN

@@ -226,6 +226,12 @@
     <Compile Include="ControlImprimir.designer.cs">
       <DependentUpon>ControlImprimir.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConversionMasiva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConversionMasiva.designer.cs">
+      <DependentUpon>ConversionMasiva.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cruce.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -323,6 +329,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ControlImprimir.resx">
       <DependentUpon>ControlImprimir.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConversionMasiva.resx">
+      <DependentUpon>ConversionMasiva.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Cruce.resx">
       <DependentUpon>Cruce.cs</DependentUpon>
@@ -458,6 +467,8 @@
     <Content Include="Images\Icons\New.png" />
     <Content Include="Images\Icons\Open.png" />
     <Content Include="Images\Icons\Printer.png" />
+    <Content Include="Images\Icons\Save.png" />
+    <Content Include="Images\Icons\Sipred.png" />
     <Content Include="Images\Icons\Transfer.png" />
     <Content Include="Images\Icons\Upload.png" />
     <Content Include="Images\Transferir.png" />
@@ -469,6 +480,7 @@
     <Content Include="SQL\StoredProcedures\14. spActualizarCruces.sql" />
     <Content Include="SQL\StoredProcedures\15. spActualizarComprobaciones.sql" />
     <Content Include="SQL\StoredProcedures\16. spObtenerIdTiposPlantillas.sql" />
+    <Content Include="SQL\StoredProcedures\17. spFormulasCMasivas.sql" />
     <Content Include="SQL\Tables\2. tbl_Comprobaciones.sql" />
     <Content Include="SQL\Tables\3. tbl_Cruces.sql" />
     <Content Include="SQL\Tables\4. tbl_Plantillas.sql" />

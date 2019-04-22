@@ -85,14 +85,19 @@ namespace ExcelAddIn1
                 pgbFile.Value = progress;
                 Invoke(new System.Action(() => this.gbProgress.Text = "Progreso " + this.pgbFile.Value + "%"));
                 //System.Threading.Thread.Sleep(1000);
+                KeyValuePair<bool, string[]> _Masiva = new lSerializados().ObtenerConversionMasiva();
+                pgbFile.Value = progress;
+                Invoke(new System.Action(() => this.gbProgress.Text = "Progreso " + this.pgbFile.Value + "%"));
+                //System.Threading.Thread.Sleep(1000);
 
-                _Key = (!_TiposPlantillas.Key || !_Cruces.Key || !_Plantillas.Key || !_Comprobaciones.Key || !_Validaciones.Key || !_Indices.Key);
+                _Key = (!_TiposPlantillas.Key || !_Cruces.Key || !_Plantillas.Key || !_Comprobaciones.Key || !_Validaciones.Key || !_Indices.Key || !_Masiva.Key);
                 _Messages.AddRange(_TiposPlantillas.Value);
                 _Messages.AddRange(_Cruces.Value);
                 _Messages.AddRange(_Plantillas.Value);
                 _Messages.AddRange(_Comprobaciones.Value);
                 _Messages.AddRange(_Validaciones.Value);
                 _Messages.AddRange(_Indices.Value);
+                _Messages.AddRange(_Masiva.Value);
                 progress += 10;
                 pgbFile.Value = progress;
                 Invoke(new System.Action(() => this.gbProgress.Text = "Progreso " + this.pgbFile.Value + "% [Proceso Finalizado]"));

@@ -68,5 +68,13 @@ namespace ExcelAddIn.Access {
         {
             return ExecuteTable("[dbo].[spObtenerIdTiposPlantillas]");
         }
+        /// <summary>Función para obtener la última versión de los archivos Json's.
+        /// <para>Invocar el SP dbo.spFormulasCMasivas de Tipo DataTable. Referencia: <see cref="base.ObtenerCMasiva()"/> se agrega la referencia ExcelAddIn.Access para invocarla.</para>
+        /// <seealso cref="base.ObtenerCMasiva()"/>
+        /// </summary>
+        protected KeyValuePair<KeyValuePair<bool, string>, object> ObtenerCMasiva()
+        {
+            return ExecuteScalar("[dbo].[spFormulasCMasivas]");
+        }
     }
 }

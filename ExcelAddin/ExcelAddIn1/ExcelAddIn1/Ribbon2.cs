@@ -181,11 +181,6 @@ namespace ExcelAddIn1 {
 
                 Registry.SetValue(keyName, "LoadBehavior", 0);
                 Globals.ThisAddIn.Application.COMAddIns.Item(ref addInName).Connect = false;
-                //try
-                //{
-                //    wb.Close();
-                //}
-                //catch { }
                 Globals.ThisAddIn.Application.Visible = true;
                 Globals.ThisAddIn.Application.Workbooks.Open(_Abrir.FileName);
 
@@ -194,7 +189,6 @@ namespace ExcelAddIn1 {
                 wb = Globals.ThisAddIn.Application.ActiveWorkbook;
                 int count = wb.Worksheets.Count;
                 bool _existeS = false;
-                bool _existeO = false;
 
                 for(int _wCount = 1; _wCount<= count; _wCount++)
                 {
@@ -204,10 +198,6 @@ namespace ExcelAddIn1 {
                     {
                         _existeS = true;
                     }
-                    if (_sName == "_Open")
-                    {
-                        _existeO = true;
-                    }
                 }
 
                 if (!_existeS)
@@ -215,21 +205,7 @@ namespace ExcelAddIn1 {
                     xlSht = (Excel.Worksheet)wb.Worksheets.Add(Type.Missing, wb.Worksheets[count], Type.Missing, Type.Missing);
                     xlSht.Name = "SIPRED";
                 }
-                if (!_existeO)
-                {
-                    count = wb.Worksheets.Count;
-                    xlSht = (Excel.Worksheet)wb.Worksheets.Add(Type.Missing, wb.Worksheets[count], Type.Missing, Type.Missing);
-                    xlSht.Name = "_Open";
-                }
                 wb.Save();
-
-                FormulasComprobaciones _Formulas = new FormulasComprobaciones();
-                _Formulas._Form = null;
-                _Formulas._Template = null;
-                _Formulas._Tipo = "";
-                _Formulas._formulas = true;
-                _Formulas._Open = true;
-                _Formulas.ShowDialog();
             }
             else
             {
@@ -788,11 +764,86 @@ namespace ExcelAddIn1 {
         }
         private void btnConvertir_Click(object sender, RibbonControlEventArgs e)
         {
+            if (_Connection)
+            {
+                ConversionMasiva _Conversion = new ConversionMasiva();
+                _Conversion.Show();
+            }
+            else
+            {
+                MessageBox.Show(_Message, _Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void btnTransferir_Click(object sender, RibbonControlEventArgs e)
         {
             if (_Connection)
             {
+                string _Path = "";
+
+                const string userRoot = "HKEY_CURRENT_USER";
+                const string subkey = "Software\\Microsoft\\Office\\Excel\\Addins\\SAT.Dictamenes.SIPRED.Client";
+                const string keyName = userRoot + "\\" + subkey;
+                object addInName = "SAT.Dictamenes.SIPRED.Client";
+
+                Registry.SetValue(keyName, "LoadBehavior", 0);
+                Globals.ThisAddIn.Application.COMAddIns.Item(ref addInName).Connect = false;
+                Globals.ThisAddIn.Application.Visible = true;
+                Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+
+                if (wb == null)
+                {
+                    MessageBox.Show("Archivo no válido, favor de generar el archivo mediante el AddIn D.SAT", "Información Incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                try
+                {
+                    _Path = Globals.ThisAddIn.Application.ActiveWorkbook.FullName;
+                }
+                catch (Exception ex) { }
+
+                //wb.Close();
+
+                FileInfo _Excel = new FileInfo(_Path == null || _Path == "" ? "C:\\ArchivoNoValido.xlsx" : _Path);
+
+                if (_Excel.Extension != ".xlsm")
+                {
+                    MessageBox.Show("Archivo no válido, favor de generar el archivo mediante el AddIn D.SAT", "Información Incorrecta", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                //try
+                //{
+                //    Globals.ThisAddIn.Application.Workbooks.Open(_Path);
+                //}
+                //catch (Exception ex)
+                //{ }
+
+                //Libro Actual de Excel.
+                Excel.Worksheet xlSht;
+                wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+                int count = wb.Worksheets.Count;
+                bool _existeS = false;
+
+                for (int _wCount = 1; _wCount <= count; _wCount++)
+                {
+                    string _sName = wb.Worksheets[_wCount].Name;
+
+                    if (_sName == "SIPRED")
+                    {
+                        _existeS = true;
+                    }
+                }
+
+                if (!_existeS)
+                {
+                    xlSht = (Excel.Worksheet)wb.Worksheets.Add(Type.Missing, wb.Worksheets[count], Type.Missing, Type.Missing);
+                    xlSht.Name = "SIPRED";
+                }
+                wb.Save();
+
+                //btnOpen_Click(sender, e);
+                btnSave.Visible = false;
                 FormulasComprobaciones form = new FormulasComprobaciones();
                 form._formulas = false;
                 form._Open = false;
@@ -1002,6 +1053,52 @@ namespace ExcelAddIn1 {
             }
 
             return result;
+        }
+
+        private void btnConvertirMas_Click(object sender, RibbonControlEventArgs e)
+        {
+        }
+
+        private void btnActivar_Click(object sender, RibbonControlEventArgs e)
+        {
+            // el nombre de una Key debe incluir un root valido.
+            Cursor.Current = Cursors.WaitCursor;
+            const string userRoot = "HKEY_CURRENT_USER";
+            const string subkey = "Software\\Microsoft\\Office\\Excel\\Addins\\SAT.Dictamenes.SIPRED.Client";
+            const string keyName = userRoot + "\\" + subkey;
+
+            object addInName = "SAT.Dictamenes.SIPRED.Client";
+            Registry.SetValue(keyName, "LoadBehavior", 3);
+            Office.COMAddIn addIn = Globals.ThisAddIn.Application.COMAddIns.Item(ref addInName);
+            addIn.Connect = true;
+            MessageBox.Show("El AddIn [SAT] quedó habilitado, continue el proceso con SIPRED; para abrir archivos XSPR.", "AddIn SAT", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void btnDesactivar_Click(object sender, RibbonControlEventArgs e)
+        {
+            // el nombre de una Key debe incluir un root valido.
+            Cursor.Current = Cursors.WaitCursor;
+            const string userRoot = "HKEY_CURRENT_USER";
+            const string subkey = "Software\\Microsoft\\Office\\Excel\\Addins\\SAT.Dictamenes.SIPRED.Client";
+            const string keyName = userRoot + "\\" + subkey;
+
+            object addInName = "SAT.Dictamenes.SIPRED.Client";
+            Registry.SetValue(keyName, "LoadBehavior", 0);
+            Office.COMAddIn addIn = Globals.ThisAddIn.Application.COMAddIns.Item(ref addInName);
+            addIn.Connect = false;
+            MessageBox.Show("El AddIn [SAT] quedó deshabilitado", "AddIn SAT", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            Excel.Workbook nwbook = Globals.ThisAddIn.Application.Workbooks.Add(System.Type.Missing);
+            nwbook.Activate();
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void btnSave_Click(object sender, RibbonControlEventArgs e)
+        {
+            Excel.Workbook _wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+            _wb.Save();
+            btnSave.Visible = false;
         }
     }
 }

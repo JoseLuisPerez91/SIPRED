@@ -414,6 +414,26 @@ namespace ExcelAddIn1
 
             }
         }
+        /// <summary>Función para Agregar Rango con Nombre. pasando la hoja
+        /// <para>Agrega el Rango con Nombre en el archivo de Excel. Referencia: <see cref="AddNamedRange(int, int, string, Excel.Worksheet)"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
+        /// <seealso cref="AddNamedRange(int, int, string, Excel.Worksheet)"/>
+        /// </summary>
+        public static void AddNamedRange(int row, int col, string myrango, Excel.Worksheet xlsht)
+        {
+            Microsoft.Office.Tools.Excel.NamedRange NamedRange1;
+
+            Worksheet worksheet = Globals.Factory.GetVstoObject(xlsht);
+
+            Excel.Range cell = worksheet.Cells[row, col];
+            try
+            {
+                NamedRange1 = worksheet.Controls.AddNamedRange(cell, myrango);
+            }
+            catch
+            {
+
+            }
+        }
         /// <summary>Función para obtener el Rango Principal.
         /// <para>Obtiene el Rango Principal en el archivo de Excel. Referencia: <see cref="DameRangoPrincipal(int, Excel.Worksheet)"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
         /// <seealso cref="DameRangoPrincipal(int, Excel.Worksheet)"/>

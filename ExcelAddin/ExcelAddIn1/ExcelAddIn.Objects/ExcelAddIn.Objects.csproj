@@ -55,6 +55,7 @@
     <Compile Include="Assembler.cs" />
     <Compile Include="oAnio.cs" />
     <Compile Include="oIndices.cs" />
+    <Compile Include="oMasiva.cs" />
     <Compile Include="oRootObject.cs" />
     <Compile Include="oSubtotal.cs" />
     <Compile Include="oValidaCruces.cs" />

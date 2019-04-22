@@ -50,14 +50,18 @@
             this.group2 = this.Factory.CreateRibbonGroup();
             this.btnCruces = this.Factory.CreateRibbonButton();
             this.group3 = this.Factory.CreateRibbonGroup();
+            this.mSipred = this.Factory.CreateRibbonMenu();
+            this.btnActivar = this.Factory.CreateRibbonButton();
+            this.btnDesactivar = this.Factory.CreateRibbonButton();
+            this.btnSIPRED = this.Factory.CreateRibbonButton();
             this.btnConvertir = this.Factory.CreateRibbonButton();
-            this.btnConvertirMas = this.Factory.CreateRibbonButton();
             this.btnTransferir = this.Factory.CreateRibbonButton();
             this.group4 = this.Factory.CreateRibbonGroup();
             this.btnPlantilla = this.Factory.CreateRibbonButton();
             this.btnCrucesAdmin = this.Factory.CreateRibbonButton();
             this.btnComprobacionesAdmin = this.Factory.CreateRibbonButton();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.btnSave = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -77,6 +81,7 @@
             // group1
             // 
             this.group1.Items.Add(this.btnNew);
+            this.group1.Items.Add(this.btnSave);
             this.group1.Items.Add(this.btnOpen);
             this.group1.Items.Add(this.btnPrellenar);
             this.group1.Items.Add(this.btnIndice);
@@ -216,11 +221,55 @@
             // 
             // group3
             // 
+            this.group3.Items.Add(this.mSipred);
+            this.group3.Items.Add(this.btnSIPRED);
             this.group3.Items.Add(this.btnConvertir);
-            this.group3.Items.Add(this.btnConvertirMas);
             this.group3.Items.Add(this.btnTransferir);
             this.group3.Label = "HERRAMIENTAS SAT";
             this.group3.Name = "group3";
+            // 
+            // mSipred
+            // 
+            this.mSipred.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.mSipred.Image = ((System.Drawing.Image)(resources.GetObject("mSipred.Image")));
+            this.mSipred.Items.Add(this.btnActivar);
+            this.mSipred.Items.Add(this.btnDesactivar);
+            this.mSipred.Label = "SIPRED";
+            this.mSipred.Name = "mSipred";
+            this.mSipred.ScreenTip = "Índices";
+            this.mSipred.ShowImage = true;
+            this.mSipred.SuperTip = "Activa el AddIn SAT, para abrir archivos XSPR desde SIPRED";
+            // 
+            // btnActivar
+            // 
+            this.btnActivar.Image = ((System.Drawing.Image)(resources.GetObject("btnActivar.Image")));
+            this.btnActivar.Label = "Activar";
+            this.btnActivar.Name = "btnActivar";
+            this.btnActivar.ScreenTip = "Agregar índice";
+            this.btnActivar.ShowImage = true;
+            this.btnActivar.SuperTip = "Activar el AddIn SAT.";
+            this.btnActivar.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnActivar_Click);
+            // 
+            // btnDesactivar
+            // 
+            this.btnDesactivar.Image = ((System.Drawing.Image)(resources.GetObject("btnDesactivar.Image")));
+            this.btnDesactivar.Label = "Desactivar";
+            this.btnDesactivar.Name = "btnDesactivar";
+            this.btnDesactivar.ScreenTip = "Eliminar índice";
+            this.btnDesactivar.ShowImage = true;
+            this.btnDesactivar.SuperTip = "Desactivar el AddIn SAT";
+            this.btnDesactivar.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDesactivar_Click);
+            // 
+            // btnSIPRED
+            // 
+            this.btnSIPRED.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnSIPRED.Image = ((System.Drawing.Image)(resources.GetObject("btnSIPRED.Image")));
+            this.btnSIPRED.Label = "Activar SIPRED";
+            this.btnSIPRED.Name = "btnSIPRED";
+            this.btnSIPRED.ScreenTip = "Activar el AddIn SAT";
+            this.btnSIPRED.ShowImage = true;
+            this.btnSIPRED.SuperTip = "Activa el AddIn SAT, para abrir el archivo XSPR desde SIPRED";
+            this.btnSIPRED.Visible = false;
             // 
             // btnConvertir
             // 
@@ -233,17 +282,6 @@
             this.btnConvertir.SuperTip = "Convierte un dictamen del año anterior a su equivalente para el presente ejercici" +
     "o";
             this.btnConvertir.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnConvertir_Click);
-            // 
-            // btnConvertirMas
-            // 
-            this.btnConvertirMas.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnConvertirMas.Image = ((System.Drawing.Image)(resources.GetObject("btnConvertirMas.Image")));
-            this.btnConvertirMas.Label = "Conversión Masiva";
-            this.btnConvertirMas.Name = "btnConvertirMas";
-            this.btnConvertirMas.ScreenTip = "Convertit información";
-            this.btnConvertirMas.ShowImage = true;
-            this.btnConvertirMas.SuperTip = "Convierte todos los dictámenes del año anterior ubicados en una carpeta a su equi" +
-    "valente para el presente ejercicio";
             // 
             // btnTransferir
             // 
@@ -302,6 +340,19 @@
             // 
             this.openFileDialog.FileName = "openFileDialog";
             // 
+            // btnSave
+            // 
+            this.btnSave.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
+            this.btnSave.Label = "Guardar";
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Position = this.Factory.RibbonPosition.BeforeOfficeId("TabView");
+            this.btnSave.ScreenTip = "Guardar hoja de trabajo";
+            this.btnSave.ShowImage = true;
+            this.btnSave.SuperTip = "Guardar una hoja de trabajo para capturar la información del cliente";
+            this.btnSave.Visible = false;
+            this.btnSave.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSave_Click);
+            // 
             // Ribbon2
             // 
             this.Name = "Ribbon2";
@@ -333,7 +384,6 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnCruces;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group3;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnConvertir;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnConvertirMas;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group4;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnPlantilla;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnCrucesAdmin;
@@ -347,6 +397,11 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnTransferir;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnPrellenar;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnSIPRED;
+        internal Microsoft.Office.Tools.Ribbon.RibbonMenu mSipred;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnActivar;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnDesactivar;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnSave;
     }
 
     partial class ThisRibbonCollection
