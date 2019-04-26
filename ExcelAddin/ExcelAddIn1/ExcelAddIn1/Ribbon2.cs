@@ -12,10 +12,10 @@ using iTextSharp.text.pdf;
 using iTextSharp.text;
 using System.IO;
 using ExcelAddIn.Logic;
-using ExcelAddIn.Access;
 using Microsoft.Win32;
 using System.Data.SqlClient;
 using System.Data;
+using ExcelAddIn.Access;
 
 namespace ExcelAddIn1 {
     public partial class Ribbon2
@@ -167,7 +167,7 @@ namespace ExcelAddIn1 {
                 _Abrir.Title = "Abrir archivo xlsm";
                 _Abrir.ShowDialog();
 
-                if(_Abrir.FileName == "")
+                if (_Abrir.FileName == "")
                 {
                     MessageBox.Show("Debe especificar un archivo xlsm", "Archivo xlsm Invalido", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -190,13 +190,18 @@ namespace ExcelAddIn1 {
                 int count = wb.Worksheets.Count;
                 bool _existeS = false;
 
-                for(int _wCount = 1; _wCount<= count; _wCount++)
+                for (int _wCount = 1; _wCount <= count; _wCount++)
                 {
                     string _sName = wb.Worksheets[_wCount].Name;
 
-                    if(_sName == "SIPRED")
+                    if (_sName == "SIPRED")
                     {
                         _existeS = true;
+                    }
+                    if (_sName == "ANEXO 1")
+                    {
+                        xlSht = (Excel.Worksheet)wb.Worksheets.get_Item(_sName);
+                        xlSht.Activate();
                     }
                 }
 
@@ -354,37 +359,37 @@ namespace ExcelAddIn1 {
         }
         private void btnPrellenar_Click(object sender, RibbonControlEventArgs e)
         {
-            //string _Path = ExcelAddIn.Access.Configuration.Path;
-
-            //var fecha = DateTime.Now;
-            //var name = "Cruce_" + fecha.Year.ToString() + fecha.Month.ToString() + fecha.Day.ToString() + fecha.Hour.ToString() + fecha.Minute.ToString() + fecha.Second.ToString();
-            //var filepath = _Path + "\\" + name + ".pdf";
-            //// Creamos el documento con el tamaño de página tradicional
-            //Document doc = new Document(PageSize.LETTER);
-            //// Indicamos donde vamos a guardar el documento
-            //PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(filepath, FileMode.Create));
-            //// Le colocamos el título y el autor
-            //doc.AddTitle("Cruces");
-            //doc.AddCreator("S-DAT");
-            //// Abrimos el archivo
-            //doc.Open();
-            //PdfPTable tabla = new PdfPTable(3);
-
-            //for (int i = 0; i < 15; i++)
-            //{
-            //    tabla.AddCell("A " + i);
-            //    tabla.AddCell("B " + i);
-            //}
-            //doc.Add(tabla);
-
-            //doc.Close();
-            //writer.Close();
+           
             string _CnStr = string.Format(Configuration.ConnectionStringPrellenado, Configuration.Server, Configuration.DataBase, Configuration.User, Configuration.Password);
             bool _Connection = new lSerializados().CheckConnection(Configuration.UrlConnection);
 
-            string _RFC = "CVG080811RU4";
-            int _Anio = 2018;
+            string _RFC = String.Empty;
+            int _Anio = 0;
+            string[] strFileame;
+            int _MaxRow = 0;
 
+            Excel.Workbook wb = Globals.ThisAddIn.Application.ActiveWorkbook;
+            Excel.Worksheet xlSht;
+
+            xlSht = (Excel.Worksheet)wb.Worksheets.get_Item("Contribuyente");                             
+            _MaxRow = xlSht.UsedRange.Count + 1;
+
+
+            if (xlSht != null)
+            {
+                Excel.Range range = (Excel.Range)xlSht.get_Range("A1:A" + _MaxRow.ToString());
+                Excel.Range findindex = range.Find("01A000000", Type.Missing, Excel.XlFindLookIn.xlValues,
+                                                    Excel.XlLookAt.xlPart, Excel.XlSearchOrder.xlByRows,
+                                                    Excel.XlSearchDirection.xlNext, false, Type.Missing, Type.Missing);
+                if (findindex != null)
+                {
+                    range = (Excel.Range)xlSht.Cells[findindex.Row, 3];
+                    _RFC = range.Value;
+                }
+            }
+
+            strFileame = Globals.ThisAddIn.Application.Name.Split('-');
+                                
             DataTable dt = new DataTable();
             dt.Clear();
             dt.Columns.Add("INDICE");
@@ -403,31 +408,51 @@ namespace ExcelAddIn1 {
             {
                 if (_Connection)
                 {
-                    using (_DbConn)
+                    if (!String.IsNullOrWhiteSpace(_RFC) )
                     {
-                        SqlCommand _SqlComm = new SqlCommand("dbo.SP_DAgrupa_ObtieneSaldoIndice", _DbConn);
-                        _SqlComm.Parameters.AddWithValue("@RFC", _RFC);
-                        _SqlComm.Parameters.AddWithValue("@Ejercicio", _Anio.ToString());
-                        _SqlComm.Parameters.AddWithValue("@Indice", "");
 
-                        _SqlComm.CommandType = CommandType.StoredProcedure;
-                        SqlDataAdapter da = new SqlDataAdapter();
+                        if (strFileame[0].Equals("SIPRED"))
+                        {
+                            _Anio = Convert.ToInt16(strFileame[1]);
+                            _RFC = _RFC.Replace("_", "");
+                        }
+                        else
+                        {
+                            _Anio = Properties.Settings.Default.Anio;
+                            _RFC = _RFC.Replace("_","");
+                        }
 
-                        da.SelectCommand = _SqlComm;
-                        da.SelectCommand.CommandType = CommandType.StoredProcedure;
-                        da.Fill(dt);
+                        using (_DbConn)
+                        {
+                            SqlCommand _SqlComm = new SqlCommand("dbo.SP_DAgrupa_ObtieneSaldoIndice", _DbConn);
+                            _SqlComm.Parameters.AddWithValue("@RFC", _RFC);
+                            _SqlComm.Parameters.AddWithValue("@Ejercicio", _Anio.ToString());
+                            _SqlComm.Parameters.AddWithValue("@Indice", "");
 
-                        _SqlComm.Parameters.Clear();
+                            _SqlComm.CommandType = CommandType.StoredProcedure;
+                            SqlDataAdapter da = new SqlDataAdapter();
 
-                        _SqlComm.Parameters.AddWithValue("@RFC", _RFC);
-                        _SqlComm.Parameters.AddWithValue("@Ejercicio", (_Anio - 1).ToString());
-                        _SqlComm.Parameters.AddWithValue("@Indice", "");
-                        SqlDataAdapter daT2 = new SqlDataAdapter();
-                        daT2.SelectCommand = _SqlComm;
-                        daT2.SelectCommand.CommandType = CommandType.StoredProcedure;
-                        daT2.Fill(dt2);
+                            da.SelectCommand = _SqlComm;
+                            da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                            da.Fill(dt);
+
+                            _SqlComm.Parameters.Clear();
+
+                            _SqlComm.Parameters.AddWithValue("@RFC", _RFC);
+                            _SqlComm.Parameters.AddWithValue("@Ejercicio", (_Anio - 1).ToString());
+                            _SqlComm.Parameters.AddWithValue("@Indice", "");
+                            SqlDataAdapter daT2 = new SqlDataAdapter();
+                            daT2.SelectCommand = _SqlComm;
+                            daT2.SelectCommand.CommandType = CommandType.StoredProcedure;
+                            daT2.Fill(dt2);
+                        }
+
                     }
-
+                    else
+                    {
+                        MessageBox.Show("Primero debe indicar el RFC del Cliente [Contribuyentes indice 01A000000]", "Falta Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                   
                 }
                 else
                 {
@@ -449,9 +474,23 @@ namespace ExcelAddIn1 {
 
                 if (dt.Rows.Count > 0 || dt2.Rows.Count > 0)
                 {
-                    Generales.Proteccion(false);
+                    Cursor.Current = Cursors.WaitCursor;
+                    for (int _wCount = 1; _wCount <= wb.Worksheets.Count; _wCount++)
+                    {
+                        xlSht = wb.Worksheets[_wCount];
+                        Generales._Macro(false, xlSht, Configuration.PwsExcel);
+                    }
+
+                    //Generales.Proteccion(false);
                     ValidaSaldoIndice(dt, dt2);
-                    Generales.Proteccion(true);
+                    //Generales.Proteccion(true);
+
+                    for (int _wCount = 1; _wCount <= wb.Worksheets.Count; _wCount++)
+                    {
+                        xlSht = wb.Worksheets[_wCount];
+                        Generales._Macro(true, xlSht, Configuration.PwsExcel);
+                    }
+                    Cursor.Current = Cursors.Default;
                 }
                 else
                 {
@@ -974,8 +1013,7 @@ namespace ExcelAddIn1 {
                     {
                         range = (Excel.Range)sheet.Cells[findValue.Row, _Columna];
                         range.Value = _Saldo;
-                    }
-
+                    }                   
                 }
             }
             catch (Exception ex)

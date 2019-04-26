@@ -95,8 +95,7 @@ namespace ExcelAddIn1
             SwitchHojaYCelda(_IdCruce, _Indice, _Valor, _Columna);
         }
 
-        
-
+       
         private void dgv_LadoIzquierdoDeFormula_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             String _Indice, _Valor;

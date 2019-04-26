@@ -14,7 +14,7 @@ using System.Diagnostics;
 using System.Data;
 using ExcelAddIn.Objects;
 using ExcelAddIn.Logic;
-using ExcelAddIn.Access;
+using System.Configuration;
 using System.Text.RegularExpressions;
 
 namespace ExcelAddIn1
@@ -38,11 +38,11 @@ namespace ExcelAddIn1
                     Excel.Worksheet xlSht = wb.Worksheets[f];
                     if (!accion)
                     {
-                        xlSht.Unprotect(Configuration.PwsExcel);
+                        xlSht.Unprotect(ExcelAddIn.Access.Configuration.PwsExcel);
                     }
                     else
                     {
-                        xlSht.Protect(Configuration.PwsExcel, true, true, false, true, true, true, true, false, false, false, false, false, false, true, false);
+                        xlSht.Protect(ExcelAddIn.Access.Configuration.PwsExcel, true, true, false, true, true, true, true, false, false, false, false, false, false, true, false);
                     }
                 }
             }
@@ -203,7 +203,7 @@ namespace ExcelAddIn1
         }
         public static void ActualizarReferencia(string _Archivo, string _Anexo, string _Celda, int _Cantidad, string _Column, string _Row,int CantEliminar, string Accion)
         {
-            string _Path = Configuration.Path;
+            string _Path = ExcelAddIn.Access.Configuration.Path;
 
             if (File.Exists(_Path + "\\references\\" + _Archivo + ".json"))
             {
@@ -270,7 +270,7 @@ namespace ExcelAddIn1
         }
         public static void InsertarReferencia(string _Archivo, string _Anexo, string _Celda, int _Cantidad, string _Column, string _Row, int _Posicion)
         {
-            string _Path = Configuration.Path;
+            string _Path = ExcelAddIn.Access.Configuration.Path;
             var Indices = new oIndices
             {
                 Archivo = _Archivo,
@@ -529,8 +529,8 @@ namespace ExcelAddIn1
         {
             List<oSubtotal> Subtotales = new List<oSubtotal>();
           
-            string _Path = Configuration.Path;
-            bool _Connection = new lSerializados().CheckConnection(Configuration.UrlConnection);
+            string _Path = ExcelAddIn.Access.Configuration.Path;
+            bool _Connection = new lSerializados().CheckConnection(ExcelAddIn.Access.Configuration.UrlConnection);
             string _Message = "No existe conexión con el servidor de datos... Contacte a un Administrador de Red para ver las opciones de conexión.";
 
             if (Directory.Exists(_Path + "\\jsons") && Directory.Exists(_Path + "\\templates"))
@@ -621,7 +621,7 @@ namespace ExcelAddIn1
         public static List<oConcepto> DameConceptosValidos()
         {
             List<oConcepto> Conceptos = new List<oConcepto>();
-            string _Path = Configuration.Path;
+            string _Path = ExcelAddIn.Access.Configuration.Path;
 
             if (Directory.Exists(_Path + "\\jsons") && Directory.Exists(_Path + "\\templates"))
             {
@@ -668,6 +668,129 @@ namespace ExcelAddIn1
             int mod = col % 26;
             if (mod == 0) { mod = 26; div--; }
             return ColumnAdress(div) + ColumnAdress(mod);
+        }
+
+
+        /// <summary>Función para obtener la contraseña de la hoja activa de Excel.
+        /// <para>Obtiene la contraseña de la hoja activa de Excel para desbloquearla. Referencia: <see cref="_Macro(bool, Excel.Worksheet, string)"/> se agrega la referencia ExcelAddIn.Generales para invocarla.</para>
+        /// <seealso cref="_Macro(bool, Excel.Worksheet, string)"/>
+        /// </summary>
+        public static void _Macro(bool accion, Excel.Worksheet xlSht, string PwsExcel)
+        {
+            int a, b, c, d, e, f, a1, a2, a3, a4, a5, a6;
+            string _Contrasena = PwsExcel;
+
+            try
+            {
+                if (!accion)
+                {
+                    xlSht.Unprotect(_Contrasena);
+
+                    if (xlSht.ProtectContents == false)
+                    {
+                        //Byte[] _data = ASCIIEncoding.ASCII.GetBytes(_Contrasena);
+                        //ConfigurationManager.AppSettings["VAL7"] = Convert.ToBase64String(_data);
+                        return;
+                    }
+                }
+                else
+                {
+                    xlSht.Protect(_Contrasena, true, true, false, true, true, true, true, false, false, false, false, false, false, true, false);
+
+                    if (xlSht.ProtectContents == true)
+                    {
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                for (a = 65; a <= 66; a++)
+                {
+                    for (b = 65; b <= 66; b++)
+                    {
+                        for (c = 65; c <= 66; c++)
+                        {
+                            for (d = 65; d <= 66; d++)
+                            {
+                                for (e = 65; e <= 66; e++)
+                                {
+                                    for (a1 = 65; a1 <= 66; a1++)
+                                    {
+                                        for (a2 = 65; a2 <= 66; a2++)
+                                        {
+                                            for (a3 = 65; a3 <= 66; a3++)
+                                            {
+                                                for (a4 = 65; a4 <= 66; a4++)
+                                                {
+                                                    for (a5 = 65; a5 <= 66; a5++)
+                                                    {
+                                                        for (a6 = 65; a6 <= 66; a6++)
+                                                        {
+                                                            for (f = 32; f <= 126; f++)
+                                                            {
+                                                                _Contrasena = "";
+                                                                _Contrasena += Convert.ToChar(a);
+                                                                _Contrasena += Convert.ToChar(b);
+                                                                _Contrasena += Convert.ToChar(c);
+                                                                _Contrasena += Convert.ToChar(d);
+                                                                _Contrasena += Convert.ToChar(e);
+                                                                _Contrasena += Convert.ToChar(a1);
+                                                                _Contrasena += Convert.ToChar(a2);
+                                                                _Contrasena += Convert.ToChar(a3);
+                                                                _Contrasena += Convert.ToChar(a4);
+                                                                _Contrasena += Convert.ToChar(a5);
+                                                                _Contrasena += Convert.ToChar(a6);
+                                                                _Contrasena += Convert.ToChar(f);
+
+                                                                try
+                                                                {
+                                                                    if (!accion)
+                                                                    {
+                                                                        xlSht.Unprotect(_Contrasena);
+
+                                                                        if (xlSht.ProtectContents == false)
+                                                                        {
+                                                                            Byte[] _data = ASCIIEncoding.ASCII.GetBytes(_Contrasena);
+                                                                            ConfigurationManager.AppSettings["VAL7"] = Convert.ToBase64String(_data);
+                                                                            //Byte[] _data = ASCIIEncoding.ASCII.GetBytes(_Contrasena);
+                                                                            //Configuration configServ = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                                                                            //configServ.AppSettings.Settings["VAL7"].Value = Convert.ToBase64String(_data);
+                                                                            //configServ.Save(ConfigurationSaveMode.Modified);
+                                                                            return;
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        xlSht.Protect(_Contrasena, true, true, false, true, true, true, true, false, false, false, false, false, false, true, false);
+
+                                                                        if (xlSht.ProtectContents == true)
+                                                                        {
+                                                                            Byte[] _data = ASCIIEncoding.ASCII.GetBytes(_Contrasena);
+                                                                            ConfigurationManager.AppSettings["VAL7"] = Convert.ToBase64String(_data);
+                                                                            //Byte[] _data = ASCIIEncoding.ASCII.GetBytes(_Contrasena);
+                                                                            //Configuration configServ = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                                                                            //configServ.AppSettings.Settings["VAL7"].Value = Convert.ToBase64String(_data);
+                                                                            //configServ.Save(ConfigurationSaveMode.Modified);
+                                                                            return;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                catch (Exception exc) { }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return;
+            }
         }
     }
 }
